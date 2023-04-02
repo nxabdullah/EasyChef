@@ -11,6 +11,7 @@ import Navbar from "./components/shared/Navbar";
 import Landing from "./pages/Landing";
 import Login from './pages/Login';
 import Register from './pages/Register';
+import EditProfile from './pages/EditProfile';
 
 function App() {
   const {token, removeToken} = useToken()
@@ -33,6 +34,8 @@ function App() {
           <Route exact path='/' element={<Landing />} />
           <Route exact path='/login' element={<Login setLogin={() => setIsAuth(true)}/>} />
           <Route exact path='/register' element={<Register />} />
+          <Route exact path='/editprofile' element={<EditProfile />} />
+
         </Routes>
       </div>
 
