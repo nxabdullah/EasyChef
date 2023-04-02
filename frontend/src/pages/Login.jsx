@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -8,12 +8,50 @@ import {
   FormGroup,
   FormControl,
   FormLabel,
+  Alert
 } from 'react-bootstrap';
 import '../styles/login.css';
+import axios from 'axios';
+import useToken from '../hooks/useToken';
+import { LOGIN_ENDPOINT } from '../config/constants';
+
+// todo: proper state for authentication + logout
 
 function Login() {
+
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+  });
+
+  const [errors, setErrors] = useState({});
+  const { setToken } = useToken();
+  const navigate = useNavigate();
+
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post(LOGIN_ENDPOINT, formData);
+      setToken(response.data.token);
+      navigate("/"); // Redirect to the desired page after successful login
+      // trigger refresh to update navbar
+      window.location.reload() // actually bad design as state should handle this.
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setErrors(error.response.data);
+      }
+    }
+  };
+
+
   return (
-    <div class="container justify-content-center align-items-center rounded-3" id="login-container">
+    <div className="container rounded-3" id="login-container">
       <Row>
         <Col></Col>
         <Col>
@@ -26,22 +64,49 @@ function Login() {
               </Link>
             </span>
           </p>
-          <Form action="index.html">
+
+          {errors.non_field_errors && (
+            <Alert variant="danger">
+              {errors.non_field_errors[0]}
+            </Alert>
+          )}
+
+          <Form onSubmit={handleSubmit}>
             <FormGroup className="mb-3">
-              <FormLabel className="f-secondary">Email address</FormLabel>
+              <FormLabel className="f-secondary">Username</FormLabel>
               <FormControl
-                type="email"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
+                type="text"
+                id="loginUsername"
+                name="username"
                 required
+                value={formData.username}
+                onChange={handleChange}
+                isInvalid={errors.username}
               />
+              {errors.username && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.username[0]}
+                </Form.Control.Feedback>
+              )}
             </FormGroup>
 
             <FormGroup className="mb-3">
               <FormLabel className="f-secondary">Password</FormLabel>
-              <FormControl type="password" id="exampleInputPassword1" required />
+              <FormControl
+                type="password"
+                id="loginPassword"
+                name="password"
+                required
+                value={formData.password}
+                onChange={handleChange}
+                isInvalid={errors.password}
+              />
+              {errors.password && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.password[0]}
+                </Form.Control.Feedback>
+              )}
             </FormGroup>
-
 
             <Button type="submit" className="btn-primary-c" id="login-btn">
               Login
@@ -52,6 +117,7 @@ function Login() {
       </Row>
     </div>
   );
+
 }
 
 export default Login
