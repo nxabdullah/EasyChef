@@ -1,8 +1,13 @@
 import React from 'react'
+import Search from '../components/Search'
 
 function Landing() {
   return (
-    <div>Landing Page</div>
+    <div className='container'>
+        <Search />
+
+        {/* List of Recipe cards being displayed here*/}
+    </div>
   )
 }
 
