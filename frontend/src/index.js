@@ -5,6 +5,9 @@ import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
+// global styles
+import './index.css';
+
 // import app
 import App from './App';
 
