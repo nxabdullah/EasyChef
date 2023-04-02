@@ -31,7 +31,7 @@ function App() {
       <div className='container mb-4'>
         <Routes>
           <Route exact path='/' element={<Landing />} />
-          <Route exact path='/login' element={<Login />} />
+          <Route exact path='/login' element={<Login setLogin={() => setIsAuth(true)}/>} />
           <Route exact path='/register' element={<Register />} />
         </Routes>
       </div>
