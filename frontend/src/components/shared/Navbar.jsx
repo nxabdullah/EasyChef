@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import NavLinks from './NavLinks';
 
-function Navbar({ isLoggedIn }) {
+function Navbar({ logout, isAuth }) {
 
 
 
@@ -16,7 +16,7 @@ function Navbar({ isLoggedIn }) {
         </button>
         <div className="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-                <NavLinks />
+                <NavLinks logout={logout} isAuth={isAuth} />
             </div>
         </div>
     </div>

@@ -1,5 +1,10 @@
+import { useState } from 'react'
+
 // import router
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+
+// import authentication
+import useToken from './hooks/useToken';
 
 // import pages and components
 import Navbar from "./components/shared/Navbar";
@@ -9,10 +14,18 @@ import Register from './pages/Register';
 import EditProfile from './pages/EditProfile';
 
 function App() {
+  const {token, removeToken} = useToken()
+  const [isAuth, setIsAuth] = useState(!!token);
+
+  const logout = () => {
+    setIsAuth(false);
+    removeToken();
+  }
+
   return (
     <Router>
       <header>
-        <Navbar />
+        <Navbar logout={logout} isAuth={isAuth} />
       </header>
 
       {/* Route to the correct page as needed */}

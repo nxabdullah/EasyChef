@@ -153,3 +153,14 @@ a.dropdown-item:active i,a.dropdown-item:focus i {
     background-color: #f8f9fa;
     border-color:#eef2f8;
 }
+
+.alert-success {
+    background-color: #e5fef6;
+    border-radius: 6px;
+    border: 1px solid #bde1df;
+    color: #2f7975;
+}
+
+.alert-success .link-primary {
+    color: #215754 !important;
+}
