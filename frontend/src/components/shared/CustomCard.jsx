@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Card() {
+function CustomCard({ Title }) {
   return (
     <div>Card</div>
   )
 }
 
-export default Card
+export default CustomCard

@@ -1,0 +1,34 @@
+.clicky, .clicky:hover{
+    text-decoration: none;
+    color: black;
+}
+
+.clicky:hover{ /*Inspired from:https://codepen.io/sanjib104/pen/JjWrbYq*/
+    transform: scale(1.03);
+}
+
+.card-icons {
+    display: inline-flex;
+    gap: 10px;
+    height: auto;
+}
+.card-icons i{
+    color: #215754;
+}
+
+.card-icons div:last-of-type {
+    margin-right: 10%;
+}
+
+.recipe.card img {
+    object-fit: cover;
+}
+
+.recipe.card {
+    min-height: 500px;
+    margin-top:20px;
+}
+
+.recipe.card {
+    color:#333;
+}
