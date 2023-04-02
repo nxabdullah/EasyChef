@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
-import useToken from '../../hooks/useToken';
+import NavLinks from './NavLinks';
 
 function Navbar({ isLoggedIn }) {
 
-    const {token, removeToken} = useToken()
 
 
   return (
@@ -17,7 +16,7 @@ function Navbar({ isLoggedIn }) {
         </button>
         <div className="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-                {/* Dynamically insert links here based on auth */}
+                <NavLinks />
             </div>
         </div>
     </div>
