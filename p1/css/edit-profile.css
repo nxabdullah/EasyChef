@@ -1,0 +1,48 @@
+#upload-image-preview {
+    height: 100px;
+}
+
+.gray-font {
+    color: #85878a;
+}
+
+.card {
+    color: #85878a;
+    letter-spacing: 0.5px;
+}
+
+.card-header {
+    background-color: white;
+    padding-top:20px;
+    color: black;
+    padding-left:25px;
+    padding-right: 25px;
+}
+
+.card-header-title {
+    font-weight: 700;
+    font-size: 1.75em;
+}
+
+.form-control {
+    padding-left: 15px;
+    font-size: 1.05em;
+}
+
+.card-body {
+    font-size: 17px;
+    padding-left:25px;
+    padding-right: 25px;
+}
+
+/* Update placeholder style */
+.form-control::-webkit-input-placeholder {
+    color: silver;
+  }
+
+#upload-image-label {
+    margin-top: 10px;
+    text-decoration: underline;
+    font-size: 16px;
+    color: #85878a;
+}

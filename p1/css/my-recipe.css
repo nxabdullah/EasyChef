@@ -1,0 +1,52 @@
+/* Navigation tabs */
+#sectionTabs .nav-item .nav-link {
+    color: #85878a;
+    font-size: 1em;
+}
+
+#sectionTabs .nav-item .nav-link i {
+    color: #85878a;
+    margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+    /* styles for screens with width less than 768px */
+    #sectionTabs .nav-item .nav-link{
+        color: #85878a;
+        margin-right: 8px;
+        font-size: 0.7em;
+    }
+}
+
+/* Active tab */
+#sectionTabs .nav-item .active {
+    color: #3a9691;
+    font-weight: bold;
+    border: 0;
+    border-bottom: 4px solid #3a9691;
+}
+
+#sectionTabs .nav-item .active i {
+    color: #3a9691;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+/* Other */
+.nav-item {
+    padding-top:2px;
+}
+
+.recipe.card h2 {
+    font-size: 1.3em;
+    color: #3a9691;
+}
+
+.recipe.card p {
+    font-size: 1em;
+}
+
+.recipe.card .card-icons {
+    font-size: 0.9em;
+    display:flex;
+}

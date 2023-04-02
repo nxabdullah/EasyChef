@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/edit-profile.css" rel="stylesheet">
+    <link href="css/recipe-detail-page.css" rel="stylesheet">
+    <title>EasyChef - Blueberry Banana Pancake</title>
+
+  </head>
+
+  <body>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light mb-4 fixer" id="login-nav">
+      <div class="container">
+        <a class="navbar-brand fs-4" href="." id="logo-nav">Easy Chef</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item nav-primary">
+              <a class="nav-link" aria-current="page" href="index.html">
+                Home
+              </a>
+            </li>
+            <li class="nav-item nav-primary">
+              <a class="nav-link" href="my-recipes.html">My Recipes</a>
+            </li>
+
+            <li class="nav-item nav-primary">
+              <a class="nav-link" href="shopping-list.html">Shopping List</a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                My Profile
+              </a>
+              <ul class="dropdown-menu custom" aria-labelledby="navbarDropdown">
+                <li>
+                  <a href="edit-profile.html" class="text-decoration-none">
+                    <div id="nav-user-section">
+                      <img src="img/kianoosh.jpeg" id="profile-pic">
+                      <span>Kianoosh Abbasi</span>
+                  </div>
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="edit-profile.html">
+                  <i class="fa-regular fa-user inline-icon"></i>
+                  Edit Profile
+                </a></li>
+                 <li>
+                   <a class="dropdown-item" href="login.html">
+                    <i class="fa-solid fa-power-off inline-icon"></i>
+                      Log out
+                    </a>
+                  </li>
+              </ul>
+            </li>
+
+            <li class="nav-item nav-primary">
+              <a class="nav-link p-0" href="create-recipe-page.html">
+                <button  id="create-button">
+                  <span class="fa-solid fa-plus"></span>
+                  <span>Add Recipe </span>
+                </button>
+              </a>
+            </li>
+          </ul>
+
+
+        </div>
+      </div>
+    </nav>
+</header>
+
+
+    <main>
+
+      <div class="container mb-4">
+
+        <div class="card mb-4">
+          <div class="recipe-detail card-body">
+
+            <div class="alert alert-secondary alert-secondary-c alert-dismissible fade show" role="alert">
+              <strong>Note:</strong> This recipe is based on <a href="banana-pancake.html" class="link-secondary">Banana Pancakes</a>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <!--Intro-->
+            <div class="row gx-5">
+
+              <div class="col-lg-5">
+                <img src="./img/pancake.jpg" class="rounded recipe-detail-image" />
+              </div>
+
+              <div class="col-lg-6">
+                <span>By: Kianoosh Abbasi</span>
+
+                <div class="btn-group float-end me-3" style="padding-top:4px;">
+                  <button type="button" class="btn btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-ellipsis fa-lg" style="font-size:28px;"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Edit</a></li>
+                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                  </ul>
+                </div>
+
+                <a href="duplicate-recipe.html"><button class="btn btn-secondary btn-sm float-end me-3">Duplicate</button></a>
+
+
+                <h1>Blueberry Banana Pancakes</h1>
+                <div class="mb-2 mt-0">
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star"></span>
+                  (25)
+                  <span><span class="me-1 ms-1">|</span> <i class="fa fa-heart me-1"></i> 104 </span>
+                </div>
+                <p>
+                  Indulge in a delicious breakfast treat with our scrumptious Blueberry Banana Pancakes. Our recipe maker will guide you
+                  through the simple steps to create a stack of fluffy, tender pancakes bursting with juicy blueberries and sweet banana slices.
+                  The perfect combination of tart and sweet, these pancakes are sure to become a family favorite.
+                </p>
+
+              <div id="recipe-time-section">
+                <div class="icons">
+
+                  <div>
+                    <i class="fas fa-clock"></i>
+                    <h5>prep time</h5>
+                    <p>30 min</p>
+                  </div>
+
+                  <div>
+                    <i class="far fa-clock"></i>
+                    <h5>cook time</h5>
+                    <p>15 min</p>
+                  </div>
+
+                  <div>
+                    <i class="fas fa-user-friends"></i>
+                    <h5>serving size</h5>
+                    <p>6</p>
+                  </div>
+                </div>
+              </div>
+
+              </div>
+
+            </div><!--Intro-->
+
+            <hr class="mt-4" />
+
+            <div class="row mt-4"><!--Ingredients -->
+              <h3>Ingredients</h3>
+
+              <div class="col-6"><!-- ingredients part 1-->
+
+                <ol class="list-group mt-4">
+
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Ripe Banana</div>
+                      110 g
+                    </div>
+                  </li>
+
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Breeze Almond Milk</div>
+                      0.75 cup
+                    </div>
+                  </li>
+
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Vanilla</div>
+                      1 tsp
+                    </div>
+                  </li>
+
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Flour</div>
+                      90 g
+                    </div>
+                  </li>
+
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Baking powder</div>
+                      1 tsp
+                    </div>
+                  </li>
+                </ol>
+
+              </div><!--ingredients part 1-->
+
+              <!--Ingredients part 2-->
+              <div class="col-6">
+
+                <ol class="list-group mt-4">
+
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Cinnamon</div>
+                      25 g
+                    </div>
+                  </li>
+
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Salt</div>
+                      1 g
+                    </div>
+                  </li>
+
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Blueberries</div>
+                      25 g
+                    </div>
+                  </li>
+
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Coconut Oil</div>
+                      2 g
+                    </div>
+                  </li>
+
+                </ol>
+
+              </div><!-- ingredients part 2-->
+
+              <hr class="mt-4" /><!--Ingredients-->
+
+            </div>
+
+            <div class="row"><!--Instrucions-->
+              <h3>Instructions</h3>
+              <div class="col-lg-6">
+                <p class="instruction"> <b>Step 1:</b> <br> In a small food processor, puree the banana with the almond milk and vanilla. (or mash it really well by hand - you want it pretty liquified).</p>
+                <p class="instruction"> <b>Step 2:</b> <br> In a separate medium sized bowl, mix together the dry ingredients. Pour the banana/milk mixture into the dry ingredients and stir until just combined. Gently stir in the blueberries.</p>
+                <p class="instruction"> <b>Step 3:</b> <br> Heat a few teaspoons of coconut oil in a large skillet over medium heat. Using a ¼ cup measuring cup, scoop the pancake batter into the pan. Flip when bubbles form in the batter (about 1 minute).
+                                                    Let the second side cook for about 60 seconds and remove from heat.</p>
+              </div>
+
+              <div class="col-lg-6">
+                <p class="instruction"> <b>Step 4:</b> <br> For the blueberry topping, place blueberries in a small bowl with a little bit of maple syrup. Microwave for 20-30 seconds or until they burst a little.</p>
+                <p class="instruction"> <b>Step 5:</b> <br> Serve pancakes warm with blueberry sauce and maple syrup.</p>
+              </div>
+            </div><!-- Instructions -->
+
+            <hr class="mt-4">
+
+            <div class="row mt-4">
+              <h3>Like this recipe? Add it to your shopping list</h3>
+
+                <div class="col-md-4">
+                  <label  class="form-label">Enter Serving Size</label>
+                  <input type="number" class="form-control" placeholder="12">
+                </div>
+
+                <div class="mt-4">
+                  <a href="shopping-list.html"><button class="btn btn-primary btn-primary-c" id="shop-ingredients">Add To Shopping List</button></a>
+                </div>
+
+
+            </div>
+
+
+
+
+          </div>
+        </div>
+
+
+        <div class="card mb-4">
+          <div class="recipe-detail card-body">
+            <h3>Post a comment</h3>
+
+            <div class="row mb-4">
+
+              <div class="form-floating" id="comment-input-container">
+                <textarea class="form-control" placeholder="Leave a comment here" id="comment-input" ></textarea>
+                <label for="floatingTextarea">Leave a comment here!</label>
+
+                <button type="submit" class="btn btn-primary btn-primary-c mt-3 float-end">Post Comment</button>
+
+              </div>
+
+            </div>
+
+            <h3>Recent Comments</h3>
+
+            <div class="d-flex flex-row mb-4">
+              <div class="p-2 me-2">
+                <img src="./img/sana.png" class="commenter-pic" />
+              </div>
+              <div class="p-2">
+
+                <h4 class="mb-0">Sana Sarin</h4>
+                <span class="date mt-0">A few hours ago...</span>
+                <p class="mt-1">I am excited to make this tomorrow to feed my 7 kids. Thanks! </p>
+
+              </div>
+            </div>
+
+            <div class="d-flex flex-row mb-4">
+              <div class="p-2 me-2">
+                <img src="./img/kianoosh.jpeg" class="commenter-pic" />
+              </div>
+              <div class="p-2">
+
+                <h4 class="mb-0">Kianoosh Abassi</h4>
+                <span class="date mt-0">Yesterday</span>
+                <p class="mt-1">Blueberry pancakes!! yummy! </p>
+
+              </div>
+            </div>
+
+            <div class="d-flex flex-row mb-4">
+              <div class="p-2 me-2">
+                <img src="./img/munim.png" class="commenter-pic" />
+              </div>
+              <div class="p-2">
+
+                <h4 class="mb-0">Munim Adil</h4>
+                <span class="date mt-0">02/01/2022</span>
+                <p class="mt-1">This makes me feel.. GOOD!!!!!!!!!</p>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div><!--Container-->
+      </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
