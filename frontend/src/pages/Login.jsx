@@ -17,7 +17,7 @@ import { LOGIN_ENDPOINT } from '../config/constants';
 
 // todo: proper state for authentication + logout
 
-function Login() {
+function Login({ setLogin }) {
 
   const [formData, setFormData] = useState({
     username: '',
@@ -39,6 +39,7 @@ function Login() {
     try {
       const response = await axios.post(LOGIN_ENDPOINT, formData);
       setToken(response.data.token);
+      setLogin();
       navigate("/"); // Redirect to the desired page after successful login
     } catch (error) {
       if (error.response && error.response.status === 400) {
