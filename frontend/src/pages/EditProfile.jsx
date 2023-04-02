@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
-
-
+import { ACCOUNT_ENDPOINT } from '../config/constants';
 
 function EditProfile() {
   const [firstName, setFirstName] = useState('');
@@ -12,24 +11,37 @@ function EditProfile() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [repeatNewPassword, setRepeatNewPassword] = useState('');
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  useEffect(() => {
+    axios.get(ACCOUNT_ENDPOINT)
+      .then(response => {
+        setFirstName(response.data.first_name);
+        setLastName(response.data.last_name);
+        setEmail(response.data.email);
+        setPhone(response.data.phone);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
 
   const handlePersonalInfoSave = (e) => {
     e.preventDefault();
-    axios.put('/api/accounts/', {
+    axios.put(ACCOUNT_ENDPOINT, {
       first_name: firstName,
       last_name: lastName,
       email: email,
       phone: phone
     })
     .then(response => {
-      console.log('Personal info saved');
+      setShowSuccessMessage(true);
     })
     .catch(error => {
       console.log(error);
     });
   };
   
-
   const handlePasswordChange = (e) => {
     e.preventDefault();
     axios.post('/api/accounts/', {
@@ -38,7 +50,8 @@ function EditProfile() {
       confirm_new_password: repeatNewPassword
     })
     .then(response => {
-      console.log('Password changed');
+      setShowSuccessMessage(true);
+     
     })
     .catch(error => {
       console.log(error);
