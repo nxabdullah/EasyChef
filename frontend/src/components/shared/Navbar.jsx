@@ -6,7 +6,7 @@ function Navbar({ isLoggedIn }) {
 
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light ">
+    <nav className="navbar navbar-expand-lg navbar-light" id="login-nav">
     <div className="container">
         <Link to='/' className="navbar-brand">CodeNext</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
