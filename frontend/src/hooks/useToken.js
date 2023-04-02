@@ -7,7 +7,7 @@ export default function useToken() {
 
     // get auth token from local storage
     const getToken = () => {
-        const tokenString = sessionStorage.getItem(TOKEN_KEY);
+        const tokenString = localStorage.getItem(TOKEN_KEY);
         const userToken = JSON.parse(tokenString);
         return userToken
     }
@@ -20,14 +20,14 @@ export default function useToken() {
     // Save token to local storage
     const saveToken = (userToken) => {
         console.log('saving token: ' + userToken)
-        sessionStorage.setItem(TOKEN_KEY, JSON.stringify(userToken));
+        localStorage.setItem(TOKEN_KEY, JSON.stringify(userToken));
         setToken(userToken);
         axios.defaults.headers.common['Authorization'] = `Token ${userToken}`;
     };
 
     const removeToken = () => {
         console.log('removing token')
-        sessionStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(TOKEN_KEY);
         setToken(null);
     }
 

@@ -40,8 +40,6 @@ function Login() {
       const response = await axios.post(LOGIN_ENDPOINT, formData);
       setToken(response.data.token);
       navigate("/"); // Redirect to the desired page after successful login
-      // trigger refresh to update navbar
-      window.location.reload() // actually bad design as state should handle this.
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setErrors(error.response.data);
