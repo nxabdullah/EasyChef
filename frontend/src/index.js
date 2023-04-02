@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
 // global styles
-import './index.css';
+import './styles/global.css';
 
 // import app
 import App from './App';

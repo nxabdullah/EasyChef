@@ -8,23 +8,24 @@ body {
 }
 
 .link-primary-c, .link-primary-c:focus {
-    color: #3a9691;
-    text-decoration: none;
+    color: #3a9691 !important;
+    text-decoration: none !important;
 }
 
 .btn-primary-c {
-    background-color: #3a9691;
-    border-color: #3a9691;;
+    background-color: #3a9691 !important;
+    border-color: #3a9691 !important;
 }
 
 .btn-primary-c:hover {
-    background-color: #215754;
-    border-color: #215754;
+    background-color: #215754 !important;
+    border-color: #215754 !important;
+    text-decoration: none !important;
 }
 
 .link-primary-c:hover {
-    color: #215754;
-    text-decoration: none;
+    color: #215754 !important;
+    text-decoration: none !important;
 }
 
 .f-secondary, .gray-font {
@@ -40,7 +41,6 @@ body {
 #create-button {
     padding: 5px;
     margin-top: 2px;
-    /*width: 8.5vw;*/
     padding-right:10px;
     color: white;
     border-color: #e2fdf4;

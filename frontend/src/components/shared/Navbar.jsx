@@ -8,7 +8,7 @@ function Navbar({ isLoggedIn }) {
   return (
     <nav className="navbar navbar-expand-lg navbar-light" id="login-nav">
     <div className="container">
-        <Link to='/' className="navbar-brand">CodeNext</Link>
+        <Link to='/' className="navbar-brand" id="logo-nav">EasyChef</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
                 aria-expanded="false" aria-label="Toggle navigation">
