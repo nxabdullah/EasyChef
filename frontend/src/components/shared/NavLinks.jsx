@@ -29,6 +29,9 @@ function NavLinks({ logout, isAuth }) {
             <li class="nav-item nav-primary">
               <Link to={'/'} class="nav-link">Home</Link>
             </li>
+            <li class="nav-item nav-primary">
+              <Link to={'/myrecipes'} class="nav-link">My Recipes</Link>
+            </li>
              <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         My Profile
