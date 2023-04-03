@@ -161,20 +161,26 @@ function EditProfile() {
 
   const handlePersonalInfoSave = (e) => {
     e.preventDefault();
-    const firstName = e.target.form[0].value.trim();
-    const lastName = e.target.form[1].value.trim();
+    const firstName = document.getElementById('first-name').value.trim();
+    const lastName = document.getElementById('last-name').value.trim();
     axios
-          .patch('http://localhost:8000/api/account/', {
-            first_name: firstName,
-            last_name: lastName,
-          })
-          .then((response) => {
-            setUser(response.data);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+      .patch('http://localhost:8000/api/account/', {
+        first_name: firstName,
+        last_name: lastName,
+      })
+      .then((response) => {
+        setUser({
+          ...user,
+          first_name: response.data.first_name,
+          last_name: response.data.last_name,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
+  
+  
 
   const handlePasswordChange = (e) => {
     e.preventDefault();
@@ -193,43 +199,45 @@ function EditProfile() {
 
   return (
     <div>
-      <Card className="mt-4">
-        <Card.Header>
-          <h4 className="card-header-title">Personal Information</h4>
-        </Card.Header>
-        <Card.Body>
-          <Form onSubmit={handlePersonalInfoSave}>
-            <Form.Group className="mb-3">
-              <Form.Label htmlFor="upload-image" className="form-label">Upload your profile photo</Form.Label>
-              <div className="">
-                <label htmlFor="upload-image" className="me-4">
-                  <img id="upload-image-preview" className="rounded-circle border" src="img/kianoosh.jpeg" alt="" />
-                </label>
-              </div>
-              <label htmlFor="upload-image" className="link-primary-c" id="upload-image-label">Click here to change</label>
-              <Form.Control id="upload-image" className="d-none" type="file" />
-            </Form.Group>
-            <div className="row">
-              <div className="col-md-6 mt-4">
-                <Form.Label htmlFor="first-name" className="form-label">First Name</Form.Label>
-                <Form.Control type="text" id="first-name" value={user.first_name} onChange={(e) => setUser({ ...user, first_name: e.target.value })} />
-              </div>
-              <div className="col-md-6 mt-4">
-                <Form.Label htmlFor="last-name" className="form-label">Last Name</Form.Label>
-                <Form.Control type="text" id="last-name" value={user.last_name} onChange={(e) => setUser({ ...user, last_name: e.target.value })} />
-              </div>
-              <div className="col-md-6 mt-4">
-                <Form.Label htmlFor="email" className="form-label">Email Address</Form.Label>
-                <Form.Control type="email" id="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />          </div>
+  <Card className="mt-4">
+    <Card.Header>
+      <h4 className="card-header-title">Personal Information</h4>
+    </Card.Header>
+    <Card.Body>
+      <Form onSubmit={handlePersonalInfoSave}>
+        <Form.Group className="mb-3">
+          <Form.Label htmlFor="upload-image" className="form-label">Upload your profile photo</Form.Label>
+          <div className="">
+            <label htmlFor="upload-image" className="me-4">
+              <img id="upload-image-preview" className="rounded-circle border" src="img/kianoosh.jpeg" alt="" />
+            </label>
+          </div>
+          <label htmlFor="upload-image" className="link-primary-c" id="upload-image-label">Click here to change</label>
+          <Form.Control id="upload-image" className="d-none" type="file" />
+        </Form.Group>
+        <div className="row">
+          <div className="col-md-6 mt-4">
+            <Form.Label htmlFor="first-name" className="form-label">First Name</Form.Label>
+            <Form.Control type="text" id="first-name" value={user.first_name} onChange={(e) => setUser({ ...user, first_name: e.target.value })} />
+          </div>
+          <div className="col-md-6 mt-4">
+            <Form.Label htmlFor="last-name" className="form-label">Last Name</Form.Label>
+            <Form.Control type="text" id="last-name" value={user.last_name} onChange={(e) => setUser({ ...user, last_name: e.target.value })} />
+          </div>
+          <div className="col-md-6 mt-4">
+            <Form.Label htmlFor="email" className="form-label">Email Address</Form.Label>
+            <Form.Control type="email" id="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />          
+          </div>
           <div className="col-md-6 mt-4">
             <Form.Label htmlFor="phone-number" className="form-label">Phone Number</Form.Label>
             <Form.Control type="text" id="phone-number" value={user.phone_number} onChange={(e) => setUser({ ...user, phone_number: e.target.value })} />
           </div>
         </div>
-        <Button type="submit" variant="primary" className="mt-4">Save Changes</Button>
+        <Button type="submit" variant="primary" className="btn btn-primary btn-primary-c mb-0 mt-4">Save Changes</Button>
       </Form>
     </Card.Body>
   </Card>
+
   <Card className="mt-4">
     <Card.Header>
       <h4 className="card-header-title">Change Password</h4>
@@ -248,7 +256,7 @@ function EditProfile() {
           <Form.Label htmlFor="repeat-new-password" className="form-label">Repeat New Password</Form.Label>
           <Form.Control type="password" id="repeat-new-password" value={repeatNewPassword} onChange={(e) => setRepeatNewPassword(e.target.value)} />
         </Form.Group>
-        <Button type="submit" variant="primary" className="mt-4">Change Password</Button>
+        <Button type="submit" variant="primary" className="btn btn-primary btn-primary-c mb-0 mt-4">Change Password</Button>
       </Form>
     </Card.Body>
   </Card>
