@@ -56,7 +56,7 @@ function Landing() {
             return accumulator;
           }, [])
           .map((row, rowIndex) => (
-            <Row key={rowIndex}>{row}</Row>
+            <div key={rowIndex} className='row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'>{row}</div>
           ))}
     </div>
   );

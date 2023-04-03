@@ -7,11 +7,7 @@
     transform: scale(1.03);
 }
 
-.card-icons {
-    display: inline-flex;
-    gap: 10px;
-    height: auto;
-}
+
 .card-icons i{
     color: #215754;
 }
@@ -19,14 +15,24 @@
 .card-icons div:last-of-type {
     margin-right: 10%;
 }
+.card-icons {
+    display: inline-flex;
+    gap: 10px;
+    height: auto;
+    align-items: center;
+}
 
 .recipe.card img {
     object-fit: cover;
 }
 
 .recipe.card {
-    min-height: 500px;
     margin-top:20px;
+    min-height: 500px;
+}
+.recipe.card h2 {
+    color: #3a9691;
+    font-size: 1.5rem;
 }
 
 .recipe.card {

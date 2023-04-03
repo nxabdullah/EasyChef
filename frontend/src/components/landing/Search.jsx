@@ -11,7 +11,7 @@ function Search() {
         <form action="search-page.html" class="d-flex">
           <div class="search-container w-100 mb-4 ms-2">
             <i class="fa fa-search fa-lg" id="search-input-icon"></i>
-            ​<input id="search-bar" name="q" class = "cornerless w-100" type="search" placeholder="Search 100+ recipes" required />
+            ​<input id="search-bar" name="q" className="form-control cornerless w-100" type="search" placeholder="Search 100+ recipes" required />
           </div>
 
           <button class="btn btn-primary btn-primary-c" id="search-btn" type="submit">Search</button>

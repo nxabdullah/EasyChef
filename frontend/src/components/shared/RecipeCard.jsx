@@ -10,7 +10,7 @@ function RecipeCard({ id, title, image, description, prep_time, cook_time, servi
     <Card className="recipe shadow-sm">
       <Card.Img variant="top" src={BASE_URL + image} className="recipe-picture" />
       <Card.Body>
-        <Card.Title>{title}</Card.Title>
+        <Card.Title><h2>{title}</h2></Card.Title>
         <Card.Text>{description}</Card.Text>
         <Container>
           <Row className="card-icons">
