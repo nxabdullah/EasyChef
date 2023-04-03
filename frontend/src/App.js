@@ -12,6 +12,7 @@ import Landing from "./pages/Landing";
 import Login from './pages/Login';
 import Register from './pages/Register';
 import EditProfile from './pages/EditProfile';
+import MyRecipes from './pages/MyRecipes';
 
 function App() {
   const {token, removeToken} = useToken()
@@ -35,6 +36,7 @@ function App() {
           <Route exact path='/login' element={<Login setLogin={() => setIsAuth(true)}/>} />
           <Route exact path='/register' element={<Register />} />
           <Route exact path='/editprofile' element={<EditProfile />} />
+          <Route exact path='/myrecipes' element={<MyRecipes />} />
 
         </Routes>
       </div>
