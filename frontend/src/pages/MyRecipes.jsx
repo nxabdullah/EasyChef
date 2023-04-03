@@ -1,23 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import RecipeCard from '../components/shared/RecipeCard';
 import { Card, Nav, Tab } from 'react-bootstrap';
 import '../styles/recipe-cards.css';
+import axios from 'axios';
 
 function MyRecipes() {
   const [activeTab, setActiveTab] = useState('myRecipesTab');
-  const recipes = [
-    {
-      id: 1,
-      title: 'Blueberry Banana Pancakes',
-      image: '../pancake.jpg',
-      description: 'Indulge in a treat with our scrumptious Blueberry Banana Pancakes.',
-      prepTime: '30',
-      cookTime: '15',
-      servingSize: '6',
-      isFavourite: false,
-      hasInteraction: true,
-    },
-  ];
+  const [myRecipes, setMyRecipes] = useState([]);
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  const [interactedRecipes, setInteractedRecipes] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const myRecipesResponse = await axios.get('/api/account/recipes/');
+        setMyRecipes(myRecipesResponse.data);
+        
+        const favoriteRecipesResponse = await axios.get('/api/account/favourites/');
+        setFavoriteRecipes(favoriteRecipesResponse.data);
+
+        const interactedRecipesResponse = await axios.get('/api/account/interactions/');
+        setInteractedRecipes(interactedRecipesResponse.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleTabChange = (tabId) => {
     setActiveTab(tabId);
@@ -59,18 +68,24 @@ function MyRecipes() {
       <Card.Body className="p-2 p-sm-4">
         <Tab.Content>
           <Tab.Pane eventKey="myRecipesTab" className={`${activeTab === 'myRecipesTab' ? 'active show' : ''}`}>
-          <RecipeCard />
+            {myRecipes.map((recipe) => (
+              <RecipeCard key={recipe.id} recipe={recipe} />
+            ))}
           </Tab.Pane>
           <Tab.Pane eventKey="favouriteRecipesTab" className={`${activeTab === 'favouriteRecipesTab' ? 'active show' : ''}`}>
-          <RecipeCard />
+            {favoriteRecipes.map((recipe) => (
+              <RecipeCard key={recipe.id} recipe={recipe} />
+            ))}
           </Tab.Pane>
           <Tab.Pane eventKey="interactedRecipesTab" className={`${activeTab === 'interactedRecipesTab' ? 'active show' : ''}`}>
-            <RecipeCard />
-          </Tab.Pane>
-        </Tab.Content>
-      </Card.Body>
-    </Card>
-  );
-}
+            {interactedRecipes.map((recipe) => (
+          <RecipeCard key={recipe.id} recipe={recipe} />
+          ))}
+        </Tab.Pane>
+      </Tab.Content>
+   </Card.Body>
+  </Card>
+          );
+          }
 
 export default MyRecipes;
