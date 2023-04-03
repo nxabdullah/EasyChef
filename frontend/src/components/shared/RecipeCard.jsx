@@ -2,12 +2,13 @@ import React from 'react';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import '../../styles/recipe-cards.css';
+import { BASE_URL } from '../../config/constants';
 
 function RecipeCard({ id, title, image, description, prep_time, cook_time, serving_size }) {
   return (
     <Link className='clicky' to={`/recipes/${id}`}>
     <Card className="recipe shadow-sm">
-      <Card.Img variant="top" src={image} className="recipe-picture" />
+      <Card.Img variant="top" src={BASE_URL + image} className="recipe-picture" />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text>{description}</Card.Text>
@@ -31,7 +32,7 @@ function RecipeCard({ id, title, image, description, prep_time, cook_time, servi
               <i className="fas fa-user-friends fa-lg"></i>
               <p>
                 serving size <br />
-                <small>{serving_size} mins</small>
+                <small>{serving_size}</small>
               </p>
             </Col>
           </Row>

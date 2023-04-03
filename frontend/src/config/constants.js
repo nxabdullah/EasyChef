@@ -2,6 +2,8 @@
 
 // API endpoints
 export const API_BASE_URL = 'http://localhost:8000/api/';
+export const BASE_URL = 'http://localhost:8000'; // fix later
+
 
 // Authentication endpoints
 export const LOGIN_ENDPOINT = `${API_BASE_URL}account/login/`;
