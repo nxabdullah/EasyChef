@@ -6,7 +6,7 @@ from rest_framework import generics, filters
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from recipes.models import Recipe
-from .serializers import RecipeSerializer
+from recipes.serializers import RecipeSerializer
 from django.db.models import Count, Avg, FloatField
 
 
