@@ -1,0 +1,180 @@
+/*LOCAL LANDING PAGE STUFF GOES HERE*/
+/* https://css-tricks.com/snippets/css/typewriter-effect/ */
+/* The typing effect */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #3a9691 }
+}
+
+#text-rotation {
+    color:#3a9691
+}
+
+#text-rotation::before{
+    content: '';
+    animation: animate infinite 10s
+}
+
+@keyframes animate{
+    0%{
+        content: 'eat';
+    }
+    20%{
+        content: 'cook';
+    }
+    40%{
+        content: 'craft';
+    }
+    60%{
+        content: 'prepare';
+    }
+    80%{
+        content: 'make';
+    }
+    100%{
+        content: 'eat';
+    }
+
+
+}
+
+#searchText {
+    font-weight: 700;
+    text-align: center;
+    margin-bottom:20px;
+}
+
+
+#search-bar {
+    height: 50px;
+    border-width: 0.4px;
+    border-radius: 10px;
+    padding-left: 45px;
+    padding-right: 5px;
+    font-size: 20px;
+    outline: none;
+    display: inline;
+}
+
+/* Move the search icon inside the searchbox */
+#search-input-icon {
+    position: relative;
+    margin-right: -40px;
+    color: gray;
+}
+
+#search-btn {
+    width:70px;
+    height:50px;
+}
+
+#search-btn-toggle {
+    height:50px;
+}
+
+.search-filters{
+    display: inline-flex;
+    gap: 2%;
+    text-align: center;
+
+}
+.filter {
+    border: solid 2px #3a9691;
+    border-radius: 10px;
+    background-color: white;
+    width: 100px;
+    height: 63px;
+}
+
+.filter p {
+    border-radius: 8px 8px 0px 0px;
+    background-color: #3a9691;
+    padding-bottom: 3%;
+    color: white;
+    margin-bottom: 0;
+}
+.filter input {
+    outline: none;
+    border: none;
+    text-align: center;
+    width: 95%;
+}
+.form-input { /*sort by filter*/
+    width: 95px;
+    min-height: 27px;
+    outline: none;
+    border: none;
+    text-align: center;
+}
+
+
+/* Card responsiveness */
+.card h2 {
+    color: #3a9691;
+    font-size: 1.5rem;
+}
+
+.card {
+    min-height: 460px;
+}
+
+
+.clicky, .clicky:hover{
+    text-decoration: none;
+    color: black;
+
+}
+
+.clicky:hover{ /*Inspired from:https://codepen.io/sanjib104/pen/JjWrbYq*/
+    transform: scale(1.03);
+}
+
+
+.card-body{
+    padding-bottom: 0;
+}
+
+
+
+.card-icons {
+    display: inline-flex;
+    gap: 10px;
+    height: auto;
+    align-items: center;
+}
+
+
+.card-icons i{
+    color: #215754;
+}
+
+/*fade animations from https://codepen.io/cssanimation/pen/oYgXdM
+used for search page
+*/
+
+.fadeInBottom {
+
+    animation-name: fadeInBottom;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+.fadeInBottom2 {
+
+    animation-name: fadeInBottom;
+    animation-duration: 0.6s;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeInBottom{
+
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to { opacity: 1 }
+}

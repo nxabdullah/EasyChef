@@ -103,12 +103,6 @@ i {
     color:#595b5e
 }
 
-/* Move the search icon inside the searchbox */
-#search-input-icon {
-    position: relative;
-    margin-right: -40px;
-}
-
 
 /* The following css is for the My Profile Dropdown in the Navbar */
 #profile-pic {

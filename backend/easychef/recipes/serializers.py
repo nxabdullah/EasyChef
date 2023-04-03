@@ -176,7 +176,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         # fields = '__all__'
-        fields = ['name', 'description', 'prep_time', 'cook_time',
+        fields = ['id', 'name', 'description', 'prep_time', 'cook_time',
                   'serving_size', 'active_serving_size', 'avg_rating',
                   'num_favourites', 'diets', 'cuisines', 'ingredients_list',
                   'steps', 'images', 'base_recipe', 'creator',
