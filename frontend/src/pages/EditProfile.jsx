@@ -52,6 +52,7 @@ function EditProfile() {
         console.error(error);
       });
   };
+  
   const validatePasswords = () => {
     if (newPassword !== repeatNewPassword) {
       setPasswordError('New passwords do not match');
@@ -64,7 +65,6 @@ function EditProfile() {
       return true;
     }
   };
-
   
   const handlePasswordChange = (e) => {
     e.preventDefault();
@@ -84,8 +84,6 @@ function EditProfile() {
       });
   };
   
-
-
   
   return (
     <div>
