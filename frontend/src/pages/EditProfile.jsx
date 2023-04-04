@@ -4,12 +4,12 @@ import axios from 'axios';
 import useToken from '../hooks/useToken';
 import ProfileDetailsCard from '../components/profile/ProfileDetailsCard';
 
-function EditProfile({account}) {
+function EditProfile({account, setAccount}) {
 
   
   return (
         <>
-          <ProfileDetailsCard account={account} />
+          <ProfileDetailsCard account={account} setAccount={setAccount} />
 
         </>
   );

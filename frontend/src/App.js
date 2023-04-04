@@ -62,7 +62,7 @@ function App() {
           <Route exact path='/' element={<Landing />} />
           <Route exact path='/login' element={<Login setLogin={() => setIsAuth(true)}/>} />
           <Route exact path='/register' element={<Register />} />
-          <Route exact path='/profile' element={<EditProfile account={accountInfo} />} />
+          <Route exact path='/profile' element={<EditProfile account={accountInfo} setAccount={setAccountInfo} />} />
         </Routes>
       </div>
 
