@@ -23,11 +23,14 @@ class CustomUserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(e.messages)
         return value
 
+    # TODO: Look into this later. It's been crashing if
+    # requests are sent from frontend.
+
     # +1 416-555-9876, +1 647 555 6789
     def validate_phone_number(self, value):
-        pattern = re.compile(r'^\+1\s*\d{3}[-.\s]?\d{3}[-.\s]?\d{4}$')
-        if not pattern.match(value):
-            raise serializers.ValidationError("Invalid phone number")
+        # pattern = re.compile(r'^\+1\s*\d{3}[-.\s]?\d{3}[-.\s]?\d{4}$')
+        # if not pattern.match(value):
+        #     raise serializers.ValidationError("Invalid phone number")
         return value
 
     def create(self, validated_data):
