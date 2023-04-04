@@ -1,91 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import RecipeCard from '../components/shared/RecipeCard';
-import { Card, Nav, Tab } from 'react-bootstrap';
-import '../styles/recipe-cards.css';
 import axios from 'axios';
+import useToken from '../hooks/useToken';
 
 function MyRecipes() {
-  const [activeTab, setActiveTab] = useState('myRecipesTab');
-  const [myRecipes, setMyRecipes] = useState([]);
-  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
-  const [interactedRecipes, setInteractedRecipes] = useState([]);
+  const [myRecipes, setMyRecipes] = useState(null); // Set initial state to null
+
+  const { token } = useToken();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const myRecipesResponse = await axios.get('/api/account/recipes/');
-        setMyRecipes(myRecipesResponse.data);
-        
-        const favoriteRecipesResponse = await axios.get('/api/account/favourites/');
-        setFavoriteRecipes(favoriteRecipesResponse.data);
-
-        const interactedRecipesResponse = await axios.get('/api/account/interactions/');
-        setInteractedRecipes(interactedRecipesResponse.data);
+        const response = await axios.get('http://localhost:8000/api/account/recipes/', {
+          headers: {
+            'Authorization': `Token ${token}`
+          }
+        });
+        setMyRecipes(response.data.results);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchData();
-  }, []);
 
-  const handleTabChange = (tabId) => {
-    setActiveTab(tabId);
-  };
+    fetchData();
+  }, [token]);
+  
+
+  if (myRecipes === null) { // Show loading indicator while waiting for the response
+    return <p>Loading...</p>;
+  }
 
   return (
-    <Card className="mt-4">
-      <Card.Header>
-        <h2>My Recipes</h2>
-      </Card.Header>
-      <Card.Header>
-        <Nav justify variant="tabs" className="nav-responsive">
-          <Nav.Item>
-            <Nav.Link
-              className={`mb-0 ${activeTab === 'myRecipesTab' ? 'active' : ''}`}
-              eventKey="myRecipesTab"
-              onClick={() => handleTabChange('myRecipesTab')}>
-              <i className="fa-solid fa-bowl-rice" ><br></br></i> My Recipes
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link
-              className={`mb-0 ${activeTab === 'favouriteRecipesTab' ? 'active' : ''}`}
-              eventKey="favouriteRecipesTab"
-              onClick={() => handleTabChange('favouriteRecipesTab')}>
-              <i className="fa-regular fa-heart"><br></br></i> Favourite
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link
-              className={`mb-0 ${activeTab === 'interactedRecipesTab' ? 'active' : ''}`}
-              eventKey="interactedRecipesTab"
-              onClick={() => handleTabChange('interactedRecipesTab')}>
-              <i className="fa-solid fa-users"><br></br></i> Interacted with
-            </Nav.Link>
-          </Nav.Item>
-        </Nav>
-      </Card.Header>
-      <Card.Body className="p-2 p-sm-4">
-        <Tab.Content>
-          <Tab.Pane eventKey="myRecipesTab" className={`${activeTab === 'myRecipesTab' ? 'active show' : ''}`}>
-            {myRecipes.map((recipe) => (
-              <RecipeCard key={recipe.id} recipe={recipe} />
-            ))}
-          </Tab.Pane>
-          <Tab.Pane eventKey="favouriteRecipesTab" className={`${activeTab === 'favouriteRecipesTab' ? 'active show' : ''}`}>
-            {favoriteRecipes.map((recipe) => (
-              <RecipeCard key={recipe.id} recipe={recipe} />
-            ))}
-          </Tab.Pane>
-          <Tab.Pane eventKey="interactedRecipesTab" className={`${activeTab === 'interactedRecipesTab' ? 'active show' : ''}`}>
-            {interactedRecipes.map((recipe) => (
-          <RecipeCard key={recipe.id} recipe={recipe} />
+    <div>
+      <h1>My Recipes</h1>
+      {Array.isArray(myRecipes) ? (
+        <ul>
+          {myRecipes.map(recipe => (
+            <li key={recipe.id}>{recipe.name}</li>
           ))}
-        </Tab.Pane>
-      </Tab.Content>
-   </Card.Body>
-  </Card>
-          );
-          }
+        </ul>
+      ) : (
+        <p>No recipes found.</p>
+      )}
+    </div>
+  );
+  
+}
 
 export default MyRecipes;
+
+
+
