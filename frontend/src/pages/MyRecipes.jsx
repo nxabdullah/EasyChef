@@ -4,12 +4,13 @@ import useToken from '../hooks/useToken';
 import RecipeCard from '../components/shared/RecipeCard';
 
 function MyRecipes() {
-  const [myRecipes, setMyRecipes] = useState(null); // Set initial state to null
+  const [myRecipes, setMyRecipes] = useState(null);
+  const [favRecipes, setFavRecipes] = useState(null);
 
   const { token } = useToken();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchRecipes = async () => {
       try {
         const response = await axios.get('http://localhost:8000/api/account/recipes/', {
           headers: {
@@ -21,18 +22,58 @@ function MyRecipes() {
         console.log(error);
       }
     };
-
-    fetchData();
-  }, [token]);
   
+    const fetchFavRecipes = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/api/account/favourites/', {
+          headers: {
+            'Authorization': `Token ${token}`
+          }
+        });
+        if (Array.isArray(response.data.results) && response.data.results.length > 0) {
+          setFavRecipes(response.data.results);
+        } else {
+          setFavRecipes(null);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    
+  
+    fetchRecipes();
+    fetchFavRecipes();
+  }, [token]);
 
-  if (myRecipes === null) { // Show loading indicator while waiting for the response
+  if (myRecipes === null || favRecipes === null) {
     return <p>Loading...</p>;
   }
 
   return (
     <div>
       <h1>My Recipes</h1>
+
+      <h2>My Favorite Recipes</h2>
+      {favRecipes ? (
+        <div className="recipe-cards">
+          {favRecipes.map(recipe => (
+            <RecipeCard
+              key={recipe.id}
+              id={recipe.id}
+              title={recipe.name}
+              image={recipe.image}
+              description={recipe.description}
+              prep_time={recipe.prep_time}
+              cook_time={recipe.cook_time}
+              serving_size={recipe.serving_size}
+            />
+          ))}
+        </div>
+      ) : (
+        <p>No favorite recipes found.</p>
+      )}
+
+      <h2>My Recipes</h2>
       {Array.isArray(myRecipes) ? (
         <div className="recipe-cards">
           {myRecipes.map(recipe => (
