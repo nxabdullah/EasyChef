@@ -158,3 +158,19 @@ a.dropdown-item:active i,a.dropdown-item:focus i {
 .alert-success .link-primary {
     color: #215754 !important;
 }
+
+/* Mainly for edit profile page */
+/* Update placeholder style */
+.form-control::-webkit-input-placeholder {
+    color: silver;
+  }
+
+#upload-image-label {
+    margin-top: 10px;
+    text-decoration: underline;
+    font-size: 16px;
+    color: #85878a;
+}
+#upload-image-preview {
+    height: 100px;
+}

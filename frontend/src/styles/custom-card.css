@@ -1,10 +1,8 @@
-
-
 .gray-font {
     color: #85878a;
 }
 
-.card {
+.card .custom-card {
     color: #85878a;
     letter-spacing: 0.5px;
 }
