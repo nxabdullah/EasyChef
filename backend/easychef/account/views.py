@@ -45,6 +45,7 @@ class LogoutView(generics.DestroyAPIView):
 
 
 # View, Edit profile
+# TODO: Ignore `id` and `username` fields if provided in PATCH
 class AccountRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = CustomUserSerializer

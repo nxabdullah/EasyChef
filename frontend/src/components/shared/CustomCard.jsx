@@ -3,7 +3,7 @@ import '../../styles/custom-card.css';
 
 function CustomCard({ Title, children }) {
   return (
-    <div class="card mt-4">
+    <div class="card mt-4 custom-card">
 
       <div class="card-header">
           <h4 class="card-header-title">{ Title }</h4>

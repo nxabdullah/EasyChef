@@ -3,6 +3,7 @@ import axios from "axios";
 import CustomCard from "../shared/CustomCard";
 import { ACCOUNT_ENDPOINT } from "../../config/constants";
 import useToken from "../../hooks/useToken";
+import ProfilePictureUpload from "./ProfilePictureUpload";
 
 // takes account state
 function ProfileDetailsCard({ account, setAccount }) {
@@ -10,7 +11,6 @@ function ProfileDetailsCard({ account, setAccount }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState(account || {});
-  const [imagePreview, setImagePreview] = useState(null);
 
   const { token } = useToken();
   axios.defaults.headers.common["Authorization"] = `Token ${token}`;
@@ -48,30 +48,6 @@ function ProfileDetailsCard({ account, setAccount }) {
     }
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormValues({ ...formValues, profile_picture: file });
-
-    // Read the selected file and update the img element's src attribute
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      //document.getElementById('upload-image-preview').src = e.target.result;
-      setImagePreview(e.target.result);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const getProfileImage = () => {
-      if (account !== null) {
-          if (account.profile_picture) {
-            return account.profile_picture
-          } else {
-            return `${process.env.PUBLIC_URL}/default_pfp.svg`
-          }
-      } else {
-        return `${process.env.PUBLIC_URL}/default_pfp.svg`
-      }
-  }
 
   return (
     <CustomCard Title={`Profile`}>
@@ -82,27 +58,8 @@ function ProfileDetailsCard({ account, setAccount }) {
       <form className="row" onSubmit={handleSubmit}>
 
         <div className="col-12">
-            <label className="form-label">Profile Photo</label>
-                <div>
-                    <label className="me-4" for="upload-image">
-
-                        {imagePreview ? (
-                            <img id="upload-image-preview" class="rounded-circle border" src={imagePreview} alt="Profile" />
-
-                        ) : (
-                            <img id="upload-image-preview" class="rounded-circle border" src={getProfileImage()} alt="Profile" />
-                        )}
-                    </label>
-                </div>
-            <label class="link-primary-c" id="upload-image-label" for="upload-image">Click here to change</label>
-            <input
-                id="upload-image"
-                className="form-control d-none"
-                type="file"
-                onChange={handleFileChange}
-                accept="image/*"
-                />
-            </div>
+            <ProfilePictureUpload account={account} />
+        </div>
 
 
         <div className="col-md-6 mt-4">
