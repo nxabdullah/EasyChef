@@ -158,3 +158,77 @@ a.dropdown-item:active i,a.dropdown-item:focus i {
 .alert-success .link-primary {
     color: #215754 !important;
 }
+
+/* Mainly for edit profile page */
+/* Update placeholder style */
+.form-control::-webkit-input-placeholder {
+    color: silver;
+  }
+
+#upload-image-label {
+    margin-top: 10px;
+    text-decoration: underline;
+    font-size: 16px;
+    color: #85878a;
+}
+#upload-image-preview {
+    height: 100px;
+}
+
+#modal-upload-image-preview {
+    height: 75px;
+    display: inline;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+#profile-image-upload-modal-body {
+    align-items: center;
+    align-content: center;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+}
+
+#profile-image-upload-modal-body-title {
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.profile-image-upload-modal-body-button {
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 12px;
+    padding-top: 12px;
+    font-weight: 500;
+}
+
+.profile-image-upload-modal-body-button label {
+    cursor: pointer;
+}
+
+.link-primary-danger-c {
+    color: #dc3545;
+    text-decoration: none !important;
+}
+
+.link-primary-danger-c:hover {
+    color: #b91b2b !important;
+    text-decoration: none !important;
+}
+
+
+.profile-image-upload-modal-body-button-end {
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+    border-bottom: 0;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-weight: 500;
+
+}
+
+.card.custom-card {
+    color: #85878a;
+    letter-spacing: 0.5px;
+}
