@@ -1,24 +1,49 @@
 import { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import axios from "axios";
+import { Modal } from "react-bootstrap";
 import { ACCOUNT_ENDPOINT } from "../../config/constants";
+import useToken from "../../hooks/useToken";
+
 
 function ProfilePictureUpload({ account }) {
   const [imagePreview, setImagePreview] = useState(null);
+  const [file, setFile] = useState(null); // Add a state to store the selected file
   const [showModal, setShowModal] = useState(false);
 
+  const { token } = useToken();
+  axios.defaults.headers.common["Authorization"] = `Token ${token}`;
+
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile); // Store the selected file in the state
 
     // Read the selected file and update the img element's src attribute
     const reader = new FileReader();
     reader.onload = (e) => {
       setImagePreview(e.target.result);
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(selectedFile); // Pass the selectedFile instead of file
   };
 
-  const handleRemove = () => {
-    console.log("Remove profile picture");
+  const handleSave = async () => {
+    console.log("Save profile picture");
+
+    // create form data
+    const formData = new FormData();
+    formData.append("profile_picture", file);
+
+    // Send a PATCH request to ACCOUNT_ENDPOINT with profile_photo
+    try {
+        const response = await axios.patch(ACCOUNT_ENDPOINT, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log("Profile picture updated:", response.data);
+      } catch (error) {
+        console.error("Error updating profile picture:", error); // TODO: improve this later
+    }
+
     setShowModal(false);
   };
 
@@ -29,6 +54,8 @@ function ProfilePictureUpload({ account }) {
       return `${process.env.PUBLIC_URL}/default_pfp.svg`;
     }
   };
+
+  // TODO: add a loading spinner.
 
   return (
     <>
@@ -68,7 +95,7 @@ function ProfilePictureUpload({ account }) {
                 <img
                     id="modal-upload-image-preview"
                     className="rounded-circle border center"
-                    src={imagePreview}
+                    src={imagePreview ? imagePreview :  `${process.env.PUBLIC_URL}/default_pfp.svg`}
                     alt="Profile"
                 />
                 <h5>Profile Photo</h5>
@@ -97,12 +124,12 @@ function ProfilePictureUpload({ account }) {
         </Modal.Body>
 
         <Modal.Footer>
-          <button className="btn btn-sm btn-secondary" onClick={handleRemove}>
+          <button className="btn btn-sm btn-secondary" onClick={() => setShowModal(false)}>
             Cancel
           </button>
           <button
             className="btn btn-sm btn-primary-c text-light"
-            onClick={() => setShowModal(false)}
+            onClick={handleSave}
           >
             Save
           </button>
