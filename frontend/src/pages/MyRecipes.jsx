@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import useToken from '../hooks/useToken';
+import RecipeCard from '../components/shared/RecipeCard';
 
 function MyRecipes() {
   const [myRecipes, setMyRecipes] = useState(null); // Set initial state to null
@@ -33,20 +34,25 @@ function MyRecipes() {
     <div>
       <h1>My Recipes</h1>
       {Array.isArray(myRecipes) ? (
-        <ul>
+        <div className="recipe-cards">
           {myRecipes.map(recipe => (
-            <li key={recipe.id}>{recipe.name}</li>
+            <RecipeCard
+              key={recipe.id}
+              id={recipe.id}
+              title={recipe.name}
+              image={recipe.image}
+              description={recipe.description}
+              prep_time={recipe.prep_time}
+              cook_time={recipe.cook_time}
+              serving_size={recipe.serving_size}
+            />
           ))}
-        </ul>
+        </div>
       ) : (
         <p>No recipes found.</p>
       )}
     </div>
   );
-  
 }
 
 export default MyRecipes;
-
-
-
