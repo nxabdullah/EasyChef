@@ -62,21 +62,12 @@ function ProfilePictureUpload({ account }) {
       <label className="form-label">Profile Photo</label>
       <div>
         <label className="me-4" htmlFor="upload-image">
-          {imagePreview ? (
-            <img
-              id="upload-image-preview"
-              className="rounded-circle border"
-              src={imagePreview}
-              alt="Profile"
-            />
-          ) : (
             <img
               id="upload-image-preview"
               className="rounded-circle border"
               src={getProfileImage()}
               alt="Profile"
             />
-          )}
         </label>
       </div>
       <label
@@ -92,12 +83,30 @@ function ProfilePictureUpload({ account }) {
 
         <Modal.Body id='profile-image-upload-modal-body'>
             <div id='profile-image-upload-modal-body-title'>
-                <img
+                {/*<img
                     id="modal-upload-image-preview"
                     className="rounded-circle border center"
                     src={imagePreview ? imagePreview :  `${process.env.PUBLIC_URL}/default_pfp.svg`}
                     alt="Profile"
-                />
+                />*/}
+
+                {/* TODO: improve this code duplication  */}
+
+                {imagePreview ? (
+                    <img
+                    id="modal-upload-image-preview"
+                    className="rounded-circle border"
+                    src={imagePreview}
+                    alt="Profile"
+                    />
+                ) : (
+                    <img
+                    id="modal-upload-image-preview"
+                    className="rounded-circle border"
+                    src={getProfileImage()}
+                    alt="Profile"
+                    />
+                )}
                 <h5>Profile Photo</h5>
             </div>
 

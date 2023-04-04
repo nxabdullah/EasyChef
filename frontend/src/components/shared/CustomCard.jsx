@@ -1,12 +1,12 @@
 import React from 'react'
 import '../../styles/custom-card.css';
 
-function CustomCard({ Title, children }) {
+function CustomCard({ title, children }) {
   return (
     <div class="card mt-4 custom-card">
 
       <div class="card-header">
-          <h4 class="card-header-title">{ Title }</h4>
+          <h4 class="card-header-title">{ title }</h4>
       </div>
 
       <div class="card-body">
@@ -17,7 +17,7 @@ function CustomCard({ Title, children }) {
 }
 
 CustomCard.defaultProps = {
-  Title: 'Default Title',
+  title: 'Default Title',
 };
 
 export default CustomCard

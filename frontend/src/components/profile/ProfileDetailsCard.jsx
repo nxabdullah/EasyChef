@@ -50,7 +50,7 @@ function ProfileDetailsCard({ account, setAccount }) {
 
 
   return (
-    <CustomCard Title={`Profile`}>
+    <CustomCard title={`Profile`}>
       {successMessage && (
         <div className="alert alert-success">{successMessage}</div>
       )}
