@@ -2,7 +2,9 @@ import React from 'react'
 
 function CommentsPost() {
   return (
-    <div>CommentsPost</div>
+    <>
+      <h3>Post a comment</h3>
+    </>
   )
 }
 

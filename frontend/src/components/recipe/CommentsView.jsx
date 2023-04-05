@@ -2,7 +2,9 @@ import React from 'react'
 
 function CommentsView() {
   return (
-    <div>CommentsView</div>
+    <>
+      <h3>Recent Comments</h3>
+    </>
   )
 }
 

@@ -9,7 +9,6 @@ function Recipe() {
 
   return (
     <>
-      {`${id}`}
       <Details recipe_id={id}/>
       <Comments recipe_id={id}/>
     </>
