@@ -4,6 +4,8 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import '../../styles/search.css';
 import { useLocation } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
+import {default as ReactSelect} from 'react-select';
+
 
 function Search({
     searchQuery,
@@ -40,7 +42,7 @@ function Search({
             ​<Form.Control id="search-bar" name="q" className="form-control cornerless w-100" type="search" placeholder="Search 100+ recipes" value={searchQuery} onChange={onSearchChange} required />
           </div>
 
-          {/* <Button class="btn btn-primary btn-primary-c" id="search-btn" type="submit" onClick={() => {}}>Search</Button> */}
+          {/* <Button class="btn btn-primary btn-primary-c" id="search-btn" type="submit" onClick={() => {}}>Search</Button> */} 
 
         </form>
         <h3 class="text-center">Filters</h3>
@@ -65,18 +67,27 @@ function Search({
               <option value="5">Indian</option>
               <option value="6">Sudanese</option>
               <option value="7">Jamaican</option>
-              <option value="8">French</option>
+              <option value="8">French</option> {/*Add options when add recipe complete*/}
             </select>  
           </div>
-          <div class="filter" multiple value={diets} onChange={onDietsChange}>
+          <div class="filter">
             <p>diet</p>
-  
-            <select class="form-input">
+            <ReactSelect
+            options={[{value: 'Low Carb', label: 'Low Carb'},
+                      {value: 'Gluten-Free', label: 'Gluten-Free'},
+                      {value: 'Vegetarian', label: 'Vegetarian'},
+                  ]}
+                  isMulti
+                  value={diets}
+                  onChange={onDietsChange}
+                  
+            > </ReactSelect>
+            {/* <select class="form-input">
                 <option value="" selected>--</option>
-                <option value="Low Carb" selected>Low Carb</option>
-                <option value="alp">Alphabetical</option>
-                <option value="revalp">Reverse Alphabetical</option>
-            </select>   
+                <option value="Low Carb">Low Carb</option>
+                <option value="Gluten-Free">Gluten-Free</option>
+                <option value="Vegetarian">Vegetarian</option> {/*Add options when add recipe complete
+            </select>    */}
                              
           </div>
           <div class="filter" multiple value={minCookTime} onChange={onMinCookTimeChange}>
