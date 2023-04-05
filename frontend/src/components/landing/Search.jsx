@@ -1,10 +1,13 @@
 
-import React from 'react';
+import { React, useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import '../../styles/search.css';
 import { useLocation } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
-import {default as ReactSelect} from 'react-select';
+// import {default as ReactSelect} from 'react-select';
+import Select from 'react-select';
+import Modal from 'react-modal';
+
 
 
 function Search({
@@ -30,6 +33,12 @@ function Search({
     options.push(<option key="121" value="121">More than 2 hrs</option>)
     return options;
   };
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
+
 
   return (
   <div class="row py-lg-5">
@@ -70,18 +79,143 @@ function Search({
               <option value="8">French</option> {/*Add options when add recipe complete*/}
             </select>  
           </div>
-          <div class="filter">
+          <div id="diets-filter">
             <p>diet</p>
-            <ReactSelect
+      <button onClick={openModal}>Open Modal</button>
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={closeModal}
+        style={{content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+          width: '30vw',
+          height: 'auto',
+          border: 'none',
+          borderRadius: '10px',
+          boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
+          padding: '20px'
+        }}}
+        contentLabel="Select Diets"
+      >
+        <h2 style={{ textAlign: 'center', backgroundColor: '#3a9691', color: 'white', padding: '10px', borderRadius: '10px 10px 0 0' }}>
+          Select Diets
+        </h2>
+        <Select
+          options={[{ value: 'Low Carb', label: 'Low Carb' },
+          { value: 'Gluten-Free', label: 'Gluten-Free' }, 
+          { value: 'Vegetarian', label: 'Vegetarian' }, ]}
+          onChange={onDietsChange}
+          isMulti
+          menuPlacement="bottom"
+          menuPortalTarget={document.body}
+          closeMenuOnSelect = {false}
+          styles={{
+            container: (provided) => ({
+              ...provided,
+              margin: '20px 0',
+            }),
+            control: (provided) => ({
+              ...provided,
+              borderRadius: '10px',
+              border: '1px solid #ccc',
+              boxShadow: 'none',
+              '&:hover': {
+                border: '1px solid #ccc',
+              },
+            }),
+            option: (provided, state) => ({
+              ...provided,
+              backgroundColor: state.isSelected ? '#3a9691' : 'transparent',
+              color: state.isSelected ? 'white' : '#333',
+              '&:hover': {
+                backgroundColor: '#3a9691',
+                color: 'white',
+              },
+            }),
+            menu: (provided) => ({
+              ...provided,
+              borderRadius: '10px',
+            }),
+            multiValue: (provided) => ({
+              ...provided,
+              borderRadius: '20px',
+              backgroundColor: '#3a9691',
+              color: 'white',
+            }),
+            multiValueLabel: (provided) => ({
+              ...provided,
+              color: 'white',
+            }),
+            multiValueRemove: (provided) => ({
+              ...provided,
+              borderRadius: '0px 15px 15px 0px'
+            }),
+          }}
+        />
+        <div style={{ textAlign: 'center' }}>
+          <button onClick={closeModal} style={{ backgroundColor: '#3a9691', color: 'white', border: 'none', borderRadius: '10px', padding: '0.5vw 1.7vw', cursor: 'pointer' }}>Close</button>
+        </div>
+      </Modal>
+            {/* <button onClick={openModal}>Open Modal</button>
+            <Modal 
+            isOpen={isOpen} 
+            onRequestClose={closeModal}
+            style={{
+              content: {
+                top: '50%',
+                left: '50%',
+                right: 'auto',
+                bottom: 'auto',
+                marginRight: '-50%',
+                transform: 'translate(-50%, -50%)',
+                width: '30vw',
+                height: '20vw',
+                border: 'none',
+                borderRadius: '10px',
+                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
+                padding: '20px'
+              }
+            }}
+            >
+                <h2 style={{ textAlign: 'center', backgroundColor: '#3a9691', color: 'white', top: '0'}}>Select diets</h2>
+                <Select options={[{value: 'Low Carb', label: 'Low Carb'},
+                      {value: 'Gluten-Free', label: 'Gluten-Free'},
+                      {value: 'Vegetarian', label: 'Vegetarian'},
+                  ]}
+                  onChange={onDietsChange}
+
+                  isMulti
+                   />
+                  <button onClick={closeModal}>Close</button>
+            </Modal> */}
+            {/* <ReactSelect
+            onChange={onDietsChange}
             options={[{value: 'Low Carb', label: 'Low Carb'},
                       {value: 'Gluten-Free', label: 'Gluten-Free'},
                       {value: 'Vegetarian', label: 'Vegetarian'},
                   ]}
                   isMulti
-                  value={diets}
-                  onChange={onDietsChange}
-                  
-            > </ReactSelect>
+                  closeMenuOnSelect={false}
+                  hideSelectedOptions={true}
+                  menuPlacement="bottom"
+                  menuPosition='fixed'
+                  styles={{
+                    control: (provided) => ({
+                      ...provided,
+                      minHeight: 5,
+                      borderRadius: 5,
+                    }),
+                    toggle: (provided) => ({
+                      ...provided,
+                      height: 5,
+                      width: 5,
+                    }),
+                  }}
+            > </ReactSelect> */}
             {/* <select class="form-input">
                 <option value="" selected>--</option>
                 <option value="Low Carb">Low Carb</option>
