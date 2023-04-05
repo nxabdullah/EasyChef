@@ -1,15 +1,20 @@
 import React from 'react'
 import Comments from '../components/recipe/Comments'
 import Details from '../components/recipe/Details'
+import { useParams } from 'react-router-dom';
 
-function RecipeDetails() {
+function Recipe() {
+
+  const { id } = useParams();
+
   return (
     <>
-      <Details />
-      <Comments />
+      {`${id}`}
+      <Details recipe_id={id}/>
+      <Comments recipe_id={id}/>
     </>
 
   )
 }
 
-export default RecipeDetails
+export default Recipe

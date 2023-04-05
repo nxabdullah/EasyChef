@@ -1,26 +1,42 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-import { RECIPE_COMMENTS_ENDPOINT } from '../../config/constants'
-import CustomCard from '../shared/CustomCard'
-import CommentsPost from './CommentsPost'
-import CommentsView from './CommentsView'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { RECIPE_COMMENTS_ENDPOINT } from '../../config/constants';
+import CustomCard from '../shared/CustomCard';
+import CommentsPost from './CommentsPost';
+import CommentsView from './CommentsView';
 
 function Comments({ recipe_id }) {
+  const [comments, setComments] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-    // comments will be stored in this state
-    // it should be passed down to the components
-    const [comments, setComments] = useState(null)
+  useEffect(() => {
+    const fetchComments = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(RECIPE_COMMENTS_ENDPOINT(recipe_id));
+        setComments(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+        setLoading(false);
+      }
+    };
 
-    // We need to load the comments using the recipe id => RECIPE_COMMENTS_ENDPOINT(recipe_id)
-
-
+    fetchComments();
+  }, [recipe_id]);
 
   return (
     <CustomCard>
-        <CommentsPost />
-        <CommentsView />
+      {loading ? (
+        <div>Loading...</div> // Replace this with your preferred loading animation
+      ) : (
+        <>
+          <CommentsPost />
+          <CommentsView comments={comments} />
+        </>
+      )}
     </CustomCard>
-  )
+  );
 }
 
-export default Comments
+export default Comments;

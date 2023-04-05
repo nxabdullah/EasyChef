@@ -19,7 +19,7 @@ import MyRecipes from './pages/MyRecipes';
 
 // import constants
 import { ACCOUNT_ENDPOINT } from './config/constants';
-import RecipeDetails from './pages/Recipe';
+import Recipe from './pages/Recipe';
 
 function App() {
   const {token, removeToken} = useToken()
@@ -72,7 +72,7 @@ function App() {
             <Route exact path='/login' element={<Login setLogin={() => setIsAuth(true)} />} />
             <Route exact path='/register' element={<Register />} />
             <Route exact path='/profile' element={<EditProfile account={accountInfo} setAccount={setAccountInfo} />} />
-            <Route exact path='/recipes/:id' element={<RecipeDetails />} />
+            <Route exact path='/recipes/:id' element={<Recipe />} />
           </Routes>
         )}
       </div>
