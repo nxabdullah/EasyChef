@@ -23,6 +23,20 @@ export const ACCOUNT_RECIPES_ENDPOINT = `${API_BASE_URL}account/recipes/`;
 // Search endpoint
 export const SEARCH_ENDPOINT = `${API_BASE_URL}search/`;
 
+// Recipe endpoints
+export const RECIPES_ENDPOINT = `${API_BASE_URL}recipes/`;
+
+/*
+    Usage for constants that take input
+    const url = RECIPE_DETAIL_ENDPOINT(recipeId);
+    gives you 'http://localhost:8000/api/recipes/123/'
+*/
+
+export const RECIPE_DETAIL_ENDPOINT = id => `${RECIPES_ENDPOINT}${id}/`;
+export const RECIPE_COMMENTS_ENDPOINT = id => `${RECIPES_ENDPOINT}${id}/comments/`
+
+
+
 // Colors
 export const PRIMARY_COLOR = '#3a9691'; // dark green
 
