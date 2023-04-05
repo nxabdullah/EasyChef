@@ -18,6 +18,7 @@ import EditProfile from './pages/EditProfile';
 
 // import constants
 import { ACCOUNT_ENDPOINT } from './config/constants';
+import Search from './components/landing/Search';
 
 function App() {
   const {token, removeToken} = useToken()
@@ -63,6 +64,7 @@ function App() {
           <Route exact path='/login' element={<Login setLogin={() => setIsAuth(true)}/>} />
           <Route exact path='/register' element={<Register />} />
           <Route exact path='/profile' element={<EditProfile account={accountInfo} />} />
+          <Route partial path='/search' element={<Search />} />
         </Routes>
       </div>
 
