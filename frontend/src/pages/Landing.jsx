@@ -79,19 +79,7 @@ function Landing() {
     setDiets(selectedOptions.map(option => option.value));
   };
 
-  // const handleMinCookTimeChange = (event) => {
-  //   setMinCookTime(event.target.value);
-  //   // Filter the options of the max cook time based on the selected min cook time
-  //   // Filter the options of the max cook time based on the selected min cook time
-  //   const selectedMinCookTime = parseInt(event.target.value);
-  //   if (selectedMinCookTime !== '') {
-  //     setMaxCookTime('');
-  //   }
-  // };
 
-  // const handleMaxCookTimeChange = (event) => {
-  //   setMaxCookTime(event.target.value);
-  // };
   const handleCookTimeChange = (event, newValue) => {
     setCookTime(newValue);
   };
@@ -136,3 +124,23 @@ function Landing() {
 }
   
 export default Landing;
+
+
+
+
+
+
+
+  // const handleMinCookTimeChange = (event) => {
+  //   setMinCookTime(event.target.value);
+  //   // Filter the options of the max cook time based on the selected min cook time
+  //   // Filter the options of the max cook time based on the selected min cook time
+  //   const selectedMinCookTime = parseInt(event.target.value);
+  //   if (selectedMinCookTime !== '') {
+  //     setMaxCookTime('');
+  //   }
+  // };
+
+  // const handleMaxCookTimeChange = (event) => {
+  //   setMaxCookTime(event.target.value);
+  // };

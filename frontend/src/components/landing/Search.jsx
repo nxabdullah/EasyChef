@@ -1,20 +1,20 @@
 //DYANMICALLY SET MIN COOK TIME FILTER TOO
 // SELECTED FILTERS:
 // ARROW KEY NAVIGATION
-// OR LOGIC
+// OR LOGIC (NOT APPLICABLE IF WERE USING SLIDERS)
 // SORT BY
-import { React, useState } from 'react';
-import { Container, Row, Col, Form, Button, Tab, Tabs } from 'react-bootstrap';
+// PREPOPULATE
+import { React, useState, useEffect } from 'react';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import '../../styles/search.css';
-import { useLocation } from 'react-router-dom';
-import { useSearchParams } from 'react-router-dom';
-// import {default as ReactSelect} from 'react-select';
 import Select from 'react-select';
 import Modal from 'react-modal';
 import { GiAvocado, GiKnifeFork } from "react-icons/gi";
 import { TbClockRecord } from "react-icons/tb";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+// import RangeSlider from 'react-bootstrap-range-slider';
+// import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 
 
 
@@ -24,7 +24,7 @@ function Search({
     diets,
     // minCookTime,
     // maxCookTime,
-    cookTime,
+    cookTime, 
     onSearchChange,
     onCuisinesChange,
     onDietsChange,
@@ -39,7 +39,18 @@ function Search({
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
+  const [allDiets] = useState([
+    { value: 'Low Carb', label: 'Low Carb' },
+    { value: 'Gluten-Free', label: 'Gluten-Free' },
+    { value: 'Vegetarian', label: 'Vegetarian' },
+  ]);
+  const [filteredDiets, setFilteredDiets] = useState(allDiets);
 
+  useEffect(() => {
+    // Filter out the selected options from the full list of options
+    setFilteredDiets(allDiets.filter(option => !diets.includes(option.value)));
+  }, [diets]);
+  
 
   const RangeSlider = () => {
     const [range, setRange] = useState([null, null]);
@@ -53,14 +64,13 @@ function Search({
         setRange(values);
       }
     };
-  
     const railStyle = { backgroundColor: "#ccc", height: "8px", borderRadius: "2px" };
     const trackStyle = { backgroundColor: "#3a9691", height: "8px", borderRadius: "2px" };
     const handleStyle = { borderColor: "#3a9691", height: "20px", width: "20px", marginLeft: "-8px", marginTop: "-8px", backgroundColor: "white" };
     const activeHandleStyle = { borderColor: "#3a9691", height: "20px", width: "20px", marginLeft: "-8px", marginTop: "-8px", backgroundColor: "#3a9691" };
   
     return (
-      <div>
+      <Container>
         <Slider
           range
           value={range}
@@ -86,13 +96,13 @@ function Search({
             height: "3vw",
           }}
         />
-        <div>
+        <Container>
           Min Cook Time: {range[0] !== null ? range[0] + " mins" : "---"}
-        </div>
-        <div>
+        </Container>
+        <Container>
           Max Cook Time: {range[1] !== null ? range[1] + " mins" : "---"}
-        </div>
-      </div>
+        </Container>
+      </Container>
     );
   };
 
@@ -102,50 +112,50 @@ function Search({
   
 
   return (
-  <div class="row py-lg-5">
-    <div class="col-lg-10 col-md-12 mx-auto">
+  <Container class="row py-lg-5">
+    <Container class="col-lg-10 col-md-12 mx-auto">
       <h1 id="searchText" className='center'>What would you like to <span id="text-rotation"></span> today?</h1>
-      <div class="search">
+      <Container class="search">
         <form class="d-flex">
-          <div class="search-container w-100 mb-4 ms-2">
+          <Container class="search-container w-100 mb-4 ms-2">
             <i class="fa fa-search fa-lg" id="search-input-icon"></i>
             ​<Form.Control id="search-bar" name="q" className="form-control cornerless w-100" type="search" placeholder="Search 100+ recipes" value={searchQuery} onChange={onSearchChange} required />
-          </div>
+          </Container>
 
         </form>
         <h3 class="text-center">Filters</h3>
-        <div class="search-filters">
-          <div id="diets-filter">
+        <Container class="search-filters">
+          <Container id="diets-filter">
             <p>diet</p>
-      <button style={{
-    color: '#3a9691',
-    borderRadius: '5px',
-    border: 'none',
-    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
-    cursor: 'pointer',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    width: '110px',
-    height: '30px'
-  }}  onClick={openModal}>Select...</button>
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={closeModal}
-        style={{content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-          width: '50vw',
-          height: 'auto',
-          border: 'none',
-          borderRadius: '10px',
-          boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
-          padding: '20px'
-        }}}
-        contentLabel="Select Diets"
+      <Button style={{
+        color: '#3a9691',
+        borderRadius: '5px',
+        border: 'none',
+        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
+        cursor: 'pointer',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        width: '110px',
+        height: '30px'
+      }}  onClick={openModal}>Select...</Button>
+          <Modal
+            isOpen={isOpen}
+            onRequestClose={closeModal}
+            style={{content: {
+              top: '50%',
+              left: '50%',
+              right: 'auto',
+              bottom: 'auto',
+              marginRight: '-50%',
+              transform: 'translate(-50%, -50%)',
+              width: '50vw',
+              height: 'auto',
+              border: 'none',
+              borderRadius: '10px',
+              boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
+              padding: '20px'
+            }}}
+            contentLabel="Select Diets"
       > 
          <h3 style={{textAlign: 'center' }}>FILTERS</h3>
         <Row>
@@ -154,12 +164,10 @@ function Search({
           Diet <GiAvocado style={{height: '25px'}}></GiAvocado>
         </h2>
         <Select
-          options={[{ value: 'Low Carb', label: 'Low Carb' },
-          { value: 'Gluten-Free', label: 'Gluten-Free' }, 
-          { value: 'Vegetarian', label: 'Vegetarian' }, ]}
+          options = {filteredDiets}
+          value={diets.map(diet => ({ value: diet, label: diet }))}
           onChange={onDietsChange}
           isMulti
-
           menuPlacement="bottom"
           menuPortalTarget={document.body}
           closeMenuOnSelect = {false}
@@ -278,15 +286,15 @@ function Search({
         </Col>
         
         </Row>
-        <div style={{ textAlign: 'center' }}>
-          <button onClick={closeModal} style={{ backgroundColor: '#3a9691', color: 'white', border: 'none', borderRadius: '10px', padding: '0.5vw 1.7vw', cursor: 'pointer' }}>Close</button>
-        </div>
+        <Container style={{ textAlign: 'center' }}>
+          <Button onClick={closeModal} style={{ backgroundColor: '#3a9691', color: 'white', border: 'none', borderRadius: '10px', padding: '0.5vw 1.7vw', cursor: 'pointer' }}>Close</Button>
+        </Container>
       </Modal>               
-          </div>
-        </div>
-      </div>
-   </div>
-  </div>
+          </Container>
+        </Container>
+      </Container>
+   </Container>
+  </Container>
   );
 }
 
