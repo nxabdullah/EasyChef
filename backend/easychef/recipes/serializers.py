@@ -144,10 +144,14 @@ class UpdateCommentSerializer(serializers.ModelSerializer):
 
 
 class RateSerializer(serializers.ModelSerializer):
+    avg_rating = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Rate
-        fields = ['rating']
+        fields = ['rating', 'avg_rating']
 
+    def get_avg_rating(self, obj):
+        return obj.recipe.get_average_rating()
 
 class RecipeSerializer(serializers.ModelSerializer):
     diets = DietSerializer(many=True)

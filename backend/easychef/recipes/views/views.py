@@ -145,6 +145,18 @@ class FavouriteRecipeAPIView(GenericAPIView):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    def get(self, request, *args, **kwargs):
+        recipe_id = self.kwargs['pk']
+        try:
+            recipe = Recipe.objects.get(pk=recipe_id)
+        except Recipe.DoesNotExist:
+            return Response({"detail": "Recipe not found with the given pk."},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        user = self.request.user
+        is_favorited = recipe in user.favourite_recipes.all()
+
+        return Response({"is_favorited": is_favorited})
 
 # ingredients autofill
 class IngredientsAPIView(ListAPIView):
@@ -169,7 +181,7 @@ class IngredientsAPIView(ListAPIView):
         return super().get(request, *args, **kwargs)
 
 
-class RatingsAPIView(CreateAPIView, UpdateAPIView, DestroyAPIView):
+class RatingsAPIView(CreateAPIView, UpdateAPIView, DestroyAPIView, RetrieveAPIView):
     """
     Add rating
     Delete rating
@@ -238,10 +250,36 @@ class RatingsAPIView(CreateAPIView, UpdateAPIView, DestroyAPIView):
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
-    # Put does not make sense here.
     def put(self, request, *args, **kwargs):
-        return Response({"detail": "Method \"PUT\" not allowed."},
-                        status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        try:
+            recipe_id = self.kwargs['pk']
+            Recipe.objects.get(pk=recipe_id)
+        except Recipe.DoesNotExist:
+            return Response({"detail": "Recipe not found with the given pk."},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        instance = self.get_object()
+
+        if not instance:
+            # Create a new rating
+            recipe_id = self.kwargs.get('pk')
+            recipe = get_object_or_404(Recipe, id=recipe_id)
+
+            serializer = RateSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save(user=self.request.user, recipe=recipe)
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            # Update the existing rating
+            serializer = RateSerializer(instance, data=request.data)
+
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
     def delete(self, request, *args, **kwargs):
         try:
