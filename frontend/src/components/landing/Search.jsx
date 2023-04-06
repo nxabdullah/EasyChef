@@ -1,12 +1,20 @@
-
+//DYANMICALLY SET MIN COOK TIME FILTER TOO
+// SELECTED FILTERS:
+// ARROW KEY NAVIGATION
+// OR LOGIC
+// SORT BY
 import { React, useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Tab, Tabs } from 'react-bootstrap';
 import '../../styles/search.css';
 import { useLocation } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 // import {default as ReactSelect} from 'react-select';
 import Select from 'react-select';
 import Modal from 'react-modal';
+import { GiAvocado, GiKnifeFork } from "react-icons/gi";
+import { TbClockRecord } from "react-icons/tb";
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 
 
@@ -14,31 +22,84 @@ function Search({
     searchQuery,
     cuisines,
     diets,
-    minCookTime,
-    maxCookTime,
+    // minCookTime,
+    // maxCookTime,
+    cookTime,
     onSearchChange,
     onCuisinesChange,
     onDietsChange,
-    onMinCookTimeChange,
-    onMaxCookTimeChange,
+    // onMinCookTimeChange,
+    // onMaxCookTimeChange,
+    onCookTimeChange,
    }) {
-  // Generate an array of options for maxCookTime based on the selected minCookTime
-  const generateMaxCookTimeOptions = () => {
-     let options = [<option key="" value="" selected>--</option>];
-    for (let i = 0; i <= 120; i += 15) { //somehow does not work if i = minCookTime and we iterate from there
-      if (i > minCookTime) {
-        options.push(<option key={i} value={i}>{i} mins</option>);
-      }
-    }
-    options.push(<option key="121" value="121">More than 2 hrs</option>)
-    return options;
-  };
+  
 
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
+
+
+  const RangeSlider = () => {
+    const [range, setRange] = useState([null, null]);
+  
+    const handleRangeChange = (values) => {
+      if (values[0] > values[1]) {
+        setRange([range[0], values[0]]);
+      } else if (values[1] < values[0]) {
+        setRange([values[1], range[1]]);
+      } else {
+        setRange(values);
+      }
+    };
+  
+    const railStyle = { backgroundColor: "#ccc", height: "8px", borderRadius: "2px" };
+    const trackStyle = { backgroundColor: "#3a9691", height: "8px", borderRadius: "2px" };
+    const handleStyle = { borderColor: "#3a9691", height: "20px", width: "20px", marginLeft: "-8px", marginTop: "-8px", backgroundColor: "white" };
+    const activeHandleStyle = { borderColor: "#3a9691", height: "20px", width: "20px", marginLeft: "-8px", marginTop: "-8px", backgroundColor: "#3a9691" };
+  
+    return (
+      <div>
+        <Slider
+          range
+          value={range}
+          onChange={handleRangeChange}
+          min={0}
+          max={120}
+          step={5}
+          dotStyle={{ height: 10, width: 10, alignContent: "center" }}
+          railStyle={railStyle}
+          trackStyle={[trackStyle]}
+          handleStyle={[handleStyle, handleStyle]}
+          activeHandleStyle={[activeHandleStyle, activeHandleStyle]}
+          marks={{
+            0: "0 mins",
+            30: "30 mins",
+            60: "1 hr",
+            90: "1 hr 30 mins",
+            120: "2 hrs+",
+          }}
+          style={{
+            width: "45vw",
+            marginLeft: "1vw",
+            height: "3vw",
+          }}
+        />
+        <div>
+          Min Cook Time: {range[0] !== null ? range[0] + " mins" : "---"}
+        </div>
+        <div>
+          Max Cook Time: {range[1] !== null ? range[1] + " mins" : "---"}
+        </div>
+      </div>
+    );
+  };
+
+
+
+
+  
 
   return (
   <div class="row py-lg-5">
@@ -51,37 +112,22 @@ function Search({
             ​<Form.Control id="search-bar" name="q" className="form-control cornerless w-100" type="search" placeholder="Search 100+ recipes" value={searchQuery} onChange={onSearchChange} required />
           </div>
 
-          {/* <Button class="btn btn-primary btn-primary-c" id="search-btn" type="submit" onClick={() => {}}>Search</Button> */} 
-
         </form>
         <h3 class="text-center">Filters</h3>
         <div class="search-filters">
-          {/* <div class="filter">
-            <p>sort by</p>
-      
-              <select class="form-input">
-                  <option value="rel" selected>Relevance</option>
-                  <option value="alp">Alphabetical</option>
-                  <option value="revalp">Reverse Alphabetical</option>
-              </select>                    
-
-          </div> */}
-          <div class="filter" multiple value={cuisines} onChange={onCuisinesChange}>
-            <p> cuisine </p>
-            <select class="form-input">
-              <option value="">--</option>
-              <option value="1">Middle Eastern</option>
-              <option value="2">Italian</option>
-              <option value="4">Asian</option>
-              <option value="5">Indian</option>
-              <option value="6">Sudanese</option>
-              <option value="7">Jamaican</option>
-              <option value="8">French</option> {/*Add options when add recipe complete*/}
-            </select>  
-          </div>
           <div id="diets-filter">
             <p>diet</p>
-      <button onClick={openModal}>Open Modal</button>
+      <button style={{
+    color: '#3a9691',
+    borderRadius: '5px',
+    border: 'none',
+    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
+    cursor: 'pointer',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    width: '110px',
+    height: '30px'
+  }}  onClick={openModal}>Select...</button>
       <Modal
         isOpen={isOpen}
         onRequestClose={closeModal}
@@ -92,7 +138,7 @@ function Search({
           bottom: 'auto',
           marginRight: '-50%',
           transform: 'translate(-50%, -50%)',
-          width: '30vw',
+          width: '50vw',
           height: 'auto',
           border: 'none',
           borderRadius: '10px',
@@ -100,15 +146,80 @@ function Search({
           padding: '20px'
         }}}
         contentLabel="Select Diets"
-      >
+      > 
+         <h3 style={{textAlign: 'center' }}>FILTERS</h3>
+        <Row>
+        <Col>
         <h2 style={{ textAlign: 'center', backgroundColor: '#3a9691', color: 'white', padding: '10px', borderRadius: '10px 10px 0 0' }}>
-          Select Diets
+          Diet <GiAvocado style={{height: '25px'}}></GiAvocado>
         </h2>
         <Select
           options={[{ value: 'Low Carb', label: 'Low Carb' },
           { value: 'Gluten-Free', label: 'Gluten-Free' }, 
           { value: 'Vegetarian', label: 'Vegetarian' }, ]}
           onChange={onDietsChange}
+          isMulti
+
+          menuPlacement="bottom"
+          menuPortalTarget={document.body}
+          closeMenuOnSelect = {false}
+          styles={{
+            container: (provided) => ({
+              ...provided,
+              margin: '20px 0',
+            }),
+            control: (provided) => ({
+              ...provided,
+              borderRadius: '10px',
+              border: '1px solid #ccc',
+              boxShadow: 'none',
+              '&:hover': {
+                border: '1px solid #ccc',
+              },
+            }),
+            option: (provided, state) => ({
+              ...provided,
+              backgroundColor: state.isSelected ? '#3a9691' : 'transparent',
+              color: state.isSelected ? 'white' : '#333',
+              '&:hover': {
+                backgroundColor: '#3a9691',
+                color: 'white',
+              },
+            }),
+            menu: (provided) => ({
+              ...provided,
+              borderRadius: '10px',
+            }),
+            multiValue: (provided) => ({
+              ...provided,
+              borderRadius: '20px',
+              backgroundColor: '#3a9691',
+              color: 'white',
+            }),
+            multiValueLabel: (provided) => ({
+              ...provided,
+              color: 'white',
+            }),
+            multiValueRemove: (provided) => ({
+              ...provided,
+              borderRadius: '0px 15px 15px 0px'
+            }),
+          }}
+        />
+        </Col>
+        <Col>
+        <h2 style={{ textAlign: 'center', backgroundColor: '#3a9691', color: 'white', padding: '10px', borderRadius: '10px 10px 0 0' }}>
+          Cuisine <GiKnifeFork style={{height: '25px'}}></GiKnifeFork>
+        </h2>
+        <Select
+          options={[{ value: 'Middle Eastern', label: 'Middle Eastern' },
+          { value: 'Italian', label: 'Italian' }, 
+          { value: 'Asian', label: 'Asian' },
+          { value: 'Indian', label: 'Indian' },
+          { value: 'Sudanese', label: 'Sudanese' },
+          { value: 'Jamaican', label: 'Jamaican' },
+          { value: 'French', label: 'French' }, ]}
+          onChange={onCuisinesChange}
           isMulti
           menuPlacement="bottom"
           menuPortalTarget={document.body}
@@ -156,96 +267,21 @@ function Search({
             }),
           }}
         />
+        </Col>
+        </Row>
+        <Row>
+        <Col>
+        <h2 style={{ textAlign: 'center', backgroundColor: '#3a9691', color: 'white', padding: '10px', borderRadius: '10px 10px 0 0' }}>
+          Cook Time <TbClockRecord style={{height: '25px'}}></TbClockRecord>
+        </h2>
+          <RangeSlider value={cookTime} onChange={onCookTimeChange}> </RangeSlider>
+        </Col>
+        
+        </Row>
         <div style={{ textAlign: 'center' }}>
           <button onClick={closeModal} style={{ backgroundColor: '#3a9691', color: 'white', border: 'none', borderRadius: '10px', padding: '0.5vw 1.7vw', cursor: 'pointer' }}>Close</button>
         </div>
-      </Modal>
-            {/* <button onClick={openModal}>Open Modal</button>
-            <Modal 
-            isOpen={isOpen} 
-            onRequestClose={closeModal}
-            style={{
-              content: {
-                top: '50%',
-                left: '50%',
-                right: 'auto',
-                bottom: 'auto',
-                marginRight: '-50%',
-                transform: 'translate(-50%, -50%)',
-                width: '30vw',
-                height: '20vw',
-                border: 'none',
-                borderRadius: '10px',
-                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
-                padding: '20px'
-              }
-            }}
-            >
-                <h2 style={{ textAlign: 'center', backgroundColor: '#3a9691', color: 'white', top: '0'}}>Select diets</h2>
-                <Select options={[{value: 'Low Carb', label: 'Low Carb'},
-                      {value: 'Gluten-Free', label: 'Gluten-Free'},
-                      {value: 'Vegetarian', label: 'Vegetarian'},
-                  ]}
-                  onChange={onDietsChange}
-
-                  isMulti
-                   />
-                  <button onClick={closeModal}>Close</button>
-            </Modal> */}
-            {/* <ReactSelect
-            onChange={onDietsChange}
-            options={[{value: 'Low Carb', label: 'Low Carb'},
-                      {value: 'Gluten-Free', label: 'Gluten-Free'},
-                      {value: 'Vegetarian', label: 'Vegetarian'},
-                  ]}
-                  isMulti
-                  closeMenuOnSelect={false}
-                  hideSelectedOptions={true}
-                  menuPlacement="bottom"
-                  menuPosition='fixed'
-                  styles={{
-                    control: (provided) => ({
-                      ...provided,
-                      minHeight: 5,
-                      borderRadius: 5,
-                    }),
-                    toggle: (provided) => ({
-                      ...provided,
-                      height: 5,
-                      width: 5,
-                    }),
-                  }}
-            > </ReactSelect> */}
-            {/* <select class="form-input">
-                <option value="" selected>--</option>
-                <option value="Low Carb">Low Carb</option>
-                <option value="Gluten-Free">Gluten-Free</option>
-                <option value="Vegetarian">Vegetarian</option> {/*Add options when add recipe complete
-            </select>    */}
-                             
-          </div>
-          <div class="filter" multiple value={minCookTime} onChange={onMinCookTimeChange}>
-            <p>min. cook time</p>
-      
-              <select class="form-input">
-                  <option value="0" selected>--</option>
-                  <option value="1">Less than 15 mins</option>
-                  <option value="15">15 mins</option>
-                  <option value="30">30 mins</option>
-                  <option value="45">45 mins</option>
-                  <option value="60">1 hr</option>
-                  <option value="120">2 hrs</option>
-
-              </select>                    
-
-          </div>
-          <div class="filter" multiple value={maxCookTime} onChange={onMaxCookTimeChange}>
-            <p>max. cook time</p>
-            
-              <select class="form-input">
-              {generateMaxCookTimeOptions()}
-              </select>                    
-
+      </Modal>               
           </div>
         </div>
       </div>

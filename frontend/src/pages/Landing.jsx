@@ -20,8 +20,9 @@ function Landing() {
   const [searchQuery, setSearchQuery] = useState('');
   const [cuisines, setCuisines] = useState([]);
   const [diets, setDiets] = useState([]);
-  const [minCookTime, setMinCookTime] = useState('');
-  const [maxCookTime, setMaxCookTime] = useState('');
+  const [cookTime, setCookTime] = useState([0, 120]); // default min and max cook times
+  // const [minCookTime, setMinCookTime] = useState('');
+  // const [maxCookTime, setMaxCookTime] = useState('');
   
 
   //useEffect hook for popular recipes (no params)
@@ -47,8 +48,10 @@ function Landing() {
           search: searchQuery,
           cuisines: cuisines.join(','),
           diets: diets.join(','),
-          min_cook_time: minCookTime,
-          max_cook_time: maxCookTime,
+          // min_cook_time: minCookTime,
+          // max_cook_time: maxCookTime,
+          min_cook_time: cookTime[0],
+          max_cook_time: cookTime[1],
         };
 
         const response = await axios.get(SEARCH_ENDPOINT, { params }); //endpoint plus params
@@ -60,7 +63,8 @@ function Landing() {
     };
 
     fetchRecipes();
-  }, [searchQuery, cuisines, diets, minCookTime, maxCookTime]); //dependency array for the hook (when any of these change, the hook runs again)
+  }, [searchQuery, cuisines, diets, cookTime]); //dependency array for the hook (when any of these change, the hook runs again)
+  // }, [searchQuery, cuisines, diets, minCookTime, maxCookTime]); //dependency array for the hook (when any of these change, the hook runs again)
 
 
   //event handlers to update respective state variables upon user itneraction 
@@ -68,27 +72,29 @@ function Landing() {
     setSearchQuery(event.target.value);
   };
 
-  const handleCuisinesChange = (event) => {
-    setCuisines(Array.from(event.target.selectedOptions, option => option.value));
+  const handleCuisinesChange = (selectedOptions) => {
+    setCuisines(selectedOptions.map(option => option.value));
   };
   const handleDietsChange = (selectedOptions) => {
     setDiets(selectedOptions.map(option => option.value));
   };
 
-  const handleMinCookTimeChange = (event) => {
-    setMinCookTime(event.target.value);
-    // Filter the options of the max cook time based on the selected min cook time
-    // Filter the options of the max cook time based on the selected min cook time
-    const selectedMinCookTime = parseInt(event.target.value);
-    if (selectedMinCookTime !== '') {
-      setMaxCookTime('');
-    }
-  };
+  // const handleMinCookTimeChange = (event) => {
+  //   setMinCookTime(event.target.value);
+  //   // Filter the options of the max cook time based on the selected min cook time
+  //   // Filter the options of the max cook time based on the selected min cook time
+  //   const selectedMinCookTime = parseInt(event.target.value);
+  //   if (selectedMinCookTime !== '') {
+  //     setMaxCookTime('');
+  //   }
+  // };
 
-  const handleMaxCookTimeChange = (event) => {
-    setMaxCookTime(event.target.value);
+  // const handleMaxCookTimeChange = (event) => {
+  //   setMaxCookTime(event.target.value);
+  // };
+  const handleCookTimeChange = (event, newValue) => {
+    setCookTime(newValue);
   };
-
   return (
     <div>
       <Search
@@ -96,14 +102,16 @@ function Landing() {
         searchQuery={searchQuery}
         cuisines={cuisines}
         diets={diets}
-        minCookTime={minCookTime}
-        maxCookTime={maxCookTime}
+        // minCookTime={minCookTime}
+        // maxCookTime={maxCookTime}
+        cookTime={cookTime}
         //call handlers when applicable
         onSearchChange={handleSearchChange}
         onCuisinesChange={handleCuisinesChange}
         onDietsChange={handleDietsChange}
-        onMinCookTimeChange={handleMinCookTimeChange}
-        onMaxCookTimeChange={handleMaxCookTimeChange}
+        // onMinCookTimeChange={handleMinCookTimeChange}
+        // onMaxCookTimeChange={handleMaxCookTimeChange}
+        onCookTimeChange={handleCookTimeChange}
       />
       <h3 className="mb-4">Results</h3>
       <Container>
