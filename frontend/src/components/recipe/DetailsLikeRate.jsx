@@ -57,7 +57,9 @@ function DetailsLikeRate({ numFavs, recipeId }) {
       stars.push(
         <span
           key={i}
-          className={`fa fa-star${i <= Math.round(rating) ? " checked" : ""}`}
+          className={`star fa fa-star${
+            i <= Math.round(rating) ? " checked" : ""
+          }`}
           onClick={() => handleRating(i)}
           onDoubleClick={handleRemoveRating}
         ></span>
@@ -104,11 +106,14 @@ function DetailsLikeRate({ numFavs, recipeId }) {
   return (
     <>
       <div className="mb-2 mt-0">
-        {renderStars()}(
-        {ratingData.avg_rating && ratingData.avg_rating !== 0
-          ? ratingData.avg_rating.toFixed(1)
-          : "No ratings yet"}
-        )
+        <span id="rating-bar">
+          {renderStars()}(
+          {ratingData.avg_rating && ratingData.avg_rating !== 0
+            ? ratingData.avg_rating.toFixed(1)
+            : "No ratings yet"}
+          )
+        </span>
+
         <span>
           <span className="me-1 ms-1">|</span>
           <i
