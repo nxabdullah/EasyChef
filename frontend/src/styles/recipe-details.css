@@ -1,0 +1,164 @@
+.recipe-detail-image {
+  width: 100%;
+}
+
+.recipe-detail.card-body {
+  padding: 40px;
+}
+
+.recipe-detail.card-body h1 {
+  font-weight: 700;
+  color: #333333;
+}
+
+.recipe-detail.card-body h3,
+.recipe-detail.card-body h4 {
+  font-weight: 500;
+  color: #333333;
+}
+
+.recipe-detail.card-body p {
+  color: #333333;
+  font-size: large;
+}
+
+.recipe-details hr {
+  color: rgb(202, 202, 202);
+}
+
+/* prep time, cook time section */
+.recipe-details-icons {
+  display: flex;
+  gap: 2rem;
+}
+.recipe-details-icons i {
+  color: #215754;
+}
+.recipe-details-icons h5,
+.recipe-details-icons p {
+  font-size: medium;
+  color: #85878a;
+}
+
+.recipe-details {
+  color: #333;
+}
+
+/*************** RECIPE DETAILS DONE  ***************/
+
+/* ingredients */
+.list-group li {
+  color: #85878a;
+  border-color: rgb(243, 243, 243);
+}
+
+.list-group .fw-bold {
+  color: #333;
+}
+
+/* comment section */
+.commenter-pic {
+  height: 85px;
+  width: 85px;
+  border-radius: 100%;
+}
+
+#comment-input {
+  padding: 20px;
+  height: 65px;
+}
+
+.recipe-detail .fa-star.checked {
+  color: rgb(248, 189, 60);
+}
+
+.recipe-detail .fa-star:hover {
+  color: rgb(248, 189, 60);
+}
+
+.recipe-detail .fa-star.user-checked {
+  color: rgb(248, 189, 60);
+}
+
+.recipe-detail .fa-star {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.recipe-detail .fa-heart {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.recipe-detail .fa-heart:hover,
+.liked {
+  color: rgb(255, 93, 93);
+}
+
+#comment-input-container label {
+  padding-left: 30px;
+}
+
+.recipe-summary {
+  display: grid;
+  gap: 2rem;
+}
+.recipe-picture {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  border-radius: 3px;
+  height: auto;
+  width: auto;
+  max-width: 80vw;
+}
+
+.recipe-info {
+  color: rgb(100, 97, 97);
+  margin: 1%;
+}
+.recipe-info h3 {
+  text-align: center;
+  color: #215754;
+}
+
+.ingredients,
+.instructions,
+.reviews {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.ingredients h4,
+.instructions h4 {
+  color: #215754;
+  margin-bottom: 10px;
+}
+.reviews h4 {
+  color: #215754;
+  margin-bottom: 10px;
+}
+article button {
+  border: #282c34;
+  background-color: #3a9691;
+  opacity: 94%;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+}
+
+@media screen and (min-width: 1000px) {
+  .recipe-summary {
+    grid-template-columns: auto auto;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  /* CSS rules for screens with width less than 992px go here */
+  .recipe-detail-image {
+    margin-bottom: 40px;
+  }
+}

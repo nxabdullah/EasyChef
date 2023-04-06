@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
-import CustomCard from '../shared/CustomCard';
-import { RECIPE_DETAIL_ENDPOINT } from '../../config/constants';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import CustomCard from "../shared/CustomCard";
+import { RECIPE_DETAIL_ENDPOINT } from "../../config/constants";
+import axios from "axios";
+import DetailsHeader from "./DetailsHeader";
+import "../../styles/recipe-details.css";
 
 function Details({ recipe_id }) {
   const [recipe, setRecipe] = useState(null);
@@ -16,7 +18,7 @@ function Details({ recipe_id }) {
         console.log(response.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching recipe:', error);
+        console.error("Error fetching recipe:", error);
         setLoading(false);
       }
     };
@@ -25,11 +27,11 @@ function Details({ recipe_id }) {
   }, [recipe_id]);
 
   return (
-    <CustomCard>
+    <CustomCard bodyClass={`recipe-detail`}>
       {loading ? (
         <div>Loading...</div> // Replace this with your preferred loading animation
       ) : (
-        <>Recipe details</>
+        <DetailsHeader recipe={recipe} />
       )}
     </CustomCard>
   );
