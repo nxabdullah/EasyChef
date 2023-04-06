@@ -162,3 +162,10 @@ article button {
     margin-bottom: 40px;
   }
 }
+
+/** ingredients -- modifying primereact class */
+.p-inputnumber-button-up,
+.p-inputnumber-button-down {
+  background-color: #056560;
+  border-color: #056560;
+}

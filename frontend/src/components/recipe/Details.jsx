@@ -10,6 +10,7 @@ import "../../styles/recipe-details.css";
 function Details({ recipe_id }) {
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [servingSize, setServingSize] = useState(1);
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -18,6 +19,7 @@ function Details({ recipe_id }) {
         const response = await axios.get(RECIPE_DETAIL_ENDPOINT(recipe_id));
         setRecipe(response.data);
         console.log(response.data);
+        setServingSize(response.data.active_serving_size);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching recipe:", error);
@@ -37,7 +39,11 @@ function Details({ recipe_id }) {
       <CustomCard bodyClass={`recipe-detail`}>
         <DetailsHeader recipe={recipe} />
         <hr className="mt-4" />
-        <DetailsIngredients ingredients={recipe && recipe.ingredients_list} />
+        <DetailsIngredients
+          ingredients={recipe && recipe.ingredients_list}
+          servingSize={servingSize}
+          setServingSize={setServingSize}
+        />
         <hr className="mt-4" />
         <DetailsSteps steps={recipe && recipe.steps} />
       </CustomCard>
