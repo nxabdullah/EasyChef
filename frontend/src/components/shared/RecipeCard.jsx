@@ -45,7 +45,7 @@ function RecipeCard({ id, title, image, description, prep_time, cook_time, servi
 
 RecipeCard.defaultProps = {
   id: 1,
-  title: 'Blueberry Banana Pancakes',
+  title: 'Blueberry',
   image: `${process.env.PUBLIC_URL}/pancake.jpg`,
   description: 'Indulge in a treat with our scrumptious Blueberry Banana Pancakes.',
   prep_time: '30',

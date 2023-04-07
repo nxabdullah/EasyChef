@@ -74,7 +74,7 @@
 /* Move the search icon inside the searchbox */
 #search-input-icon {
     position: relative;
-    z-index: 20;
+    z-index: 1;
     margin-right: -40px;
     color: gray;
 }
@@ -208,4 +208,30 @@ used for search page
     to { opacity: 1 }
 }
 
+.selection {
+    display: inline-flex;
+    align-items: center;
+    background-color: #3a9691;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin-right: 10px;
+  }
+
+  .filter-x {
+    border: none;
+    background: transparent;
+    
+    font-size: 17px;
+    line-height: 14px;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 5px;
+    margin-bottom: 2px;
+  }
+  
+  .filter-x:hover {
+    color: #333;
+  }
 

@@ -20,7 +20,8 @@ function Landing() {
   const [searchQuery, setSearchQuery] = useState('');
   const [cuisines, setCuisines] = useState([]);
   const [diets, setDiets] = useState([]);
-  const [cookTime, setCookTime] = useState([0, 120]); // default min and max cook times
+  const [cookTime, setCookTime] = useState([0, 121]); // default min and max cook times
+
   
 
   //useEffect hook for popular recipes (no params)
@@ -72,7 +73,9 @@ function Landing() {
     setCuisines(selectedOptions.map(option => option.value));
   };
   const handleDietsChange = (selectedOptions) => {
+    console.log(selectedOptions)
     setDiets(selectedOptions.map(option => option.value));
+    console.log(diets)
   };
 
 
