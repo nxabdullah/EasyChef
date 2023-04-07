@@ -169,3 +169,26 @@ article button {
   background-color: #056560;
   border-color: #056560;
 }
+
+.p-button {
+  background-color: #056560;
+  border-color: #056560;
+  border-radius: 4px;
+}
+
+.p-button:hover {
+  background-color: #056560;
+  border-color: #056560;
+  border-radius: 4px;
+}
+
+.p-button:active,
+.p-button:clicked,
+.p-button:focus,
+.p-button:focus-visible,
+.p-button:focus-within,
+.p-button:hover {
+  background-color: #cc5c06;
+  border-color: #d3f300;
+  border-radius: 4px;
+}

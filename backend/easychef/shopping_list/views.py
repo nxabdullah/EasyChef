@@ -12,6 +12,32 @@ from .serializers import ShoppingIngredientsSerializer, ShoppingItemSerializer
 from recipes.models import Recipe
 
 
+class ShoppingListRecipeView(generics.GenericAPIView):
+    """
+    url: /shopping_list/recipes/<int:rid>
+
+    returns the serving size for the given recipe id
+    or null if recipe not in shopping list
+    """
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = ShoppingItem.objects.all()
+
+    def get(self, request, rid, *args, **kwargs):
+        # Get the logged-in user
+        user = request.user
+
+        # Get the shopping item associated with the user and the given recipe id
+        shopping_item = self.queryset.filter(user=user, recipe__id=rid).first()
+
+        if shopping_item:
+            # If the shopping item exists, return the serving size
+            data = {'serving_size': shopping_item.serving_size}
+            return Response(data, status=status.HTTP_200_OK)
+        else:
+            # If the shopping item does not exist, return null
+            data = {'serving_size': None}
+            return Response(data, status=status.HTTP_200_OK)
+
 class ShoppingListAPIView(ListAPIView):
     """
     url: /shopping_list/recipes

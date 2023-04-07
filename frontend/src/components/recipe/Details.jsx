@@ -5,6 +5,7 @@ import axios from "axios";
 import DetailsHeader from "./DetailsHeader";
 import DetailsIngredients from "./DetailsIngredients";
 import DetailsSteps from "./DetailsSteps";
+import DetailsShopping from "./DetailsShopping";
 import "../../styles/recipe-details.css";
 
 function Details({ recipe_id }) {
@@ -46,6 +47,8 @@ function Details({ recipe_id }) {
         />
         <hr className="mt-4" />
         <DetailsSteps steps={recipe && recipe.steps} />
+        <hr className="mt-4" />
+        <DetailsShopping servingSize={servingSize} recipeId={recipe_id} />
       </CustomCard>
     </>
   );

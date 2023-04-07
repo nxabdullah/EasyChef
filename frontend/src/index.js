@@ -9,7 +9,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.js";
 
 //theme
-import "primereact/resources/themes/saga-green/theme.css";
+//import "primereact/resources/themes/lara-light-teal/theme.css";
+import "./styles/theme.css";
 
 //core
 import "primereact/resources/primereact.min.css";
