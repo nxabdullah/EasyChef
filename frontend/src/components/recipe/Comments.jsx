@@ -5,17 +5,22 @@ import CustomCard from "../shared/CustomCard";
 import CommentsPost from "./CommentsPost";
 import CommentsView from "./CommentsView";
 
+// note created_after means created_before, but im too lazy to change it
 function Comments({ recipe_id }) {
   const [comments, setComments] = useState(null);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [lastFetchedCommentTimestamp, setLastFetchedCommentTimestamp] =
+    useState(null);
 
-  const fetchComments = async (page) => {
+  const fetchComments = async (page, created_after = null) => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        `${RECIPE_COMMENTS_ENDPOINT(recipe_id)}?page=${page}`
-      );
+      let url = `${RECIPE_COMMENTS_ENDPOINT(recipe_id)}?page=${page}`;
+      if (created_after) {
+        url += `&created_after=${encodeURIComponent(created_after)}`;
+      }
+      const response = await axios.get(url);
       setLoading(false);
       return response.data;
     } catch (error) {
@@ -26,13 +31,18 @@ function Comments({ recipe_id }) {
 
   useEffect(() => {
     fetchComments(1).then((data) => {
-      if (data) setComments(data);
+      if (data) {
+        setComments(data);
+        if (data.results.length > 0 && lastFetchedCommentTimestamp === null) {
+          setLastFetchedCommentTimestamp(data.results.slice(0)[0].date_created);
+        }
+      }
     });
   }, [recipe_id]);
 
   const loadMore = async () => {
     const nextPage = page + 1;
-    const response = await fetchComments(nextPage);
+    const response = await fetchComments(nextPage, lastFetchedCommentTimestamp);
     if (response && response.results) {
       setComments((prevComments) => ({
         ...response,
@@ -55,7 +65,10 @@ function Comments({ recipe_id }) {
           />
           <CommentsView comments={comments} setComments={setComments} />
           {comments && comments.next && (
-            <button className="btn btn-primary" onClick={loadMore}>
+            <button
+              className="btn btn-primary-c p-button d-block m-auto mb-4"
+              onClick={loadMore}
+            >
               Load more
             </button>
           )}

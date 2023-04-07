@@ -29,7 +29,7 @@ class VideoIDField(serializers.PrimaryKeyRelatedField):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ['first_name', 'last_name', 'profile_picture']
+        fields = ['first_name', 'last_name', 'profile_picture', 'username']
 
 
 class RecipeImageSerializer(serializers.ModelSerializer):
@@ -123,7 +123,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id','description', 'user', 'images', 'videos']
+        fields = ['id','description', 'user', 'images', 'videos', 'date_created']
 
     def get_user(self, obj):
         user = obj.user

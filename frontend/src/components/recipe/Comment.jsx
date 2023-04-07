@@ -58,6 +58,7 @@ function Comment({ comment }) {
               BASE_URL + comment.user.profile_picture
             }
             shape="circle"
+            className="custom-avatar"
           />
         </div>
         <div className="p-1">
