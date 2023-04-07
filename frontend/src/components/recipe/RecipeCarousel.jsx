@@ -3,14 +3,20 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { BASE_URL } from "../../config/constants";
 
-function ImageCarousel({ images = [], videos = [] }) {
+function ImageCarousel({
+  images = [],
+  videos = [],
+  autoPlay = true,
+  showThumbs = false,
+}) {
   return (
     <Carousel
-      autoPlay
+      autoPlay={autoPlay}
       infiniteLoop
       interval={5000}
       showStatus={false}
-      showThumbs={false}
+      showThumbs={showThumbs}
+      dynamicHeight={true}
     >
       {images &&
         images.map((img, index) => (
@@ -28,7 +34,9 @@ function ImageCarousel({ images = [], videos = [] }) {
           <video
             src={BASE_URL + video.video}
             controls
-            className="rounded recipe-detail-video"
+            className="rounded recipe-detail-image"
+            style={{ width: "270px" }}
+            autoPlay
           />
         </div>
       ))}

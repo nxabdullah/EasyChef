@@ -95,7 +95,6 @@ function DetailsShopping({ servingSize, recipeId }) {
             rounded
             onClick={handleButtonClick}
             disabled={loading}
-            loading={loading}
           >
             {inShoppingList ? "Update Shopping List" : "Add To Shopping List"}
           </button>
