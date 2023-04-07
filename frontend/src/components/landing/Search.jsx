@@ -1,13 +1,13 @@
 // SELECTED FILTERS:
 // ARROW KEY NAVIGATION
-// SORT BY
+
 import { React, useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
 import '../../styles/search.css';
 import Select from 'react-select';
 import Modal from 'react-modal';
 import { GiAvocado, GiKnifeFork } from "react-icons/gi";
-import { TbClockRecord } from "react-icons/tb";
+import { TbClockRecord, TbAdjustmentsHorizontal } from "react-icons/tb";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
@@ -57,7 +57,7 @@ function Search({
   }, [cuisines]);
   
 
-  const RangeSlider = () => {
+  const CookTimeSlider = () => {
     const [range, setRange] = useState(cookTime);
     
     const handleRangeChange = (values) => {
@@ -120,30 +120,27 @@ function Search({
   return (
   <Container class="row py-lg-5">
     <Container class="col-lg-10 col-md-12 mx-auto">
-      <h1 id="searchText" className='center'>What would you like to <span id="text-rotation"></span> today?</h1>
+      <h1 id="searchText" className='center mt-4'>What would you like to <span id="text-rotation"></span> today?</h1>
       <Container class="search">
-        <form class="d-flex">
-          <Container class="search-container w-100 mb-4 ms-2">
-            <i class="fa fa-search fa-lg" id="search-input-icon"></i>
-            ​<Form.Control id="search-bar" name="q" className="form-control cornerless w-100" type="search" placeholder="Search 100+ recipes" value={searchQuery} onChange={onSearchChange} required />
-          </Container>
+      <InputGroup class="w-100 d-flex mb-4">
+        <i class="fa fa-search fa-lg ms-5 mt-4" id="search-input-icon"></i>
+        <Form.Control id="search-bar" name="q" className="form-control cornerless flex-grow-1 mb-4 ms-2" type="search" placeholder="Search 100+ recipes" value={searchQuery} onChange={onSearchChange} required />
+        <Button variant= "outline-secondary" id="button-addon2" style={{
+    color: 'white',
+    borderRadius: '0px 5px 5px 0px',
+    border: 'none',
+    backgroundColor: '#3a9691',
+    cursor: 'pointer',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    width: '80px',
+    height: '50px',
+  }} onClick={openModal}> <TbAdjustmentsHorizontal style={{ fontSize: "24px" }}></TbAdjustmentsHorizontal>
+  </Button>
+      </InputGroup>
+        </Container>
 
-        </form>
-        <h3 class="text-center">Filters</h3>
         <Container class="search-filters">
-          <Container id="diets-filter">
-            <p>diet</p>
-      <Button style={{
-        color: '#3a9691',
-        borderRadius: '5px',
-        border: 'none',
-        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
-        cursor: 'pointer',
-        fontSize: '16px',
-        fontWeight: 'bold',
-        width: '110px',
-        height: '30px'
-      }}  onClick={openModal}>Select...</Button>
           <Modal
             isOpen={isOpen}
             onRequestClose={closeModal}
@@ -283,8 +280,8 @@ function Search({
         <h2 style={{ textAlign: 'center', backgroundColor: '#3a9691', color: 'white', padding: '10px', borderRadius: '10px 10px 0 0' }}>
           Cook Time <TbClockRecord style={{height: '25px'}}></TbClockRecord>
         </h2>
-          <RangeSlider  value={cookTime}
-            onChange={onCookTimeChange}> </RangeSlider>
+          <CookTimeSlider  value={cookTime}
+            onChange={onCookTimeChange}> </CookTimeSlider>
         </Col>
         
         </Row>
@@ -295,8 +292,7 @@ function Search({
           </Container>
         </Container>
       </Container>
-   </Container>
-  </Container>
+   
   );
 }
 

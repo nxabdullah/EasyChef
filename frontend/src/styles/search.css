@@ -5,7 +5,17 @@
     from { width: 0 }
     to { width: 100% }
   }
-
+  h1 { 
+    font-weight: 700;
+    overflow: hidden; /* Ensures the content is not revealed until the animation
+    /* border-right: solid #3a9691; The typewriter cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    margin-bottom:20px;
+    animation: 
+      typing 2.5s steps(40, end),
+      blink-caret .75s;
+  }
 @keyframes blink-caret {
     from, to { border-color: transparent }
     50% { border-color: #3a9691 }
@@ -53,7 +63,7 @@
 #search-bar {
     height: 50px;
     border-width: 0.4px;
-    border-radius: 10px;
+    border-radius: 10px 0px 0px 10px;
     padding-left: 45px;
     padding-right: 5px;
     font-size: 20px;
@@ -64,6 +74,7 @@
 /* Move the search icon inside the searchbox */
 #search-input-icon {
     position: relative;
+    z-index: 20;
     margin-right: -40px;
     color: gray;
 }
@@ -78,9 +89,10 @@
 }
 
 .search-filters{
-    display: inline-flex;
+    display: flex;
     gap: 2%;
     text-align: center;
+    align-items: center;
 }
 .filter {
     border: solid 2px #3a9691;
@@ -196,19 +208,4 @@ used for search page
     to { opacity: 1 }
 }
 
-/* #filter-modals::content{
-    top: 50%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    margin-right: -50%;
-    transform: 'translate(-50%, -50%)';
-    width: '50vw';
-    height: 'auto';
-    border: 'none';
-    border-radius: '10px';
-    box-shadow: '0px 0px 10px rgba(0, 0, 0, 0.2)';
-    padding: '20px';
-    
-} */
 
