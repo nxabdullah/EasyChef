@@ -1,9 +1,6 @@
-//DYANMICALLY SET MIN COOK TIME FILTER TOO
 // SELECTED FILTERS:
 // ARROW KEY NAVIGATION
-// OR LOGIC (NOT APPLICABLE IF WERE USING SLIDERS)
 // SORT BY
-// PREPOPULATE
 import { React, useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import '../../styles/search.css';
@@ -13,8 +10,6 @@ import { GiAvocado, GiKnifeFork } from "react-icons/gi";
 import { TbClockRecord } from "react-icons/tb";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-// import RangeSlider from 'react-bootstrap-range-slider';
-// import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 
 
 
@@ -22,14 +17,10 @@ function Search({
     searchQuery,
     cuisines,
     diets,
-    // minCookTime,
-    // maxCookTime,
     cookTime, 
     onSearchChange,
     onCuisinesChange,
     onDietsChange,
-    // onMinCookTimeChange,
-    // onMaxCookTimeChange,
     onCookTimeChange,
    }) {
   
@@ -50,11 +41,25 @@ function Search({
     // Filter out the selected options from the full list of options
     setFilteredDiets(allDiets.filter(option => !diets.includes(option.value)));
   }, [diets]);
+
+  const [allCuisines] = useState([{ value: 'Middle Eastern', label: 'Middle Eastern' },
+  { value: 'Italian', label: 'Italian' }, 
+  { value: 'Asian', label: 'Asian' },
+  { value: 'Indian', label: 'Indian' },
+  { value: 'Sudanese', label: 'Sudanese' },
+  { value: 'Jamaican', label: 'Jamaican' },
+  { value: 'French', label: 'French' }, ]);
+  const [filteredCuisines, setFilteredCuisines] = useState(allCuisines);
+
+  useEffect(() => {
+    // Filter out the selected options from the full list of options
+    setFilteredCuisines(allCuisines.filter(option => !cuisines.includes(option.value)));
+  }, [cuisines]);
   
 
   const RangeSlider = () => {
-    const [range, setRange] = useState([null, null]);
-  
+    const [range, setRange] = useState(cookTime);
+    
     const handleRangeChange = (values) => {
       if (values[0] > values[1]) {
         setRange([range[0], values[0]]);
@@ -63,12 +68,14 @@ function Search({
       } else {
         setRange(values);
       }
+      onCookTimeChange(values);
     };
+    
     const railStyle = { backgroundColor: "#ccc", height: "8px", borderRadius: "2px" };
     const trackStyle = { backgroundColor: "#3a9691", height: "8px", borderRadius: "2px" };
     const handleStyle = { borderColor: "#3a9691", height: "20px", width: "20px", marginLeft: "-8px", marginTop: "-8px", backgroundColor: "white" };
     const activeHandleStyle = { borderColor: "#3a9691", height: "20px", width: "20px", marginLeft: "-8px", marginTop: "-8px", backgroundColor: "#3a9691" };
-  
+    
     return (
       <Container>
         <Slider
@@ -97,15 +104,14 @@ function Search({
           }}
         />
         <Container>
-          Min Cook Time: {range[0] !== null ? range[0] + " mins" : "---"}
+          Min Cook Time: {range[0] !== null ? range[0] + " mins" : 0}
         </Container>
         <Container>
-          Max Cook Time: {range[1] !== null ? range[1] + " mins" : "---"}
+          Max Cook Time: {range[1] !== null ? range[1] + " mins" : 120}
         </Container>
       </Container>
     );
   };
-
 
 
 
@@ -220,14 +226,9 @@ function Search({
           Cuisine <GiKnifeFork style={{height: '25px'}}></GiKnifeFork>
         </h2>
         <Select
-          options={[{ value: 'Middle Eastern', label: 'Middle Eastern' },
-          { value: 'Italian', label: 'Italian' }, 
-          { value: 'Asian', label: 'Asian' },
-          { value: 'Indian', label: 'Indian' },
-          { value: 'Sudanese', label: 'Sudanese' },
-          { value: 'Jamaican', label: 'Jamaican' },
-          { value: 'French', label: 'French' }, ]}
-          onChange={onCuisinesChange}
+           options = {filteredCuisines}
+           value={cuisines.map(cuisine => ({ value: cuisine, label: cuisine }))}
+           onChange={onCuisinesChange}
           isMulti
           menuPlacement="bottom"
           menuPortalTarget={document.body}
@@ -282,7 +283,8 @@ function Search({
         <h2 style={{ textAlign: 'center', backgroundColor: '#3a9691', color: 'white', padding: '10px', borderRadius: '10px 10px 0 0' }}>
           Cook Time <TbClockRecord style={{height: '25px'}}></TbClockRecord>
         </h2>
-          <RangeSlider value={cookTime} onChange={onCookTimeChange}> </RangeSlider>
+          <RangeSlider  value={cookTime}
+            onChange={onCookTimeChange}> </RangeSlider>
         </Col>
         
         </Row>

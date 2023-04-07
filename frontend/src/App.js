@@ -15,6 +15,7 @@ import Landing from "./pages/Landing";
 import Login from './pages/Login';
 import Register from './pages/Register';
 import EditProfile from './pages/EditProfile';
+import MyRecipes from './pages/MyRecipes';
 
 // import constants
 import { ACCOUNT_ENDPOINT } from './config/constants';
@@ -24,6 +25,7 @@ function App() {
   const {token, removeToken} = useToken()
   const [isAuth, setIsAuth] = useState(!!token);
   const [accountInfo, setAccountInfo] = useState(null);
+  const [loading, setLoading] = useState(true); // loading state until profile info is loaded
 
 
   const logout = () => {
@@ -42,13 +44,18 @@ function App() {
         setAccountInfo(response.data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     if (isAuth) {
       fetchAccountInfo();
+    } else {
+      setLoading(false);
     }
   }, [isAuth, token]);
+
 
 
   return (
@@ -59,6 +66,7 @@ function App() {
 
       {/* Route to the correct page as needed */}
       <div className='container mb-4'>
+       {!loading && (
         <Routes>
           <Route exact path='/' element={<Landing />} />
           <Route exact path='/login' element={<Login setLogin={() => setIsAuth(true)}/>} />
@@ -66,6 +74,8 @@ function App() {
           <Route exact path='/profile' element={<EditProfile account={accountInfo} />} />
           <Route partial path='/search' element={<Search />} />
         </Routes>
+        )}
+
       </div>
 
     </Router>
