@@ -21,6 +21,7 @@ import MyRecipes from "./pages/MyRecipes";
 import { ACCOUNT_ENDPOINT } from "./config/constants";
 import Recipe from "./pages/Recipe";
 import Search from "./components/landing/Search";
+import CreateRecipe from "./pages/CreateRecipe";
 
 function App() {
   const { token, removeToken } = useToken();
@@ -87,6 +88,7 @@ function App() {
             />
             <Route exact path="/recipes/:id" element={<Recipe />} />
             <Route partial path="/search" element={<Search />} />
+            <Route exact path="/recipes/create" element={<CreateRecipe />} />
           </Routes>
         )}
       </div>
