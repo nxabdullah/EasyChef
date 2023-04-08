@@ -15,7 +15,6 @@ function ProfileDetailsCard({ account, setAccount }) {
   const { token } = useToken();
   axios.defaults.headers.common["Authorization"] = `Token ${token}`;
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
@@ -30,24 +29,23 @@ function ProfileDetailsCard({ account, setAccount }) {
       setErrorMessage("");
       setErrors({});
 
-        console.log("setting state for account")
-        console.log(response.data);
+      console.log("setting state for account");
+      console.log(response.data);
 
-        // update account state
-        //setAccount(formValues);
-        setAccount(response.data)
+      // update account state
+      //setAccount(formValues);
+      setAccount(response.data);
     } catch (error) {
       if (error.response && error.response.data) {
         setErrors(error.response.data);
         setErrorMessage("There was an error updating your profile.");
       } else {
         setErrorMessage("An unexpected error occurred. Please try again.");
-        console.log(error)
+        console.log(error);
       }
       setSuccessMessage("");
     }
   };
-
 
   return (
     <CustomCard title={`Profile`}>
@@ -56,11 +54,9 @@ function ProfileDetailsCard({ account, setAccount }) {
       )}
       {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
       <form className="row" onSubmit={handleSubmit}>
-
         <div className="col-12">
-            <ProfilePictureUpload account={account} />
+          <ProfilePictureUpload account={account} setAccount={setAccount} />
         </div>
-
 
         <div className="col-md-6 mt-4">
           <label className="form-label">First Name</label>
@@ -68,8 +64,8 @@ function ProfileDetailsCard({ account, setAccount }) {
             type="text"
             name="first_name"
             className="form-control"
-            onChange = {handleChange}
-            value={formValues.first_name || ''}
+            onChange={handleChange}
+            value={formValues.first_name || ""}
             placeholder="Enter your first name"
           />
           {errors.first_name && (
@@ -83,8 +79,8 @@ function ProfileDetailsCard({ account, setAccount }) {
             type="text"
             name="last_name"
             className="form-control"
-            onChange = {handleChange}
-            value={formValues.last_name || ''}
+            onChange={handleChange}
+            value={formValues.last_name || ""}
             placeholder="Enter your last name"
           />
           {errors.last_name && (
@@ -98,8 +94,8 @@ function ProfileDetailsCard({ account, setAccount }) {
             type="email"
             name="email"
             className="form-control"
-            onChange = {handleChange}
-            value={formValues.email || ''}
+            onChange={handleChange}
+            value={formValues.email || ""}
             placeholder="Enter your email"
           />
           {errors.email && (
@@ -113,8 +109,8 @@ function ProfileDetailsCard({ account, setAccount }) {
             type="text"
             name="phone_number"
             className="form-control"
-            onChange = {handleChange}
-            value={formValues.phone_number || ''}
+            onChange={handleChange}
+            value={formValues.phone_number || ""}
             placeholder="Enter your phone number"
           />
           {errors.phone_number && (

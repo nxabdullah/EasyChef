@@ -4,11 +4,21 @@ import { Modal } from "react-bootstrap";
 import { ACCOUNT_ENDPOINT } from "../../config/constants";
 import useToken from "../../hooks/useToken";
 import { Avatar } from "primereact/avatar";
+import ProfileAvatar from "./ProfileAvatar";
 
-function ProfilePictureUpload({ account }) {
+function ProfilePictureUpload({ account, setAccount }) {
   const [imagePreview, setImagePreview] = useState(null);
   const [file, setFile] = useState(null); // Add a state to store the selected file
   const [showModal, setShowModal] = useState(false);
+
+  // if these are true then saving and removing of images will be handled
+  // I will reset these to false after
+  // -> modal is closed
+  // -> save button is clicked
+  // -> cancel button is clicked
+  // -> modal is opened
+  const [remove, setRemove] = useState(false);
+  const [save, setSave] = useState(false);
 
   const { token } = useToken();
   axios.defaults.headers.common["Authorization"] = `Token ${token}`;
@@ -28,82 +38,86 @@ function ProfilePictureUpload({ account }) {
   const handleSave = async () => {
     console.log("Save profile picture");
 
-    // create form data
-    const formData = new FormData();
-    formData.append("profile_picture", file);
-
-    // Send a PATCH request to ACCOUNT_ENDPOINT with profile_photo
-    try {
-      const response = await axios.patch(ACCOUNT_ENDPOINT, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log("Profile picture updated:", response.data);
-    } catch (error) {
-      console.error("Error updating profile picture:", error); // TODO: improve this later
+    if (remove === true) {
+      // send axios patch request to with profile_picture = null
+      try {
+        const response = await axios.patch(ACCOUNT_ENDPOINT, {
+          profile_picture: null,
+        });
+        setAccount(response.data);
+      } catch (error) {
+        console.error("Error removing profile picture:", error);
+      }
     }
 
+    if (save === true) {
+      const formData = new FormData();
+      formData.append("profile_picture", file);
+
+      // Send a PATCH request to ACCOUNT_ENDPOINT with profile_photo
+      try {
+        const response = await axios.patch(ACCOUNT_ENDPOINT, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        setAccount(response.data);
+      } catch (error) {
+        console.error("Error updating profile picture:", error);
+      }
+    }
+
+    resetRemoveSave();
     setShowModal(false);
   };
 
-  // TODO: add a loading spinner.
+  const handleRemove = () => {
+    setImagePreview(null);
+    setRemove(true);
+  };
+
+  const resetRemoveSave = () => {
+    setRemove(false);
+    setSave(false);
+  };
 
   return (
     <>
       <label className="form-label">Profile Photo</label>
       <div>
         <label className="me-4" htmlFor="upload-image">
-          {/* <img
-            id="upload-image-preview"
-            className="rounded-circle border"
-            style={{ width: "100px", height: "100px" }}
-            src={getProfileImage()}
-            alt="Profile"
-          /> */}
-
-          <Avatar
-            label={
-              account.first_name
-                ? account.first_name[0].toUpperCase() +
-                  account.last_name[0].toUpperCase()
-                : account.username[0].toUpperCase()
-            }
-            size="xlarge"
-            shape="circle"
-            style={{
-              width: "75px",
-              height: "75px",
-            }}
-          />
+          <ProfileAvatar account={account} />
         </label>
       </div>
       <label
         className="link-primary-c"
         id="upload-image-label"
-        onClick={() => setShowModal(true)}
+        onClick={() => {
+          setShowModal(true);
+          setImagePreview(account.profile_picture);
+          resetRemoveSave();
+        }}
       >
         <strong>Click here to change</strong>
       </label>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      {/* MODAL */}
+
+      <Modal
+        show={showModal}
+        onHide={() => {
+          setShowModal(false);
+          resetRemoveSave();
+        }}
+      >
         <Modal.Body id="profile-image-upload-modal-body">
           <div id="profile-image-upload-modal-body-title">
-            {/* {imagePreview ? (
-              <img
-                id="modal-upload-image-preview"
-                className="rounded-circle border"
-                src={imagePreview}
-                alt="Profile"
-              />
-            ) : (
-              <img
-                id="modal-upload-image-preview"
-                className="rounded-circle border"
-                // src={getProfileImage()}
-                alt="Profile"
-              />
-            )} */}
+            <ProfileAvatar
+              account={account}
+              customImage={imagePreview}
+              custom={true}
+              id="modal-upload-image-preview"
+            />
             <h5>Profile Photo</h5>
           </div>
 
@@ -121,20 +135,22 @@ function ProfilePictureUpload({ account }) {
           </div>
 
           <div className="profile-image-upload-modal-body-button profile-image-upload-modal-body-button-end">
-            <label className="link-danger link-primary-danger-c">
+            <label
+              className="link-danger link-primary-danger-c"
+              onClick={() => handleRemove()}
+            >
               <strong>Remove Current Photo</strong>
             </label>
           </div>
-
-          {/*<div className="profile-image-upload-modal-body-button profile-image-upload-modal-body-button-end">
-                <label>Cancel</label>
-            </div>*/}
         </Modal.Body>
 
         <Modal.Footer>
           <button
             className="btn btn-sm btn-secondary"
-            onClick={() => setShowModal(false)}
+            onClick={() => {
+              resetRemoveSave();
+              setShowModal(false);
+            }}
           >
             Cancel
           </button>
