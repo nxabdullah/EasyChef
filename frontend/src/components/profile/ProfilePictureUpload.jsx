@@ -33,6 +33,8 @@ function ProfilePictureUpload({ account, setAccount }) {
       setImagePreview(e.target.result);
     };
     reader.readAsDataURL(selectedFile); // Pass the selectedFile instead of file
+
+    setSave(true);
   };
 
   const handleSave = async () => {
