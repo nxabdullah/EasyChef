@@ -32,6 +32,7 @@ function DetailsSteps({ steps }) {
           <RecipeCarousel
             images={step.images}
             videos={step.videos}
+            dynamicHeight={false}
             className="mt-4"
           />
         </div>

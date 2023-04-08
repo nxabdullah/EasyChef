@@ -8,6 +8,7 @@ function ImageCarousel({
   videos = [],
   autoPlay = true,
   showThumbs = false,
+  dynamicHeight = true,
 }) {
   return (
     <Carousel
@@ -16,7 +17,7 @@ function ImageCarousel({
       interval={5000}
       showStatus={false}
       showThumbs={showThumbs}
-      dynamicHeight={true}
+      dynamicHeight={dynamicHeight}
     >
       {images &&
         images.map((img, index) => (
