@@ -20,6 +20,7 @@ import MyRecipes from './pages/MyRecipes';
 // import constants
 import { ACCOUNT_ENDPOINT } from './config/constants';
 import Recipe from './pages/Recipe';
+import Search from './components/landing/Search';
 
 function App() {
   const {token, removeToken} = useToken()
@@ -73,8 +74,10 @@ function App() {
             <Route exact path='/register' element={<Register />} />
             <Route exact path='/profile' element={<EditProfile account={accountInfo} setAccount={setAccountInfo} />} />
             <Route exact path='/recipes/:id' element={<Recipe />} />
+            <Route partial path='/search' element={<Search />} />
           </Routes>
         )}
+
       </div>
 
     </Router>
