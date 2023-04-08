@@ -72,15 +72,14 @@ function Landing() {
   const handleCuisinesChange = (selectedOptions) => {
     setCuisines(selectedOptions.map(option => option.value));
   };
-  const handleDietsChange = (selectedOptions) => {
-    console.log(selectedOptions)
+  const handleDietsChange = (selectedOptions) => {    
     setDiets(selectedOptions.map(option => option.value));
-    console.log(diets)
   };
 
 
   const handleCookTimeChange = (newValue) => {
     setCookTime(newValue);
+
   };
   
   return (
