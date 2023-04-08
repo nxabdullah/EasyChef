@@ -11,7 +11,7 @@ const IngredientsList = ({
   return (
     <Row className="mt-4">
       <div className="col-md-12">
-        <label>Ingredients and their corresponding quantity</label>
+        <label>Ingredients and their corresponding quantity in grams</label>
         {ingredients.map((ingredient, index) => (
           <div key={index} className="d-flex mt-2">
             <InputText
@@ -24,7 +24,7 @@ const IngredientsList = ({
             />
             <InputText
               className="recipe-form-input"
-              placeholder="500g"
+              placeholder="500"
               style={{ width: "70%" }}
               value={ingredient.quantity}
               onChange={(e) =>
@@ -41,7 +41,7 @@ const IngredientsList = ({
             text
             style={{ fontSize: "13px", height: "35px" }}
           >
-            Add More
+            Click to add more steps
           </Button>
         </div>
       </div>

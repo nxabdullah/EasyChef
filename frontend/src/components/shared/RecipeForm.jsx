@@ -54,6 +54,15 @@ function RecipeForm() {
       cook_time: null,
       diets: [],
       ingredients: [{ name: "", quantity: "" }],
+      steps: [
+        {
+          description: "",
+          prep_time: "",
+          cook_time: "",
+          images: [],
+          videos: [],
+        },
+      ],
     },
     validationSchema,
     onSubmit: (values) => {
@@ -81,6 +90,26 @@ function RecipeForm() {
       i === index ? { ...ingredient, [fieldName]: value } : ingredient
     );
     formik.setFieldValue("ingredients", updatedIngredients);
+  };
+
+  const handleStepChange = (index, fieldName, value) => {
+    const updatedSteps = formik.values.steps.map((step, i) =>
+      i === index ? { ...step, [fieldName]: value } : step
+    );
+    formik.setFieldValue("steps", updatedSteps);
+  };
+
+  const addStep = () => {
+    formik.setFieldValue("steps", [
+      ...formik.values.steps,
+      {
+        description: "",
+        prep_time: "",
+        cook_time: "",
+        images: [],
+        videos: [],
+      },
+    ]);
   };
 
   return (
@@ -216,10 +245,33 @@ function RecipeForm() {
       />
 
       <Row className="mt-4">
-        <Col>
-          <label className="mb-2">Please enter all steps for this recipe</label>
-          <RecipeStep />
-        </Col>
+        <label className="mb-2">
+          Please enter all of the steps for this recipe
+        </label>
+        {formik.values.steps.map((step, index) => (
+          <>
+            <label className="mb-3 mt-3">Step {index + 1}</label>
+            <RecipeStep
+              key={index}
+              step={step}
+              handleStepChange={(fieldName, value) =>
+                handleStepChange(index, fieldName, value)
+              }
+              index={index}
+            />
+          </>
+        ))}
+        <div className="col-lg-3 col-md-4 col-sm-7">
+          <Button
+            className="mt-4"
+            onClick={addStep}
+            severity="secondary"
+            text
+            style={{ fontSize: "13px", height: "35px" }}
+          >
+            Click to add more steps
+          </Button>
+        </div>
       </Row>
 
       <Button type="submit" className="btn btn-primary-c mt-4 mb-4 float-end">
