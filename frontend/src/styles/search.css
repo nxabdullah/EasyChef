@@ -74,7 +74,7 @@
 /* Move the search icon inside the searchbox */
 #search-input-icon {
     position: relative;
-    z-index: 1;
+    z-index: 20;
     margin-right: -40px;
     color: gray;
 }
