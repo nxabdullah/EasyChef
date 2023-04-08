@@ -214,7 +214,7 @@ recipes = [{
     "prep_time": 5,
     "cook_time": 45,
     "diets": [{"name": "Vegetarian"}],
-    "cuisines": [{"name": "Pakistani"}],
+    "cuisines": [{"name": "South Asian"}],
     "ingredients": [
         {"name": "whole milk", "quantity": 4},
         {"name": "basmati rice", "quantity": 0.25},
@@ -261,7 +261,7 @@ recipes = [{
   "prep_time": 30,
   "cook_time": 25,
   "diets": [{"name": "Dairy-Free"}],
-  "cuisines": [{"name": "Argentine"}],
+  "cuisines": [{"name": "Latin American"}],
   "ingredients": [
     {"name": "ground beef", "quantity": 500},
     {"name": "onion, chopped", "quantity": 1},
@@ -308,7 +308,7 @@ recipes = [{
   "prep_time": 10,
   "cook_time": 15,
   "diets": [{"name": "Vegetarian"}],
-  "cuisines": [{"name": "Turkish"}],
+  "cuisines": [{"name": "Mediterranean"}],
   "ingredients": [
     {"name": "olive oil", "quantity": 2},
     {"name": "onion", "quantity": 1},
@@ -369,7 +369,7 @@ recipes = [{
   "prep_time": 20,
   "cook_time": 90,
   "diets": [{"name": "Gluten-Free"}],
-  "cuisines": [{"name": "New Zealand"}],
+  "cuisines": [{"name": "Oceanic"}],
   "ingredients": [
     {"name": "egg whites", "quantity": 6},
     {"name": "caster sugar", "quantity": 1.5},
@@ -438,7 +438,7 @@ recipes = [{
    "prep_time": 30,
    "cook_time": 120,
    "diets": [{"name": "Vegetarian"}, {"name": "Vegan"}],
-   "cuisines": [{"name": "Ukrainian"}],
+   "cuisines": [{"name": "Eastern European"}],
    "ingredients": [
       {"name": "beets", "quantity": 4},
       {"name": "carrots", "quantity": 2},
@@ -493,7 +493,7 @@ recipes = [{
    "prep_time": 45,
    "cook_time": 150,
    "diets": [{"name": "Gluten-Free"}],
-   "cuisines": [{"name": "Romanian"}],
+   "cuisines": [{"name": "Eastern European"}],
    "ingredients": [
       {"name": "head of cabbage", "quantity": 1},
       {"name": "minced pork", "quantity": 500},
@@ -560,7 +560,7 @@ recipes = [{
     {"name": "Gluten-Free"}
     ],
     "cuisines": [
-    {"name": "Pakistani"}
+    {"name": "South Asian"}
     ],
     "ingredients": [
     {"name": "basmati rice", "quantity": 2},
@@ -632,7 +632,7 @@ recipes = [{
    "prep_time": 10,
    "cook_time": 20,
    "diets": [{"name": "Gluten-Free"}],
-   "cuisines": [{"name": "Bruneian"}, {"name": "Malaysian"}],
+   "cuisines": [{"name": "South-east Asian"}],
    "ingredients": [
       {"name": "sago starch", "quantity": 200},
       {"name": "water", "quantity": 1},
@@ -675,7 +675,7 @@ recipes = [{
    "prep_time": 20,
    "cook_time": 60,
    "diets": [{"name": "Gluten-Free"}, {"name": "Dairy-Free"}],
-   "cuisines": [{"name": "Congolese"}],
+   "cuisines": [{"name": "Central African"}],
    "ingredients": [
       {"name": "chicken", "quantity": 1.5},
       {"name": "palm nut pulp", "quantity": 800},
@@ -747,7 +747,7 @@ recipes = [{
     "prep_time": 20,
     "cook_time": 60,
     "diets": [{"name": "Vegetarian"}],
-    "cuisines": [{"name": "Samoan"}],
+    "cuisines": [{"name": "Oceanic"}],
     "ingredients": [
         {"name": "taro leaves", "quantity": 1.5},
         {"name": "coconut cream", "quantity": 1},
@@ -806,7 +806,7 @@ recipes = [{
     "prep_time": 20,
     "cook_time": 30,
     "diets": [{"name": "Vegetarian"}],
-    "cuisines": [{"name": "Barbadian"}],
+    "cuisines": [{"name": "Caribbean"}],
     "ingredients": [
         {"name": "cornmeal", "quantity": 1.5},
         {"name": "okra", "quantity": 10},
@@ -845,7 +845,7 @@ recipes = [{
    "prep_time": 20,
    "cook_time": 30,
    "diets": [{"name": "Gluten-Free"}],
-   "cuisines": [{"name": "Jamaican"}],
+   "cuisines": [{"name": "Caribbean"}],
    "ingredients": [
       {"name": "salt codfish", "quantity": 1},
       {"name": "ackee", "quantity": 2},
