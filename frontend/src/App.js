@@ -19,6 +19,7 @@ import MyRecipes from './pages/MyRecipes';
 
 // import constants
 import { ACCOUNT_ENDPOINT } from './config/constants';
+import Search from './components/landing/Search';
 
 function App() {
   const {token, removeToken} = useToken()
@@ -65,14 +66,16 @@ function App() {
 
       {/* Route to the correct page as needed */}
       <div className='container mb-4'>
-        {!loading && (
-          <Routes>
-            <Route exact path='/' element={<Landing />} />
-            <Route exact path='/login' element={<Login setLogin={() => setIsAuth(true)} />} />
-            <Route exact path='/register' element={<Register />} />
-            <Route exact path='/profile' element={<EditProfile account={accountInfo} setAccount={setAccountInfo} />} />
-          </Routes>
+       {!loading && (
+        <Routes>
+          <Route exact path='/' element={<Landing />} />
+          <Route exact path='/login' element={<Login setLogin={() => setIsAuth(true)}/>} />
+          <Route exact path='/register' element={<Register />} />
+          <Route exact path='/profile' element={<EditProfile account={accountInfo} />} />
+          <Route partial path='/search' element={<Search />} />
+        </Routes>
         )}
+
       </div>
 
     </Router>
