@@ -29,7 +29,7 @@ class VideoIDField(serializers.PrimaryKeyRelatedField):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ['first_name', 'last_name', 'profile_picture']
+        fields = ['first_name', 'last_name', 'profile_picture', 'username']
 
 
 class RecipeImageSerializer(serializers.ModelSerializer):
@@ -123,7 +123,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id','description', 'user', 'images', 'videos']
+        fields = ['id','description', 'user', 'images', 'videos', 'date_created']
 
     def get_user(self, obj):
         user = obj.user
@@ -144,10 +144,14 @@ class UpdateCommentSerializer(serializers.ModelSerializer):
 
 
 class RateSerializer(serializers.ModelSerializer):
+    avg_rating = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Rate
-        fields = ['rating']
+        fields = ['rating', 'avg_rating']
 
+    def get_avg_rating(self, obj):
+        return obj.recipe.get_average_rating()
 
 class RecipeSerializer(serializers.ModelSerializer):
     diets = DietSerializer(many=True)
@@ -245,7 +249,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         instance.cook_time = validated_data.get('cook_time', instance.cook_time)
         instance.serving_size = validated_data.get('serving_size',
                                                    instance.serving_size)
-        images = validated_data.pop('images', instance.images)
+        images = validated_data.get('images', None)
 
         # Update many-to-many fields
         if 'diets' in validated_data:
@@ -277,15 +281,21 @@ class RecipeSerializer(serializers.ModelSerializer):
         # many to one relationship.. must be handled differently.
         if 'steps' in validated_data:
             instance.steps.all().delete()  # its ok to delete - steps r specific
-            step_data = validated_data['steps']
-            for step in step_data:
-                s = Step.objects.create(**step,
+            steps = validated_data['steps']
+            for step_data in steps:
+                step_images = step_data.pop('images', [])
+                step_videos = step_data.pop('videos', [])
+                s = Step.objects.create(**step_data,
                                         recipe=instance)
-                # instance.steps.add(s)
+                s.images.add(*step_images)
+                s.videos.add(*step_videos)
+
 
         # add the images
-        instance.images.clear()
-        instance.images.add(*images)
+        if 'images' in validated_data:
+            instance.images.clear()
+            if images:
+                instance.images.add(*images)
 
         # Return the updated instance
         instance.save()
