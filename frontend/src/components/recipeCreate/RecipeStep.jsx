@@ -84,6 +84,7 @@ function RecipeStep({ step, handleStepChange, index }) {
                     icon="pi pi-times"
                     severity="danger"
                     onClick={() => handleDeleteImage(image)}
+                    type="button"
                   ></Button>
                   <Image
                     src={image.image}
@@ -109,6 +110,7 @@ function RecipeStep({ step, handleStepChange, index }) {
                     icon="pi pi-times"
                     severity="danger"
                     onClick={() => handleDeleteVideo(video)}
+                    type="button"
                   ></Button>
                   <video
                     src={video.video}

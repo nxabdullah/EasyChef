@@ -70,3 +70,16 @@ h6 {
 .form-add-link {
   cursor: pointer;
 }
+
+.autocomplete-custom input {
+  padding: 0.375rem 0.75rem;
+  font-family: "Alegreya Sans", sans-serif;
+  width: 100%;
+  border: 1px solid #e6ecf3;
+  border-radius: 0.25rem;
+}
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  /* color: #444; */
+  opacity: 0.75; /* Firefox */
+}

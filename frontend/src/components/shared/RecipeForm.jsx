@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 import { Row, Col } from "react-bootstrap";
 import { InputText } from "primereact/inputtext";
-import { InputNumber } from "primereact/inputnumber";
 import { InputTextarea } from "primereact/inputtextarea";
-import { MultiSelect } from "primereact/multiselect";
 import { Button } from "primereact/button";
-import { Dialog } from "primereact/dialog";
 import CustomMultiSelect from "./CustomMultiSelect";
 import IngredientsList from "../recipeCreate/IngredientsList";
 import RecipeStep from "../recipeCreate/RecipeStep";
+import RecipeMedia from "../recipeCreate/RecipeMedia";
+import { Toast } from "primereact/toast";
 
 const RecipeCusines = ["Chinese", "Italian", "Mexican", "Japanese", "Indian"];
 const RecipeDiets = [
@@ -31,19 +31,43 @@ const validationSchema = Yup.object({
   description: Yup.string().required("Description is required"),
   cuisines: Yup.array().required("At least one cuisine is required"),
   serving_size: Yup.number()
+    .transform((value, originalValue) => (isNaN(value) ? undefined : value))
+    .nullable()
     .positive("Serving size must be a positive number")
     .required("Serving size is required"),
   prep_time: Yup.number()
+    .nullable()
+    .transform((value, originalValue) => (isNaN(value) ? undefined : value))
     .positive("Prep time must be a positive number")
     .required("Prep time is required"),
   cook_time: Yup.number()
+    .nullable()
+    .transform((value, originalValue) => (isNaN(value) ? undefined : value))
     .positive("Cook time must be a positive number")
     .required("Cook time is required"),
-  diets: Yup.array().required("At least one diet is required"),
+  ingredients: Yup.array().required("At least one ingredient is required"),
+  steps: Yup.array()
+    .of(
+      Yup.object().shape({
+        description: Yup.string().test(
+          "is-not-empty",
+          "Step description is required",
+          (value) => value && value.trim() !== ""
+        ),
+        prep_time: Yup.number().nullable(),
+        cook_time: Yup.number().nullable(),
+        images: Yup.array(),
+        videos: Yup.array(),
+      })
+    )
+    .min(1, "At least one step is required")
+    .required("At least one step is required"),
 });
 
 function RecipeForm() {
   const [recipeCuisines, setRecipeCuisines] = useState(RecipeCusines);
+  const toast = useRef(null);
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -57,17 +81,53 @@ function RecipeForm() {
       steps: [
         {
           description: "",
-          prep_time: "",
-          cook_time: "",
+          prep_time: null,
+          cook_time: null,
           images: [],
           videos: [],
         },
       ],
+      images: [],
+      videos: [],
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log("Form data:", values);
+      // Format the data
+      const formattedValues = {
+        ...values,
+        diets: values.diets.map((diet) => ({ name: diet })),
+        cuisines: values.cuisines.map((cuisine) => ({ name: cuisine })),
+        ingredients: values.ingredients.filter((ingredient) => ingredient.name),
+        images: values.images.map((image) => image.id),
+      };
+
+      axios
+        .post("http://127.0.0.1:8000/api/recipes/", formattedValues, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          toast.current.show({
+            severity: "success",
+            summary: "Success",
+            detail: "Recipe submitted successfully",
+            life: 3000,
+          });
+          formik.resetForm();
+          formik.setFieldValue("images", []);
+        })
+        .catch((error) => {
+          toast.current.show({
+            severity: "error",
+            summary: "Error",
+            detail: error.message,
+            life: 5000,
+          });
+        });
     },
+    validateOnChange: true,
+    validateOnBlur: false,
   });
 
   const handleCuisinesChange = (e) => {
@@ -114,6 +174,7 @@ function RecipeForm() {
 
   return (
     <form onSubmit={formik.handleSubmit}>
+      <Toast ref={toast} />
       <Row>
         <div className="col-md-12 mt-4">
           <label className="form-label" htmlFor="name">
@@ -244,7 +305,7 @@ function RecipeForm() {
         addIngredient={addIngredient}
       />
 
-      <Row className="mt-4">
+      <Row className="mt-4 mb-4">
         <label className="mb-2">
           Please enter all of the steps for this recipe
         </label>
@@ -268,9 +329,33 @@ function RecipeForm() {
             severity="secondary"
             text
             style={{ fontSize: "13px", height: "35px" }}
+            type="button"
           >
             Click to add more steps
           </Button>
+        </div>
+        {/* {formik.touched.steps && formik.errors.steps ? (
+          <div className="text-danger">{formik.errors.steps}</div>
+        ) : null} */}
+        {formik.touched.steps && formik.errors.steps ? (
+          <div className="text-danger">
+            {typeof formik.errors.steps === "string"
+              ? formik.errors.steps
+              : "Step 1 is required."}
+          </div>
+        ) : null}
+      </Row>
+
+      <Row>
+        <div className="col-md-12 mt-4">
+          <label>Add images or videos to your recipe</label>
+          <br />
+          <RecipeMedia
+            images={formik.values.images}
+            setImages={(newImages) => formik.setFieldValue("images", newImages)}
+            videos={formik.values.videos}
+            setVideos={(newVideos) => formik.setFieldValue("videos", newVideos)}
+          />{" "}
         </div>
       </Row>
 

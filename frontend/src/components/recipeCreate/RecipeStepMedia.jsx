@@ -81,6 +81,7 @@ function RecipeStepMedia({ images, setImages, videos, setVideos }) {
         size="small"
         className="float-end mt-2 me-3"
         onClick={triggerImageUpload}
+        type="button"
       />
 
       <input
@@ -100,6 +101,7 @@ function RecipeStepMedia({ images, setImages, videos, setVideos }) {
         size="small"
         className="float-end mt-2 me-3"
         onClick={triggerVideoUpload}
+        type="button"
       />
     </>
   );
