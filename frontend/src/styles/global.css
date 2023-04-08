@@ -234,3 +234,7 @@ a.dropdown-item:focus i {
 div.p-avatar.p-component.p-avatar-circle.p-avatar-xl {
   margin-bottom: 10px;
 }
+
+.font-alv {
+  font-family: "Alegreya Sans", sans-serif;
+}

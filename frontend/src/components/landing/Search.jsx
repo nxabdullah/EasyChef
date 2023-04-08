@@ -10,6 +10,7 @@ import { GiAvocado, GiKnifeFork } from "react-icons/gi";
 import { TbClockRecord, TbAdjustmentsHorizontal } from "react-icons/tb";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import { InputText } from "primereact/inputtext";
 
 function Search({
   searchQuery,
@@ -244,7 +245,7 @@ function Search({
         <Container class="search">
           <InputGroup class="w-100 d-flex mb-4">
             <i class="fa fa-search fa-lg ms-5 mt-4" id="search-input-icon"></i>
-            <Form.Control
+            {/* <Form.Control
               id="search-bar"
               name="q"
               className="form-control cornerless flex-grow-1 mb-4 ms-2"
@@ -253,7 +254,23 @@ function Search({
               value={searchQuery}
               onChange={onSearchChange}
               required
+              autoFill={false}
+            /> */}
+
+            <InputText
+              id="search-bar"
+              name="q"
+              placeholder="Search 100+ recipes"
+              value={searchQuery}
+              onChange={onSearchChange}
+              className="form-control cornerless flex-grow-1 mb-4 ms-2 font-alv"
+              style={{
+                fontSize: "18px",
+                fontWeight: 300,
+              }}
+              autoComplete="off"
             />
+
             <Button
               variant="outline-secondary"
               id="button-addon2"

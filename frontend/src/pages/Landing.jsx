@@ -5,15 +5,7 @@ import axios from "axios";
 import Search from "../components/landing/Search.jsx";
 import RecipeCard from "../components/shared/RecipeCard.jsx";
 import { SEARCH_ENDPOINT } from "../config/constants";
-import { Container, Row, Col } from "react-bootstrap";
-// /*
-//   Plan:
-//     The search query and filters are going to be stored as state
-//     Everytime the user change them, the recipe cards should update accordingly
 
-//     Initially, there will be no query (that's okay, because empty query results in
-//     all recipes sorted by popularity).
-// */
 function Landing() {
   //Set states for searchQuery and filters as planned
   const [popularRecipes, setPopularRecipes] = useState([]);
@@ -91,23 +83,23 @@ function Landing() {
         onDietsChange={handleDietsChange}
         onCookTimeChange={handleCookTimeChange}
       />
-      <h3 className="mb-4">Results</h3>
-      <Container>
-        <Row>
-          {popularRecipes.map((recipe, index) => (
-            <Col key={recipe.id} md={4} className="mb-4">
-              <RecipeCard
-                id={recipe.id}
-                title={recipe.name}
-                image={recipe.images[0] && recipe.images[0].image}
-                time={recipe.totalTime}
-                rating={recipe.rating}
-                numReviews={recipe.numReviews}
-              />
-            </Col>
-          ))}
-        </Row>
-      </Container>
+      <h3 className="mt-4 pt-4">
+        {searchQuery ? "Search Results" : "Popular on Easychef"}
+      </h3>
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {popularRecipes.map((recipe, index) => (
+          <div key={recipe.id} className="col">
+            <RecipeCard
+              id={recipe.id}
+              title={recipe.name}
+              image={recipe.images[0] && recipe.images[0].image}
+              time={recipe.totalTime}
+              rating={recipe.rating}
+              numReviews={recipe.numReviews}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
