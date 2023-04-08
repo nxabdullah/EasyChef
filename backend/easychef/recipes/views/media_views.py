@@ -49,3 +49,4 @@ class UploadCommentVideoAPIView(CreateAPIView):
     URL: /recipes/comments/images/
     """
     serializer_class = CommentVideoSerializer
+

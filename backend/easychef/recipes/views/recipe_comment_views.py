@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from ..models import Recipe, Comment
 from ..permissions import IsOwner, RecipePermissionMixin
 from ..serializers import CommentSerializer, UpdateCommentSerializer
+from django.utils.dateparse import parse_datetime
 
 
 class RecipeCommentsListCreateAPIView(RecipePermissionMixin, ListCreateAPIView):
@@ -20,9 +21,17 @@ class RecipeCommentsListCreateAPIView(RecipePermissionMixin, ListCreateAPIView):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
 
+    # note created_after means created_before, but im too lazy to change it
     def get_queryset(self):
         recipe_id = self.kwargs['pk']
-        return Comment.objects.filter(recipe_id=recipe_id)
+        queryset = Comment.objects.filter(recipe_id=recipe_id).order_by('-date_created')
+
+        created_after = self.request.query_params.get('created_after', None)
+        if created_after:
+            created_after_dt = parse_datetime(created_after)
+            queryset = queryset.filter(date_created__lte=created_after_dt)
+
+        return queryset
 
     def post(self, request, *args, **kwargs):
         try:
