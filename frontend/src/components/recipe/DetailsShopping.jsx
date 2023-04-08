@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { InputNumber } from "primereact/inputnumber";
 import { Button } from "primereact/button";
+import { Toast } from "primereact/toast";
 
 // TODO: the button can be much smoother
 // and we can add some animation
@@ -24,10 +25,21 @@ function DetailsShopping({ servingSize, recipeId }) {
   const [inShoppingList, setInShoppingList] = useState(false);
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [updated, setUpdated] = useState(false);
+  const toast = useRef(null);
 
   useEffect(() => {
     fetchServingSize();
   }, []);
+
+  const showSuccess = () => {
+    toast.current.show({
+      severity: "success",
+      summary: "Success",
+      detail: "Your shopping list was updated!",
+      life: 5000,
+    });
+  };
 
   const fetchServingSize = async () => {
     try {
@@ -54,12 +66,14 @@ function DetailsShopping({ servingSize, recipeId }) {
         serving_size: selectedServingSize,
       });
 
-      setSuccessMessage(
-        inShoppingList
-          ? "Serving size updated."
-          : "Recipe added to shopping list."
-      );
+      // setSuccessMessage(
+      //   inShoppingList
+      //     ? "Serving size updated."
+      //     : "Recipe added to shopping list."
+      // );
       setInShoppingList(true);
+      setUpdated(false);
+      showSuccess();
     } catch (error) {
       console.error("Error updating shopping list:", error);
     } finally {
@@ -69,6 +83,7 @@ function DetailsShopping({ servingSize, recipeId }) {
 
   return (
     <div className="row mt-4 recipe-detail__ingredients">
+      <Toast ref={toast} />
       <h3>
         {inShoppingList
           ? "This recipe is in your shopping list."
@@ -77,13 +92,16 @@ function DetailsShopping({ servingSize, recipeId }) {
       {inShoppingList && (
         <p className="text-secondary">You can update the serving size below</p>
       )}
-      {successMessage && <p className="text-success">{successMessage}</p>}
+      {/* {successMessage && <p className="text-success">{successMessage}</p>} */}
 
       <div className="col-8">
         <label className="form-label">Enter Serving Size</label> <br />
         <InputNumber
           value={selectedServingSize}
-          onValueChange={(e) => setSelectedServingSize(e.value)}
+          onValueChange={(e) => {
+            setSelectedServingSize(e.value);
+          }}
+          onChange={() => setUpdated(true)}
           min={1}
           placeholder={servingSize}
           showButtons
@@ -94,7 +112,7 @@ function DetailsShopping({ servingSize, recipeId }) {
             id="shop-ingredients"
             rounded
             onClick={handleButtonClick}
-            disabled={loading}
+            disabled={loading || !updated}
           >
             {inShoppingList ? "Update Shopping List" : "Add To Shopping List"}
           </button>

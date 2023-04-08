@@ -32,11 +32,11 @@ function DetailsHeader({ recipe }) {
                 Edit
               </a>
             </li>
-            <li>
+            {/* <li>
               <a className="dropdown-item" href="#">
                 Delete
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
 
