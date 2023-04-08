@@ -3,7 +3,7 @@ import axios from "axios";
 import { Modal } from "react-bootstrap";
 import { ACCOUNT_ENDPOINT } from "../../config/constants";
 import useToken from "../../hooks/useToken";
-
+import { Avatar } from "primereact/avatar";
 
 function ProfilePictureUpload({ account }) {
   const [imagePreview, setImagePreview] = useState(null);
@@ -34,25 +34,17 @@ function ProfilePictureUpload({ account }) {
 
     // Send a PATCH request to ACCOUNT_ENDPOINT with profile_photo
     try {
-        const response = await axios.patch(ACCOUNT_ENDPOINT, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        console.log("Profile picture updated:", response.data);
-      } catch (error) {
-        console.error("Error updating profile picture:", error); // TODO: improve this later
+      const response = await axios.patch(ACCOUNT_ENDPOINT, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("Profile picture updated:", response.data);
+    } catch (error) {
+      console.error("Error updating profile picture:", error); // TODO: improve this later
     }
 
     setShowModal(false);
-  };
-
-  const getProfileImage = () => {
-    if (account.profile_picture) {
-      return account.profile_picture;
-    } else {
-      return `${process.env.PUBLIC_URL}/default_pfp.svg`;
-    }
   };
 
   // TODO: add a loading spinner.
@@ -62,12 +54,28 @@ function ProfilePictureUpload({ account }) {
       <label className="form-label">Profile Photo</label>
       <div>
         <label className="me-4" htmlFor="upload-image">
-            <img
-              id="upload-image-preview"
-              className="rounded-circle border"
-              src={getProfileImage()}
-              alt="Profile"
-            />
+          {/* <img
+            id="upload-image-preview"
+            className="rounded-circle border"
+            style={{ width: "100px", height: "100px" }}
+            src={getProfileImage()}
+            alt="Profile"
+          /> */}
+
+          <Avatar
+            label={
+              account.first_name
+                ? account.first_name[0].toUpperCase() +
+                  account.last_name[0].toUpperCase()
+                : account.username[0].toUpperCase()
+            }
+            size="xlarge"
+            shape="circle"
+            style={{
+              width: "75px",
+              height: "75px",
+            }}
+          />
         </label>
       </div>
       <label
@@ -78,62 +86,56 @@ function ProfilePictureUpload({ account }) {
         <strong>Click here to change</strong>
       </label>
 
-
       <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Body id="profile-image-upload-modal-body">
+          <div id="profile-image-upload-modal-body-title">
+            {/* {imagePreview ? (
+              <img
+                id="modal-upload-image-preview"
+                className="rounded-circle border"
+                src={imagePreview}
+                alt="Profile"
+              />
+            ) : (
+              <img
+                id="modal-upload-image-preview"
+                className="rounded-circle border"
+                // src={getProfileImage()}
+                alt="Profile"
+              />
+            )} */}
+            <h5>Profile Photo</h5>
+          </div>
 
-        <Modal.Body id='profile-image-upload-modal-body'>
-            <div id='profile-image-upload-modal-body-title'>
-                {/*<img
-                    id="modal-upload-image-preview"
-                    className="rounded-circle border center"
-                    src={imagePreview ? imagePreview :  `${process.env.PUBLIC_URL}/default_pfp.svg`}
-                    alt="Profile"
-                />*/}
+          <div className="profile-image-upload-modal-body-button">
+            <label class="link-primary-c" htmlFor="upload-image">
+              <strong>Upload Photo</strong>
+            </label>
+            <input
+              id="upload-image"
+              className="form-control d-none"
+              type="file"
+              onChange={handleFileChange}
+              accept="image/*"
+            />
+          </div>
 
-                {/* TODO: improve this code duplication  */}
+          <div className="profile-image-upload-modal-body-button profile-image-upload-modal-body-button-end">
+            <label className="link-danger link-primary-danger-c">
+              <strong>Remove Current Photo</strong>
+            </label>
+          </div>
 
-                {imagePreview ? (
-                    <img
-                    id="modal-upload-image-preview"
-                    className="rounded-circle border"
-                    src={imagePreview}
-                    alt="Profile"
-                    />
-                ) : (
-                    <img
-                    id="modal-upload-image-preview"
-                    className="rounded-circle border"
-                    src={getProfileImage()}
-                    alt="Profile"
-                    />
-                )}
-                <h5>Profile Photo</h5>
-            </div>
-
-            <div className="profile-image-upload-modal-body-button">
-                <label class="link-primary-c"  htmlFor="upload-image"><strong>Upload Photo</strong></label>
-                <input
-                id="upload-image"
-                className="form-control d-none"
-                type="file"
-                onChange={handleFileChange}
-                accept="image/*"
-                />
-            </div>
-
-            <div className="profile-image-upload-modal-body-button profile-image-upload-modal-body-button-end">
-                <label className="link-danger link-primary-danger-c"><strong>Remove Current Photo</strong></label>
-            </div>
-
-
-            {/*<div className="profile-image-upload-modal-body-button profile-image-upload-modal-body-button-end">
+          {/*<div className="profile-image-upload-modal-body-button profile-image-upload-modal-body-button-end">
                 <label>Cancel</label>
             </div>*/}
-
         </Modal.Body>
 
         <Modal.Footer>
-          <button className="btn btn-sm btn-secondary" onClick={() => setShowModal(false)}>
+          <button
+            className="btn btn-sm btn-secondary"
+            onClick={() => setShowModal(false)}
+          >
             Cancel
           </button>
           <button

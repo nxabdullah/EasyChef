@@ -103,12 +103,14 @@ i {
 /* The following css is for the My Profile Dropdown in the Navbar */
 #profile-pic {
   height: 50px;
+  width: 50px;
   border-radius: 100%;
   margin-right: 10px;
 }
 
 #nav-user-section {
   padding: 15px;
+  display: flex;
 }
 
 .dropdown-menu.custom {
