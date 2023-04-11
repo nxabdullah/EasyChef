@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useContext } from "react";
+import AccountContext from "../contexts/AccountContext";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Row,
   Col,
@@ -8,26 +9,23 @@ import {
   FormGroup,
   FormControl,
   FormLabel,
-  Alert
-} from 'react-bootstrap';
-import '../styles/login.css';
-import axios from 'axios';
-import useToken from '../hooks/useToken';
-import { LOGIN_ENDPOINT } from '../config/constants';
+  Alert,
+} from "react-bootstrap";
+import "../styles/login.css";
+import axios from "axios";
+import { LOGIN_ENDPOINT } from "../config/constants";
 
 // todo: proper state for authentication + logout
 
-function Login({ setLogin }) {
-
+function Login() {
+  const { login } = useContext(AccountContext);
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
 
   const [errors, setErrors] = useState({});
-  const { setToken } = useToken();
   const navigate = useNavigate();
-
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -38,8 +36,7 @@ function Login({ setLogin }) {
     event.preventDefault();
     try {
       const response = await axios.post(LOGIN_ENDPOINT, formData);
-      setToken(response.data.token);
-      setLogin();
+      login(response.data.token);
       navigate("/"); // Redirect to the desired page after successful login
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -48,7 +45,6 @@ function Login({ setLogin }) {
     }
   };
 
-
   return (
     <div className="container rounded-3" id="login-container">
       <Row>
@@ -56,7 +52,7 @@ function Login({ setLogin }) {
         <Col>
           <h1 className="fs-1">Welcome back</h1>
           <p className="mb-4 f-secondary">
-            New here?{' '}
+            New here?{" "}
             <span>
               <Link to="/register" className="link-primary link-primary-c ms-1">
                 Create an account
@@ -65,9 +61,7 @@ function Login({ setLogin }) {
           </p>
 
           {errors.non_field_errors && (
-            <Alert variant="danger">
-              {errors.non_field_errors[0]}
-            </Alert>
+            <Alert variant="danger">{errors.non_field_errors[0]}</Alert>
           )}
 
           <Form onSubmit={handleSubmit}>
@@ -116,7 +110,6 @@ function Login({ setLogin }) {
       </Row>
     </div>
   );
-
 }
 
-export default Login
+export default Login;

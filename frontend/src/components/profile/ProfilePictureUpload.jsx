@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import AccountContext from "../../contexts/AccountContext";
 import axios from "axios";
 import { Modal } from "react-bootstrap";
 import { ACCOUNT_ENDPOINT } from "../../config/constants";
@@ -6,7 +7,8 @@ import useToken from "../../hooks/useToken";
 import { Avatar } from "primereact/avatar";
 import ProfileAvatar from "./ProfileAvatar";
 
-function ProfilePictureUpload({ account, setAccount }) {
+function ProfilePictureUpload() {
+  const { account, setAccount } = useContext(AccountContext);
   const [imagePreview, setImagePreview] = useState(null);
   const [file, setFile] = useState(null); // Add a state to store the selected file
   const [showModal, setShowModal] = useState(false);

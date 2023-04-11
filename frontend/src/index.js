@@ -21,6 +21,9 @@ import "primeicons/primeicons.css";
 // global styles
 import "./styles/global.css";
 
+// import AccountProvider
+import { AccountProvider } from "./contexts/AccountContext";
+
 // import app
 import App from "./App";
 
@@ -31,6 +34,8 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <AccountProvider>
+      <App />
+    </AccountProvider>
   </React.StrictMode>
 );
