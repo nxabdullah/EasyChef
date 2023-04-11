@@ -3,7 +3,20 @@ import { NavLink, Link } from "react-router-dom";
 import { Avatar } from "primereact/avatar";
 
 function NavLinks({ logout, isAuth, account }) {
-  console.log(account);
+  // constraint: if first name exists, then so should last name.
+  const getProfilePictureLabel = (account) => {
+    if (account) {
+      if (account.first_name && account.last_name) {
+        return (
+          account.first_name[0].toUpperCase() +
+          account.last_name[0].toUpperCase()
+        );
+      } else {
+        return account.username[0];
+      }
+    }
+    return "A";
+  };
 
   if (!isAuth && account === null) {
     return (
@@ -63,19 +76,8 @@ function NavLinks({ logout, isAuth, account }) {
               <li>
                 <Link to="/profile" class="text-decoration-none">
                   <div id="nav-user-section">
-                    {/* <img
-                      src={`${process.env.PUBLIC_URL}/profile.png`}
-                      id="profile-pic"
-                      alt="profile"
-                    /> */}
                     <Avatar
-                      label={
-                        account.first_name
-                          ? account.first_name[0].toUpperCase() +
-                            account.last_name[0].toUpperCase()
-                          : account.username &&
-                            account.username[0].toUpperCase()
-                      }
+                      label={getProfilePictureLabel(account)}
                       size="large"
                       shape="circle"
                       id="profile-pic"

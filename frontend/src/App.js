@@ -15,7 +15,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import EditProfile from "./pages/EditProfile";
-import MyRecipes from "./pages/MyRecipes";
+// import MyRecipes from "./pages/MyRecipes";
 
 // import constants
 import { ACCOUNT_ENDPOINT } from "./config/constants";
