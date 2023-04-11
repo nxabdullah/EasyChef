@@ -61,13 +61,12 @@ function Landing() {
     setCuisines(selectedOptions.map((option) => option.value));
   };
   const handleDietsChange = (selectedOptions) => {
-    console.log(selectedOptions);
     setDiets(selectedOptions.map((option) => option.value));
-    console.log(diets);
   };
 
   const handleCookTimeChange = (newValue) => {
     setCookTime(newValue);
+
   };
   console.log(popularRecipes);
 

@@ -1,5 +1,5 @@
 // SELECTED FILTERS: ALMOST DONE GOTTA ADD BUTTON
-// ARROW KEY NAVIGATION
+// ICON
 // PAGINATION
 import { React, useState, useEffect } from "react";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
@@ -101,32 +101,24 @@ function Search({
     );
   }, [cuisines]);
 
-  const selected = (filteredDiets, filteredCuisines, filteredCookTimes) => {
-    const dietsSelected = filteredDiets.map(
-      (
-        diet,
-        index //set dietsSelected to span elements of each array in filteredDiets
-      ) => (
-        <span className="selection mb-3" key={index}>
-          {" "}
-          {/* Set the key as we are mapping */}
-          <GiAvocado style={{ marginRight: "5px" }} />
-          {diet}
-          <button
-            className="filter-x"
-            onClick={() => {
-              const newFilteredDiets = filteredDiets.filter((i) => i !== diet);
-              console.log(newFilteredDiets);
-              onDietsChange(newFilteredDiets);
-            }}
-          >
-            x
-          </button>
-        </span>
-      )
-    );
-    console.log(filteredDiets);
-
+  
+  const selected = (filteredDiets, filteredCuisines, filteredCookTimes) => { 
+    // const dietsSelected = filteredDiets.map((diet, index) => (
+    //   <span className="selection mb-3" key={index}>
+    //     <GiAvocado style={{ marginRight: "5px" }} />
+    //     {diet} 
+    //     <button
+    //       className="filter-x"
+    //       onClick={() => {
+    //         onDietsChange(filteredDiets.filter((i) => i.label !== diet.label));
+    //       }}
+    //     >
+    //       x
+    //     </button>
+    //   </span>
+    // ));
+    // // console.log(filteredDiets)
+  
     return (
       <Container style={{ textAlign: "center" }}>
         {/* {dietsSelected} */}
