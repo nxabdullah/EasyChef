@@ -31,8 +31,8 @@
   background-color: #2157541e;
   display: inline-flex;
   border: none;
-  width: 32px !important;
-  height: 32px !important;
+  width: 30px !important;
+  height: 30px !important;
   color: rgb(69, 110, 97);
   font-weight: 700;
 }
@@ -41,9 +41,18 @@
   font-size: 12px;
 }
 
+.serving-btn-general {
+  display: inline-flex;
+  font-weight: 700;
+}
+
+.serving-btn-general span {
+  font-size: 13px;
+}
+
 .text-serving {
   position: relative;
-  top: -5px;
+  top: -3px;
 }
 
 .list-group {
