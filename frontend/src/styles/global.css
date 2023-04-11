@@ -238,3 +238,11 @@ div.p-avatar.p-component.p-avatar-circle.p-avatar-xl {
 .font-alv {
   font-family: "Alegreya Sans", sans-serif;
 }
+
+.shopping-list-skeleton {
+  list-style: none;
+}
+
+.shopping-list-skeleton li {
+  margin-bottom: 10px;
+}
