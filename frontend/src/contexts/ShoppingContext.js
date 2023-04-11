@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useRef } from "react";
 import axios from "axios";
 import useAuthToken from "../hooks/useAuthToken";
 
@@ -10,6 +10,9 @@ export const ShoppingProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [ingredients, setIngredients] = useState([]); // [{name: IngredientName, quantity}, {}, ...
   const [ingredientsLoading, setIngredientsLoading] = useState(true);
+  const [nextCursor, setNextCursor] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const hasMountedRef = useRef(false); // prevent the issues with strict mode (may not need it now tho)
 
   // required to make requests to the backend
   useAuthToken();
@@ -37,12 +40,22 @@ export const ShoppingProvider = ({ children }) => {
 
   // load the recipes
   // GET http://localhost:8000/api/shopping_list/recipes
-  const fetchShoppingList = async () => {
+  const fetchShoppingList = async (cursor = null) => {
     try {
+      setLoading(true);
       const response = await axios.get(
-        "http://localhost:8000/api/shopping_list/recipes/"
+        cursor
+          ? `http://localhost:8000/api/shopping_list/recipes/?cursor=${cursor}`
+          : "http://localhost:8000/api/shopping_list/recipes/"
       );
-      setShoppingItems(response.data.results);
+
+      if (response.data.next) {
+        setNextCursor(response.data.next.split("=")[1]);
+        setHasMore(true);
+      } else {
+        setHasMore(false);
+      }
+      setShoppingItems((prevItems) => [...prevItems, ...response.data.results]);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -50,8 +63,15 @@ export const ShoppingProvider = ({ children }) => {
     }
   };
 
+  const loadMoreRecipes = () => {
+    fetchShoppingList(nextCursor);
+  };
+
   useEffect(() => {
-    fetchShoppingList();
+    if (!hasMountedRef.current) {
+      fetchShoppingList();
+      hasMountedRef.current = true;
+    }
     setLoading(false);
   }, []);
 
@@ -122,6 +142,8 @@ export const ShoppingProvider = ({ children }) => {
         ingredients,
         ingredientsLoading,
         deleteRecipe,
+        hasMore,
+        loadMoreRecipes,
       }}
     >
       {children}

@@ -1,13 +1,15 @@
 import { useContext } from "react";
 import ShoppingContext from "../../contexts/ShoppingContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "primereact/button";
 
 import CustomCard from "../shared/CustomCard";
 import ShoppingListSkeleton from "./ShoppingListSkeleton";
 import ShoppingListItem from "./ShoppingListItem";
 
 function AddedRecipes() {
-  const { loading, shoppingItems } = useContext(ShoppingContext);
+  const { loading, shoppingItems, loadMoreRecipes, hasMore } =
+    useContext(ShoppingContext);
 
   if (loading) {
     return (
@@ -41,6 +43,17 @@ function AddedRecipes() {
           </motion.div>
         ))}
       </AnimatePresence>
+
+      {hasMore && (
+        <div className="d-flex mt-3 mb-4">
+          <Button
+            label="Load more"
+            onClick={loadMoreRecipes}
+            disabled={loading}
+            className="shopping-list-load-more"
+          />
+        </div>
+      )}
     </CustomCard>
   );
 }
