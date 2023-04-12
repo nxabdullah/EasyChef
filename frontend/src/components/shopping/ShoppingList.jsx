@@ -2,9 +2,15 @@ import { useContext } from "react";
 import ShoppingContext from "../../contexts/ShoppingContext";
 import CustomCard from "../shared/CustomCard";
 import IngredientsSkeleton from "./IngredientsSkeleton";
+import { Button } from "primereact/button";
 
 function ShoppingList() {
-  const { ingredients, ingredientsLoading } = useContext(ShoppingContext);
+  const {
+    ingredients,
+    ingredientsLoading,
+    loadMoreIngredients,
+    ingredientsHasMore,
+  } = useContext(ShoppingContext);
 
   if (ingredientsLoading) {
     return (
@@ -23,11 +29,24 @@ function ShoppingList() {
       <ul className="list-group pb-4">
         {ingredients.map((ingredient) => (
           <li className="list-group-item pt-3">
-            <span className="text-333">{ingredient.name}</span>{" "}
+            <span className="text-333 text-capitalize">{ingredient.name}</span>{" "}
             <span className="quantity">{ingredient.quantity} g</span>
           </li>
         ))}
       </ul>
+
+      {ingredientsHasMore && (
+        <Button
+          className="shopping-items-load-more mb-3"
+          icon="pi pi-angle-down"
+          text
+          severity="primary"
+          rounded
+          onClick={loadMoreIngredients}
+        >
+          See more
+        </Button>
+      )}
     </CustomCard>
   );
 }

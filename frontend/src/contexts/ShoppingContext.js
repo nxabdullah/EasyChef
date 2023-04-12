@@ -3,28 +3,46 @@ import axios from "axios";
 import useAuthToken from "../hooks/useAuthToken";
 
 const ShoppingContext = createContext();
-// structure of shoppingItems:
-// [{recipe: {}, serving_size: 1}, {recipe: {}, serving_size: 5}, ...]
+
 export const ShoppingProvider = ({ children }) => {
+  useAuthToken();
   const [shoppingItems, setShoppingItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [ingredients, setIngredients] = useState([]); // [{name: IngredientName, quantity}, {}, ...
+  const [ingredients, setIngredients] = useState([]);
   const [ingredientsLoading, setIngredientsLoading] = useState(true);
   const [nextCursor, setNextCursor] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const hasMountedRef = useRef(false); // prevent the issues with strict mode (may not need it now tho)
-
-  // required to make requests to the backend
-  useAuthToken();
+  const hasMountedRef = useRef(false);
+  const [ingredientsPagination, setIngredientsPagination] = useState({
+    limit: 4, // initial limit
+    size: 4, // increase by 4 each time
+    hasMore: null,
+  });
 
   // Load the Ingredients
-  // Shopping list contain results: [{name: IngredientName, quantity}, {}, ...]
   const fetchIngredients = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/shopping_list/"
+        `http://localhost:8000/api/shopping_list/?limit=${ingredientsPagination.limit}`
       );
+
+      // we update the ingredients
       setIngredients(response.data.results);
+
+      // are there more things to load?
+      if (response.data.next) {
+        setIngredientsPagination((prev) => ({
+          ...prev,
+          hasMore: true,
+          // limit: prev.limit + prev.size, // commented to prevent re-render duplicates
+        }));
+      } else {
+        setIngredientsPagination((prev) => ({
+          ...prev,
+          hasMore: false,
+        }));
+      }
+
       setIngredientsLoading(false);
     } catch (error) {
       console.error(error);
@@ -32,14 +50,7 @@ export const ShoppingProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    setIngredientsLoading(true);
-    fetchIngredients();
-    setIngredientsLoading(false);
-  }, [shoppingItems]);
-
-  // load the recipes
-  // GET http://localhost:8000/api/shopping_list/recipes
+  // load recipes
   const fetchShoppingList = async (cursor = null) => {
     try {
       setLoading(true);
@@ -63,10 +74,14 @@ export const ShoppingProvider = ({ children }) => {
     }
   };
 
-  const loadMoreRecipes = () => {
-    fetchShoppingList(nextCursor);
-  };
+  // UseEffect for Ingredients
+  useEffect(() => {
+    setIngredientsLoading(true);
+    fetchIngredients();
+    setIngredientsLoading(false);
+  }, [shoppingItems, ingredientsPagination.limit]);
 
+  // useEffect for Added Recipes
   useEffect(() => {
     if (!hasMountedRef.current) {
       fetchShoppingList();
@@ -74,6 +89,24 @@ export const ShoppingProvider = ({ children }) => {
     }
     setLoading(false);
   }, []);
+
+  const loadMoreIngredients = () => {
+    if (ingredientsPagination.hasMore) {
+      setIngredientsPagination((prev) => ({
+        ...prev,
+        limit: prev.limit + prev.size,
+      }));
+      // fetchIngredients();
+      // instead of manually invoking fetch
+      // i added it as a dependency for useEffect
+      // be cautious of this to watch out for
+      // infinite loops
+    }
+  };
+
+  const loadMoreRecipes = () => {
+    fetchShoppingList(nextCursor);
+  };
 
   const updateServingSize = async (recipeId, servingSize) => {
     try {
@@ -144,6 +177,8 @@ export const ShoppingProvider = ({ children }) => {
         deleteRecipe,
         hasMore,
         loadMoreRecipes,
+        loadMoreIngredients,
+        ingredientsHasMore: ingredientsPagination.hasMore,
       }}
     >
       {children}

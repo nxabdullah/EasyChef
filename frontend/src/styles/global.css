@@ -263,3 +263,14 @@ div.p-avatar.p-component.p-avatar-circle.p-avatar-xl {
   height: 30px;
   margin-left: 5px;
 }
+
+.shopping-items-load-more {
+  padding-left: 7px;
+  margin-left: 5px;
+  height: 30px;
+}
+
+.shopping-items-load-more span {
+  padding-right: 2px;
+  padding-top: 2px;
+}
