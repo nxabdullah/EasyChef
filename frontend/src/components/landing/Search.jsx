@@ -1,8 +1,6 @@
 // SELECTED FILTERS: ALMOST DONE GOTTA ADD BUTTON
-// ICON
-// PAGINATION
 import { React, useState, useEffect } from "react";
-import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
+import { Container, Row, Col, Button, InputGroup } from "react-bootstrap";
 import "../../styles/search.css";
 import Select from "react-select";
 import Modal from "react-modal";
@@ -73,6 +71,8 @@ function Search({
     { value: "Low Carb", label: "Low Carb" },
     { value: "Gluten-Free", label: "Gluten-Free" },
     { value: "Vegetarian", label: "Vegetarian" },
+    { value: "Vegan", label: "Vegan" },
+    { value: "Dairy-Free", label: "Dairy-Free" },
   ]);
   const [filteredDiets, setFilteredDiets] = useState(allDiets);
 
@@ -84,13 +84,16 @@ function Search({
   }, [diets]);
 
   const [allCuisines] = useState([
-    { value: "Middle Eastern", label: "Middle Eastern" },
+    { value: "Mediterranean", label: "Mediterranean" },
     { value: "Italian", label: "Italian" },
-    { value: "Asian", label: "Asian" },
-    { value: "Indian", label: "Indian" },
-    { value: "Sudanese", label: "Sudanese" },
-    { value: "Jamaican", label: "Jamaican" },
-    { value: "French", label: "French" },
+    { value: "American", label: "American" },
+    { value: "Latin-American", label: "Latin-American" },
+    { value: "South Asian", label: "South Asian" },
+    { value: "Eastern European", label: "Eastern European" },
+    { value: "Oceanic", label: "Oceanic" },
+    { value: "South-East Asian", label: "South-East Asian" },
+    { value: "Central African", label: "Central African" },
+    { value: "Caribbean", label: "Caribbean"}
   ]);
   const [filteredCuisines, setFilteredCuisines] = useState(allCuisines);
 

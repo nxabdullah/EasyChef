@@ -633,7 +633,7 @@ recipes = [{
    "prep_time": 10,
    "cook_time": 20,
    "diets": [{"name": "Gluten-Free"}],
-   "cuisines": [{"name": "South-east Asian"}],
+   "cuisines": [{"name": "South-East Asian"}],
    "ingredients": [
       {"name": "sago starch", "quantity": 200},
       {"name": "water", "quantity": 1},
