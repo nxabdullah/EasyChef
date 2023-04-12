@@ -20,7 +20,6 @@ function Landing() {
   const [searchedPage, setSearchedPage] = useState(1)
   const [popularPage, setPopularPage] = useState(1)
   const [total, setTotal] = useState(0)
-  const [firstRender, setFirstRender] = useState(true)
 
   useEffect(() => {
     const fetchRecipes = async () => {
