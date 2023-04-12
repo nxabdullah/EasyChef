@@ -74,7 +74,7 @@ function Landing() {
 
   const handleShowMore = () => {
     setPage(prevPage => prevPage + 1);
-    console.log(page)
+
   }
   const handleCuisinesChange = (selectedOptions) => {
     setCuisines(selectedOptions.map((option) => option.value));
