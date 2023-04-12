@@ -48,8 +48,8 @@ recipes = [{
     "name": "Spaghetti Carbonara",
     "description": "This classic Italian dish is made with spaghetti, pancetta or bacon, eggs, and cheese.",
     "serving_size": 4,
-    "prep_time": 10,
-    "cook_time": 15,
+    "prep_time": 17,
+    "cook_time": 20,
     "diets": [{"name": "Gluten-Free"}, {"name": "Low Carb"}],
     "cuisines": [{"name": "Italian"}],
     "ingredients": [
@@ -94,8 +94,8 @@ recipes = [{
     "name": "Chicken Alfredo",
     "description": "A classic Italian-American dish made with fettuccine, chicken, and a creamy Parmesan sauce.",
     "serving_size": 4,
-    "prep_time": 15,
-    "cook_time": 20,
+    "prep_time": 23,
+    "cook_time": 30,
     "diets": [{"name": "Gluten-Free"}],
     "cuisines": [{"name": "Italian"}, {"name": "American"}],
     "ingredients": [
@@ -141,8 +141,8 @@ recipes = [{
     "name": "Vegetable Stir-Fry",
     "description": "A quick and easy vegetarian stir-fry packed with colorful veggies and served over rice.",
     "serving_size": 4,
-    "prep_time": 10,
-    "cook_time": 15,
+    "prep_time": 22,
+    "cook_time": 28,
     "diets": [{"name": "Vegetarian"}, {"name": "Vegan"}],
     "cuisines": [{"name": "South Asian"}],
     "ingredients": [
@@ -212,7 +212,7 @@ recipes = [{
     "description": "A traditional Pakistani dessert made with milk, rice, and sugar, flavored with cardamom and garnished with nuts.",
     "serving_size": 6,
     "prep_time": 5,
-    "cook_time": 45,
+    "cook_time": 70,
     "diets": [{"name": "Vegetarian"}],
     "cuisines": [{"name": "South Asian"}],
     "ingredients": [
@@ -229,6 +229,7 @@ recipes = [{
         "description": "Rinse the rice and soak in water for 30 minutes. Drain and set aside.",
         "images": [],
         "videos": [],
+        "cook_time": 0,
         "prep_time": "5"
         },
         {
@@ -258,8 +259,8 @@ recipes = [{
   "name": "Empanadas",
   "description": "A savory pastry filled with beef, onions, and spices, baked to perfection.",
   "serving_size": 4,
-  "prep_time": 30,
-  "cook_time": 25,
+  "prep_time": 33,
+  "cook_time": 45,
   "diets": [{"name": "Dairy-Free"}],
   "cuisines": [{"name": "Latin American"}],
   "ingredients": [
@@ -305,8 +306,8 @@ recipes = [{
   "name": "Menemen",
   "description": "A traditional Turkish breakfast dish made with scrambled eggs, tomatoes, onions, and spices.",
   "serving_size": 2,
-  "prep_time": 10,
-  "cook_time": 15,
+  "prep_time": 23,
+  "cook_time": 21,
   "diets": [{"name": "Vegetarian"}],
   "cuisines": [{"name": "Mediterranean"}],
   "ingredients": [
@@ -366,7 +367,7 @@ recipes = [{
   "name": "Pavlova",
   "description": "A popular dessert from New Zealand consisting of a meringue base topped with whipped cream and fresh fruit.",
   "serving_size": 8,
-  "prep_time": 20,
+  "prep_time": 35,
   "cook_time": 90,
   "diets": [{"name": "Gluten-Free"}],
   "cuisines": [{"name": "Oceanic"}],
@@ -435,8 +436,8 @@ recipes = [{
    "name": "Borsch",
    "description": "A hearty vegetable soup, originally from Ukraine, made with beets and other vegetables.",
    "serving_size": 6,
-   "prep_time": 30,
-   "cook_time": 120,
+   "prep_time": 60,
+   "cook_time": 125,
    "diets": [{"name": "Vegetarian"}, {"name": "Vegan"}],
    "cuisines": [{"name": "Eastern European"}],
    "ingredients": [
@@ -491,7 +492,7 @@ recipes = [{
    "description": "Sarmale is a traditional Romanian dish of stuffed cabbage rolls, usually served with polenta and sour cream.",
    "serving_size": 6,
    "prep_time": 45,
-   "cook_time": 150,
+   "cook_time": 190,
    "diets": [{"name": "Gluten-Free"}],
    "cuisines": [{"name": "Eastern European"}],
    "ingredients": [
@@ -554,8 +555,8 @@ recipes = [{
     "name": "Chicken Pulao",
     "description": "A flavorful rice dish made with chicken, spices, and vegetables.",
     "serving_size": 4,
-    "prep_time": 20,
-    "cook_time": 40,
+    "prep_time": 35,
+    "cook_time": 50,
     "diets": [
     {"name": "Gluten-Free"}
     ],
@@ -672,8 +673,8 @@ recipes = [{
    "name": "Poulet à la Moambé",
    "description": "Poulet à la Moambé is a classic Congolese dish made with chicken, palm nut pulp, and a variety of vegetables.",
    "serving_size": 6,
-   "prep_time": 20,
-   "cook_time": 60,
+   "prep_time": 37,
+   "cook_time": 85,
    "diets": [{"name": "Gluten-Free"}, {"name": "Dairy-Free"}],
    "cuisines": [{"name": "Central African"}],
    "ingredients": [
@@ -735,7 +736,7 @@ recipes = [{
          "images": [],
          "videos": [],
          "cook_time": 0,
-         "prep_time": "02"
+         "prep_time": "2"
       }
    ],
    "images": []
@@ -744,8 +745,8 @@ recipes = [{
     "name": "Palusami",
     "description": "A traditional dish from Samoa made with taro leaves, coconut cream, and onion.",
     "serving_size": 4,
-    "prep_time": 20,
-    "cook_time": 60,
+    "prep_time": 30,
+    "cook_time": 70,
     "diets": [{"name": "Vegetarian"}],
     "cuisines": [{"name": "Oceanic"}],
     "ingredients": [
@@ -803,8 +804,8 @@ recipes = [{
     "name": "Cou-cou",
     "description": "A traditional Barbadian dish made from cornmeal and okra.",
     "serving_size": 4,
-    "prep_time": 20,
-    "cook_time": 30,
+    "prep_time": 70,
+    "cook_time": 40,
     "diets": [{"name": "Vegetarian"}],
     "cuisines": [{"name": "Caribbean"}],
     "ingredients": [
@@ -842,8 +843,8 @@ recipes = [{
    "name": "Ackee and Saltfish",
    "description": "Ackee and saltfish is a traditional Jamaican dish made with salted codfish and the fruit of the ackee tree. The dish is usually served for breakfast or brunch and is often accompanied by breadfruit, boiled green bananas, or fried dumplings.",
    "serving_size": 4,
-   "prep_time": 20,
-   "cook_time": 30,
+   "prep_time": 22,
+   "cook_time": 35,
    "diets": [{"name": "Gluten-Free"}],
    "cuisines": [{"name": "Caribbean"}],
    "ingredients": [

@@ -19,7 +19,6 @@ export const ACCOUNT_RECIPES_ENDPOINT = `${API_BASE_URL}account/recipes/`;
 
 // ... more to come
 
-
 // Search endpoint
 export const SEARCH_ENDPOINT = `${API_BASE_URL}search/`;
 
