@@ -18,6 +18,7 @@ import EditProfile from "./pages/EditProfile";
 import Recipe from "./pages/Recipe";
 import Search from "./components/landing/Search";
 import CreateRecipe from "./pages/CreateRecipe";
+import Shopping from "./pages/Shopping";
 
 function App() {
   const { accountLoading } = useContext(AccountContext);
@@ -46,6 +47,7 @@ function App() {
           <Route exact path="/recipes/:id" element={<Recipe />} />
           <Route partial path="/search" element={<Search />} />
           <Route exact path="/recipes/create" element={<CreateRecipe />} />
+          <Route exact path="/shopping" element={<Shopping />} />
         </Routes>
       </div>
     </Router>
