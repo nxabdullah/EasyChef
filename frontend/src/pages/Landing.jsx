@@ -16,6 +16,7 @@ function Landing() {
   const [diets, setDiets] = useState([]);
   const [cookTime, setCookTime] = useState([0, 121]); // default min and max cook times
   const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(0)
 
   //useEffect hook for popular recipes (no params)
   useEffect(() => {
@@ -49,6 +50,7 @@ function Landing() {
         const response = await axios.get(SEARCH_ENDPOINT, { params }); //endpoint plus params
         
         const newRecipes = response.data.results
+        setTotal(response.data.count)
         if (page === 1){
           setPopularRecipes(newRecipes); //produce results (PAGINATION YET TO BE ADDRESSED)
         } else {
@@ -98,7 +100,10 @@ function Landing() {
         onCookTimeChange={handleCookTimeChange}
       />
       <h3 className="mt-4 pt-4">
-        {searchQuery ? "Search Results" : "Popular on Easychef"}
+      {searchQuery ? ( total > 0 ? (`Search Results (${total})`) : ("No recipes found")
+      ) : (
+        "Popular on Easychef"
+      )}
       </h3>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         {popularRecipes.map((recipe) => (
@@ -113,7 +118,9 @@ function Landing() {
             />
           </div>
         ))}
-        {popularRecipes.length >= 0 && (
+        </div>
+        <div style={{textAlign: "center"}}>
+        {popularRecipes.length - total !== 0 ? (
            <Button style={{
             backgroundColor: "#3a9691",
             border: "none",
@@ -124,10 +131,14 @@ function Landing() {
             fontWeight: "bold",
             padding: "10px",
             marginTop: "20px",
+            width: "15vw",
           }}
           onClick={handleShowMore}>Show More</Button>
-           )}
-      </div>
+           ):  (
+            total > 0 && <p>No more recipes found</p>
+          )}
+          </div>
+      
     </div>
   );
 }
