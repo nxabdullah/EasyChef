@@ -175,7 +175,7 @@ function Landing() {
         Show More
       </Button>
     ) : (
-      total > 0 && <p>No more recipes found</p>
+      total > 0 && <p className="mt-3" style={{fontSize: "20px"}}>No more recipes found</p>
     )}
   </div>
 ) : (
@@ -199,7 +199,7 @@ function Landing() {
         Show More
       </Button>
     ) : (
-      total > 0 && <p>No more recipes found</p>
+      total > 0 && <p className="mt-3" style={{fontSize: "20px"}}>No more recipes found</p>
     )}
   </div>
 )}
