@@ -1,63 +1,49 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom';
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  FormGroup,
-  FormControl,
-  FormLabel,
-  Alert
-} from 'react-bootstrap';
-import axios from 'axios';
-import { REGISTER_ENDPOINT } from '../config/constants';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Container, Row, Col, Alert } from "react-bootstrap";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { InputText } from "primereact/inputtext";
+import { Password } from "primereact/password";
+import { Button } from "primereact/button";
+import axios from "axios";
+import { REGISTER_ENDPOINT } from "../config/constants";
 
-// TODO: after registering, the form information stays there.
-// this is because it is not connected to its own state
-// we can do that later if there is time -- also may
-// need to redirect after 3 seconds.
+const RegisterSchema = Yup.object().shape({
+  username: Yup.string().required("Username is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/,
+      "Password must contain at least one letter and one number"
+    )
+    .required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Confirm Password is required"),
+});
 
 function Register() {
-
-  // state for form input values
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-  });
-
-  // State for API errors
   const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorFieldValues, setErrorFieldValues] = useState({});
 
-  // State for success message
-  const [successMessage, setSuccessMessage] = useState('');
-
-
-  // Update formData on input changes
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-
-  // Submit form data and handle errors
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (values, { setSubmitting, setFieldError }) => {
     try {
-      await axios.post(REGISTER_ENDPOINT, formData);
-      // Redirect or perform other actions on successful registration
-      setSuccessMessage('Registration successful! You can now log in.');
+      await axios.post(REGISTER_ENDPOINT, values);
+      setSuccessMessage("Registration successful! You can now log in.");
       setErrors({});
-      setFormData({});
+      setErrorFieldValues({});
     } catch (error) {
+      setSubmitting(false);
       if (error.response && error.response.status === 400) {
-        setErrors(error.response.data);
+        Object.entries(error.response.data).forEach(([key, value]) => {
+          setFieldError(key, value[0]);
+        });
       }
     }
   };
-
 
   return (
     <Container className="rounded-3" id="login-container">
@@ -66,7 +52,7 @@ function Register() {
         <Col>
           <h1 className="fs-1">Create new account</h1>
           <p className="mb-4 f-secondary">
-            Already a member?{' '}
+            Already a member?{" "}
             <span>
               <Link to="/login" className="link-primary link-primary-c ms-1">
                 Log in
@@ -74,77 +60,132 @@ function Register() {
             </span>
           </p>
 
-          {/* Display success message */}
           {successMessage && (
-            <Alert variant="success" onClose={() => setSuccessMessage('')} dismissible>
-            Registration successful! You can now{' '}
-            <Link to="/login" className="link-primary">
-              log in
-            </Link>.
+            <Alert
+              variant="success"
+              onClose={() => setSuccessMessage("")}
+              dismissible
+            >
+              Registration successful! You can now{" "}
+              <Link to="/login" className="link-primary">
+                log in
+              </Link>
+              .
             </Alert>
           )}
 
-          <Form onSubmit={handleSubmit}>
-            <FormGroup className="mb-3">
-              <FormLabel className="f-secondary">Enter Username</FormLabel>
-              <FormControl
-                type="text"
-                id="registerUsername"
-                name="username"
-                required
-                value={formData.username}
-                onChange={handleChange}
-                isInvalid={errors.username}
-              />
-              {errors.username && (
-                <Form.Control.Feedback type="invalid">
-                  {errors.username[0]}
-                </Form.Control.Feedback>
-              )}
-            </FormGroup>
+          <Formik
+            initialValues={{
+              username: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+            }}
+            validationSchema={RegisterSchema}
+            onSubmit={(values, formikHelpers) =>
+              handleSubmit(values, formikHelpers)
+            }
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                <div className="mb-3">
+                  <label
+                    className="form-label f-secondary force-font"
+                    htmlFor="username"
+                  >
+                    Enter Username
+                  </label>
+                  <br />
+                  <Field
+                    as={InputText}
+                    id="username"
+                    name="username"
+                    required
+                    className="normalize-input"
+                    autoComplete="off"
+                  />
+                  <ErrorMessage
+                    name="username"
+                    component="div"
+                    className="small text-danger"
+                  />
+                </div>
 
-            <FormGroup className="mb-3">
-              <FormLabel className="f-secondary">Enter Email</FormLabel>
-              <FormControl
-                type="email"
-                id="registerEmail"
-                name="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                isInvalid={errors.email}
-              />
-              {errors.email && (
-                <Form.Control.Feedback type="invalid">
-                  {errors.email[0]}
-                </Form.Control.Feedback>
-              )}
-            </FormGroup>
+                <div className="mb-3">
+                  <label
+                    className="form-label f-secondary force-font"
+                    htmlFor="email"
+                  >
+                    Enter Email
+                  </label>
+                  <br />
+                  <Field
+                    as={InputText}
+                    id="email"
+                    name="email"
+                    required
+                    className="normalize-input"
+                    autoComplete="off"
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="small text-danger"
+                  />
+                </div>
 
-            <FormGroup className="mb-3">
-              <FormLabel className="f-secondary">Enter Password</FormLabel>
-              <FormControl
-                type="password"
-                id="registerPassword1"
-                name="password"
-                required
-                value={formData.password}
-                onChange={handleChange}
-                isInvalid={errors.password}
-              />
-              {errors.password && (
-                <Form.Control.Feedback type="invalid">
-                  {errors.password[0]}
-                </Form.Control.Feedback>
-              )}
-            </FormGroup>
+                <div className="mb-3">
+                  <label
+                    className="form-label f-secondary force-font"
+                    htmlFor="password"
+                  >
+                    Enter Password
+                  </label>
+                  <br />
+                  <Field
+                    as={Password}
+                    id="password"
+                    name="password"
+                    required
+                    className="edit-profile-form-input"
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="small text-danger"
+                  />
+                </div>
+                <div className="mb-3">
+                  <label
+                    className="form-label f-secondary force-font"
+                    htmlFor="confirmPassword"
+                  >
+                    Confirm Password
+                  </label>
+                  <br />
+                  <Field
+                    as={Password}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    required
+                    className="edit-profile-form-input"
+                  />
+                  <ErrorMessage
+                    name="confirmPassword"
+                    component="div"
+                    className="small text-danger"
+                  />
+                </div>
 
-            {/* Add a repeat password field here, if needed */}
-
-            <Button type="submit" className="btn-primary-c" id="login-btn">
-              Sign up
-            </Button>
-          </Form>
+                <Button
+                  type="submit"
+                  label="Sign up"
+                  id="login-btn"
+                  disabled={isSubmitting}
+                />
+              </Form>
+            )}
+          </Formik>
         </Col>
         <Col></Col>
       </Row>
@@ -152,4 +193,4 @@ function Register() {
   );
 }
 
-export default Register
+export default Register;

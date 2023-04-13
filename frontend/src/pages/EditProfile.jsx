@@ -1,10 +1,10 @@
 import ProfileDetailsCard from "../components/profile/ProfileDetailsCard";
 import ProfilePasswordCard from "../components/profile/ProfilePasswordCard";
 
-function EditProfile({ account, setAccount }) {
+function EditProfile() {
   return (
     <>
-      <ProfileDetailsCard account={account} setAccount={setAccount} />
+      <ProfileDetailsCard />
       <ProfilePasswordCard />
     </>
   );

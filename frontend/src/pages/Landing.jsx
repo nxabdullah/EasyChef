@@ -14,7 +14,7 @@ function Landing() {
   const [cuisines, setCuisines] = useState([]);
   const [diets, setDiets] = useState([]);
   const [cookTime, setCookTime] = useState([0, 121]); // default min and max cook times
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(1);
 
   // //useEffect hook for popular recipes (no params)
   // useEffect(() => {
@@ -29,7 +29,7 @@ function Landing() {
 
   //   fetchPopularRecipes();
   // }, [page]);
-  
+
   //useEffect hook for queried recipes (uses same hook function: setPopularRecipes)
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -45,13 +45,13 @@ function Landing() {
         };
 
         const response = await axios.get(SEARCH_ENDPOINT, { params }); //endpoint plus params
-        
-        const newRecipes = response.data.results
-        if (page === 1){
+
+        const newRecipes = response.data.results;
+        if (page === 1) {
           setPopularRecipes(newRecipes); //produce results (PAGINATION YET TO BE ADDRESSED)
         } else {
-            // Otherwise, concatenate the new recipes with the previous ones
-            setPopularRecipes((prevRecipes) => [...prevRecipes, ...newRecipes]);
+          // Otherwise, concatenate the new recipes with the previous ones
+          setPopularRecipes((prevRecipes) => [...prevRecipes, ...newRecipes]);
         }
       } catch (error) {
         console.error("Error fetching recipes:", error);
@@ -63,13 +63,12 @@ function Landing() {
 
   //event handlers to update respective state variables upon user itneraction
   const handleSearchChange = (event) => {
-
     setSearchQuery(event.target.value);
   };
 
   const handleShowMore = () => {
-    setPage(prevPage => prevPage + 1);
-  }
+    setPage((prevPage) => prevPage + 1);
+  };
   const handleCuisinesChange = (selectedOptions) => {
     setCuisines(selectedOptions.map((option) => option.value));
   };
@@ -79,7 +78,6 @@ function Landing() {
 
   const handleCookTimeChange = (newValue) => {
     setCookTime(newValue);
-
   };
   return (
     <div>
@@ -99,19 +97,12 @@ function Landing() {
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         {popularRecipes.map((recipe) => (
           <div key={recipe.id} className="col">
-            <RecipeCard
-              id={recipe.id}
-              title={recipe.name}
-              image={recipe.images[0] && recipe.images[0].image}
-              time={recipe.totalTime}
-              rating={recipe.rating}
-              numReviews={recipe.numReviews}
-            />
+            <RecipeCard recipe={recipe} />
           </div>
         ))}
         {popularRecipes.length >= 0 && (
-           <button onClick={handleShowMore}>Show More</button>
-           )}
+          <button onClick={handleShowMore}>Show More</button>
+        )}
       </div>
     </div>
   );

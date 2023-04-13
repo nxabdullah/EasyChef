@@ -1,44 +1,33 @@
 import { useState, useContext } from "react";
 import AccountContext from "../contexts/AccountContext";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Form,
-  Button,
-  FormGroup,
-  FormControl,
-  FormLabel,
-  Alert,
-} from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import "../styles/login.css";
 import axios from "axios";
 import { LOGIN_ENDPOINT } from "../config/constants";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { InputText } from "primereact/inputtext";
+import { Button as PrimeButton } from "primereact/button";
+import { Message } from "primereact/message";
 
-// todo: proper state for authentication + logout
+const LoginSchema = Yup.object().shape({
+  username: Yup.string().required("Username is required"),
+  password: Yup.string().required("Password is required"),
+});
 
 function Login() {
   const { login } = useContext(AccountContext);
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
-
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post(LOGIN_ENDPOINT, formData);
+      const response = await axios.post(LOGIN_ENDPOINT, values);
       login(response.data.token);
       navigate("/"); // Redirect to the desired page after successful login
     } catch (error) {
+      setSubmitting(false);
       if (error.response && error.response.status === 400) {
         setErrors(error.response.data);
       }
@@ -59,52 +48,74 @@ function Login() {
               </Link>
             </span>
           </p>
+          {/* <Alert variant="danger">{errors.non_field_errors[0]}</Alert> */}
 
           {errors.non_field_errors && (
-            <Alert variant="danger">{errors.non_field_errors[0]}</Alert>
+            <Message
+              severity="error"
+              text="Invalid username or password."
+              id="loginError"
+              className="mb-4"
+            />
           )}
 
-          <Form onSubmit={handleSubmit}>
-            <FormGroup className="mb-3">
-              <FormLabel className="f-secondary">Username</FormLabel>
-              <FormControl
-                type="text"
-                id="loginUsername"
-                name="username"
-                required
-                value={formData.username}
-                onChange={handleChange}
-                isInvalid={errors.username}
-              />
-              {errors.username && (
-                <Form.Control.Feedback type="invalid">
-                  {errors.username[0]}
-                </Form.Control.Feedback>
-              )}
-            </FormGroup>
+          <Formik
+            initialValues={{
+              username: "",
+              password: "",
+            }}
+            validationSchema={LoginSchema}
+            onSubmit={(values, formikHelpers) =>
+              handleSubmit(values, formikHelpers)
+            }
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                <div className="mb-3">
+                  <label className="f-secondary form-label" htmlFor="username">
+                    Username
+                  </label>
+                  <Field
+                    as={InputText}
+                    id="loginUsername"
+                    name="username"
+                    className="normalize-input"
+                    autoComplete="off"
+                  />
+                  <ErrorMessage
+                    name="username"
+                    component="div"
+                    className="small text-danger"
+                  />
+                </div>
 
-            <FormGroup className="mb-3">
-              <FormLabel className="f-secondary">Password</FormLabel>
-              <FormControl
-                type="password"
-                id="loginPassword"
-                name="password"
-                required
-                value={formData.password}
-                onChange={handleChange}
-                isInvalid={errors.password}
-              />
-              {errors.password && (
-                <Form.Control.Feedback type="invalid">
-                  {errors.password[0]}
-                </Form.Control.Feedback>
-              )}
-            </FormGroup>
+                <div className="mb-3">
+                  <label className="f-secondary form-label" htmlFor="password">
+                    Password
+                  </label>
+                  <Field
+                    as={InputText}
+                    type="password"
+                    id="loginPassword"
+                    name="password"
+                    className="normalize-input"
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="small text-danger"
+                  />
+                </div>
 
-            <Button type="submit" className="btn-primary-c" id="login-btn">
-              Login
-            </Button>
-          </Form>
+                <PrimeButton
+                  type="submit"
+                  label="Login"
+                  id="login-btn"
+                  disabled={isSubmitting}
+                />
+              </Form>
+            )}
+          </Formik>
         </Col>
         <Col></Col>
       </Row>

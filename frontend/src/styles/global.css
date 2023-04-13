@@ -249,6 +249,12 @@ div.p-avatar.p-component.p-avatar-circle.p-avatar-xl {
 
 .p-button span {
   font-weight: 400;
+  font-family: "Alegreya Sans", sans-serif;
+}
+
+.p-button .p-button-icon {
+  /* Reset the properties you want to exclude */
+  font-family: "primeicons";
 }
 
 .shopping-list-load-more span {
@@ -273,4 +279,9 @@ div.p-avatar.p-component.p-avatar-circle.p-avatar-xl {
 .shopping-items-load-more span {
   padding-right: 2px;
   padding-top: 2px;
+}
+
+.p-toast-message-content {
+  font-family: "Alegreya Sans", sans-serif;
+  letter-spacing: 0.15mm;
 }

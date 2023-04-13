@@ -2,29 +2,21 @@ import { useState, useRef } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { Row, Col } from "react-bootstrap";
-import { InputText } from "primereact/inputtext";
-import { InputTextarea } from "primereact/inputtextarea";
-import { Button } from "primereact/button";
+
 import CustomMultiSelect from "./CustomMultiSelect";
 import IngredientsList from "../recipeCreate/IngredientsList";
 import RecipeStep from "../recipeCreate/RecipeStep";
 import RecipeMedia from "../recipeCreate/RecipeMedia";
+
+// UI Imports
+import { Row, Col } from "react-bootstrap";
+import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
+import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 
-const RecipeCusines = ["Chinese", "Italian", "Mexican", "Japanese", "Indian"];
-const RecipeDiets = [
-  "Vegan",
-  "Vegetarian",
-  "Halal",
-  "Keto",
-  "Paleo",
-  "Gluten-free",
-  "Low-carb",
-  "Pescatarian",
-  "Mediterranean",
-  "DASH",
-];
+// constants
+import { RecipeCusines, RecipeDiets } from "../../config/constants";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Name is required"),
@@ -64,7 +56,7 @@ const validationSchema = Yup.object({
     .required("At least one step is required"),
 });
 
-function RecipeForm() {
+function RecipeForm({ isEditing = false, initialValues }) {
   const [recipeCuisines, setRecipeCuisines] = useState(RecipeCusines);
   const toast = useRef(null);
 
