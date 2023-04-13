@@ -176,7 +176,7 @@ function Search({
           zIndex: "0",
         }}
       >
-        <BiSearchAlt style={{ fontSize: "24px" }} />
+        <BiSearchAlt class="iconfd" />
       </Button>
       <InputText
         id="search-bar"
@@ -203,7 +203,7 @@ function Search({
         }}
         onClick={openModal}
       >
-        <TbAdjustmentsHorizontal style={{ fontSize: "24px" }} />
+        <TbAdjustmentsHorizontal class="iconfd" />
       </Button>
     </InputGroup>
   </Form>

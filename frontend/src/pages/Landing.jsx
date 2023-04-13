@@ -79,6 +79,7 @@ function Landing() {
   //event handlers to update respective state variables upon user itneraction
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
+
   };
 
   const handleSearchSubmit = (event) => {
@@ -123,6 +124,16 @@ function Landing() {
     setPopularPage(1);
   };
 
+  const handleClear = () => {
+    setSearchQuery("");
+    setCuisines([]);
+    setDiets([]);
+    setMaxCookTime(null);
+    setSearchedPage(1);
+    setPopularPage(1);
+    setSearched(false);
+  };
+
   return (
     <div>
       <Search
@@ -137,6 +148,7 @@ function Landing() {
         onSearchSubmit={handleSearchSubmit}
         onPageChange={handlePageChange}
       />
+      <div>
       <h3 className="mt-1 pt-4">
         {searchedRecipes.length === 0 &&
         total > 0 &&
@@ -148,6 +160,15 @@ function Landing() {
           ? `Search Results (${total})`
           : "No recipes found"}
       </h3>
+
+      {!popularRecipes.length ? <a id="clear-results-link" onClick={handleClear}>
+  Reset search
+</a>
+    : null}
+    
+      {/* {popularRecipes.length===0 ? <Button id="#clear-button" onClick={() => handleClear()} >Back to all results</Button>
+    : null} */}
+      </div>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         {popularRecipes.map((recipe) => (
           <div key={recipe.id} className="col">
@@ -162,15 +183,15 @@ function Landing() {
       </div>
       {!searchQuery ? (
         <div style={{ textAlign: "center" }}>
-          {popularRecipes.length < total && (
+          {popularRecipes.length > 0 && popularRecipes.length < total && (
             <Button className="mt-3" onClick={handleShowMore}>
               Show More
             </Button>
           )}
         </div>
       ) : (
-        <div style={{ textAlign: "center" }}>
-          {searchedRecipes.length < total && (
+        <div style={{ textAlign: "center" }}> 
+          {searchedRecipes.length > 0 && searchedRecipes.length < total && (
             <Button className="mt-3" onClick={handleShowMore2}>
               Show More
             </Button>

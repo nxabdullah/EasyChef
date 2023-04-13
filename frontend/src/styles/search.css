@@ -227,3 +227,27 @@ used for search page
 .filter-x:hover {
   color: #333;
 }
+
+#clear-results-link {
+  color: #3a9691;
+}
+
+#clear-results-link:hover {
+  color: #215754;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#button-addon1:hover .iconfd{
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.iconfd {
+  font-size: 24px;
+}
+
+#button-addon2:hover .iconfd{
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+}
