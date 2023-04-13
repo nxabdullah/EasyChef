@@ -144,7 +144,7 @@ recipes = [{
     "prep_time": 22,
     "cook_time": 28,
     "diets": [{"name": "Vegetarian"}, {"name": "Vegan"}],
-    "cuisines": [{"name": "South Asian"}],
+    "cuisines": [{"name": "South-East Asian"}],
     "ingredients": [
         {"name": "rice", "quantity": 1.5},
         {"name": "water", "quantity": 3},

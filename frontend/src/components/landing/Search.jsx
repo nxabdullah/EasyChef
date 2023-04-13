@@ -1,11 +1,12 @@
 // SELECTED FILTERS: ALMOST DONE GOTTA ADD BUTTON
 import { React, useState, useEffect } from "react";
-import { Container, Row, Col, Button, InputGroup } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import "../../styles/search.css";
 import Select from "react-select";
 import Modal from "react-modal";
 import { GiAvocado, GiKnifeFork } from "react-icons/gi";
 import { TbClockRecord, TbAdjustmentsHorizontal } from "react-icons/tb";
+import { BiSearchAlt } from "react-icons/bi"
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { InputText } from "primereact/inputtext";
@@ -19,11 +20,14 @@ function Search({
   onCuisinesChange,
   onDietsChange,
   onCookTimeChange,
+  onSearchSubmit,
+  onPageChange,
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
+
 
   const selectionStyles = {
     container: (provided) => ({
@@ -126,20 +130,20 @@ function Search({
       <Container style={{ textAlign: "center" }}>
         {/* {dietsSelected} */}
         {filteredDiets.length > 0 && (
-          <span className="selection mb-3">
+          <span className="selection">
             <GiAvocado style={{ marginRight: "5px" }} />
             {filteredDiets.join(", ")}
           </span>
         )}
         {filteredCuisines.length > 0 && (
-          <span className="selection mb-3">
+          <span className="selection">
             <GiKnifeFork style={{ marginRight: "5px" }} />
             {filteredCuisines.join(", ")}
           </span>
         )}
         {(filteredCookTimes.length > 0 && filteredCookTimes[0] !== 0) ||
           (filteredCookTimes[1] !== 121 && (
-            <span className="selection mb-3">
+            <span className="selection">
               <TbClockRecord style={{ marginRight: "5px" }} />
               {`${filteredCookTimes[0]} - ${filteredCookTimes[1]} mins`}
             </span>
@@ -189,6 +193,7 @@ function Search({
       backgroundColor: "#3a9691",
     };
 
+    
     return (
       <Container>
         <Slider
@@ -237,57 +242,58 @@ function Search({
         <h1 id="searchText" className="animated-text center mt-4">
           What would you like to <span id="text-rotation"></span> today?
         </h1>
-        <Container class="search">
-          <InputGroup class="w-100 d-flex mb-4">
-            <i class="fa fa-search fa-lg ms-5 mt-4" id="search-input-icon"></i>
-            {/* <Form.Control
-              id="search-bar"
-              name="q"
-              className="form-control cornerless flex-grow-1 mb-4 ms-2"
-              type="search"
-              placeholder="Search 100+ recipes"
-              value={searchQuery}
-              onChange={onSearchChange}
-              required
-              autoFill={false}
-            /> */}
+        <Container className="search">
+        <Form onSubmit={onSearchSubmit}>
+    <InputGroup className="w-100 d-flex mb-4">
+      <Button
+        type="submit"
+        variant="outline-secondary"
+        id="button-addon1"
+        style={{
+          color: "white",
+          borderRadius: "5px 0px 0px 5px",
+          border: "none",
+          backgroundColor: "#3a9691",
+          cursor: "pointer",
+          fontSize: "16px",
+          fontWeight: "bold",
+          width: "55px",
+          height: "50px",
+          zIndex: "0",
+        }}
+      >
+        <BiSearchAlt style={{ fontSize: "24px" }} />
+      </Button>
+      <InputText
+        id="search-bar"
+        name="q"
+        placeholder="Search 100+ recipes"
+        value={searchQuery}
+        onChange={onSearchChange}
+        className="form-control cornerless flex-grow-1 mb-4 font-alv"
+      />
+      <Button
+        variant="outline-secondary"
+        id="button-addon2"
+        style={{
+          color: "white",
+          borderRadius: "0px 5px 5px 0px",
+          border: "none",
+          backgroundColor: "#3a9691",
+          cursor: "pointer",
+          fontSize: "16px",
+          fontWeight: "bold",
+          width: "80px",
+          height: "50px",
+          zIndex: "0"
+        }}
+        onClick={openModal}
+      >
+        <TbAdjustmentsHorizontal style={{ fontSize: "24px" }} />
+      </Button>
+    </InputGroup>
+  </Form>
 
-            <InputText
-              id="search-bar"
-              name="q"
-              placeholder="Search 100+ recipes"
-              value={searchQuery}
-              onChange={onSearchChange}
-              className="form-control cornerless flex-grow-1 mb-4 ms-2 font-alv"
-              style={{
-                fontSize: "18px",
-                fontWeight: 300,
-              }}
-              autoComplete="off"
-            />
-
-            <Button
-              variant="outline-secondary"
-              id="button-addon2"
-              style={{
-                color: "white",
-                borderRadius: "0px 5px 5px 0px",
-                border: "none",
-                backgroundColor: "#3a9691",
-                cursor: "pointer",
-                fontSize: "16px",
-                fontWeight: "bold",
-                width: "80px",
-                height: "50px",
-                zIndex: "0",
-              }}
-              onClick={openModal}
-            >
-              <TbAdjustmentsHorizontal
-                style={{ fontSize: "24px" }}
-              ></TbAdjustmentsHorizontal>
-            </Button>
-          </InputGroup>
           <Container>{selected(diets, cuisines, cookTime)}</Container>
         </Container>
         <Container class="search-filters">
@@ -307,6 +313,7 @@ function Search({
                 borderRadius: "10px",
                 boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
                 padding: "20px",
+                zIndex: "9999"
               },
             }}
             contentLabel="Select Diets"
@@ -382,7 +389,10 @@ function Search({
             </Row>
             <Container style={{ textAlign: "center" }}>
               <Button
-                onClick={closeModal}
+                onClick={() => {
+                  onPageChange();
+                  closeModal();
+                }}
                 style={{
                   backgroundColor: "#3a9691",
                   color: "white",

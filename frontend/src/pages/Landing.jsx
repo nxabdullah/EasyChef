@@ -20,13 +20,14 @@ function Landing() {
   const [searchedPage, setSearchedPage] = useState(1)
   const [popularPage, setPopularPage] = useState(1)
   const [total, setTotal] = useState(0)
+  const [searched, setSearched] = useState(false)
 
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
         setTotal(0);
         
-        if (searchQuery.length === 0 && cuisines.length===0 && diets.length===0) {
+        if (searchQuery.length === 0 && cuisines.length ===0 && diets.length ===0) {
           setSearchedRecipes([])
           const response = await axios.get(`${RECIPES_ENDPOINT}popular/`, { params: { page: popularPage } });
           const newRecipes = response.data.results;
@@ -61,16 +62,21 @@ function Landing() {
       }
     };
     fetchRecipes();
-  }, [popularPage, searchedPage, searchQuery, cuisines, diets, cookTime]); 
+    setSearched(false)
+  }, [popularPage, searchedPage, searched, cuisines, diets, cookTime]); 
   
   
   //event handlers to update respective state variables upon user itneraction
   const handleSearchChange = (event) => {
-
-    setSearchQuery(event.target.value);
-    setSearchedPage(1)
-    setPopularPage(1)
+    setSearchQuery(event.target.value)
   };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    setSearched(true)
+    setSearchedPage(1)
+    setPopularPage(1) 
+  }
 
   const handleShowMore = () => {
     if (popularRecipes.length < total) {
@@ -86,9 +92,11 @@ function Landing() {
 
   //ADD FOR POPULAR PAGE TOO?
   const handleCuisinesChange = (selectedOptions) => {
+    setSearchedRecipes([])
     setCuisines(selectedOptions.map((option) => option.value));
   };
   const handleDietsChange = (selectedOptions) => {
+    setSearchedRecipes([])
     setDiets(selectedOptions.map((option) => option.value));
   };
 
@@ -96,6 +104,12 @@ function Landing() {
     setCookTime(newValue);
 
   };
+
+  const handlePageChange = () => {
+    setSearchedPage(1)
+    setPopularPage(1)
+  }
+ 
   return (
     <div>
       <Search
@@ -107,9 +121,11 @@ function Landing() {
         onCuisinesChange={handleCuisinesChange}
         onDietsChange={handleDietsChange}
         onCookTimeChange={handleCookTimeChange}
+        onSearchSubmit = {handleSearchSubmit}
+        onPageChange = {handlePageChange}
       />
-      <h3 className="mt-4 pt-4">
-      {(!searchQuery && diets.length === 0 && cuisines.length===0) ? "Popular on EasyChef" : (total > 0 ? `Search Results (${total})` : "No recipes found")}
+      <h3 className="mt-1 pt-4">
+      {(searchedRecipes.length === 0 && diets.length === 0 && cuisines.length===0) ? "Popular on EasyChef" : (total > 0 ? `Search Results (${total})` : "No recipes found")}
 
       </h3>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">

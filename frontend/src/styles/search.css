@@ -58,6 +58,10 @@
   }
 }
 
+.search {
+  width: 70vw;
+}
+
 #searchText {
   font-weight: 700;
   text-align: center;
@@ -66,11 +70,11 @@
 
 #search-bar {
   height: 50px;
-  border-width: 0.4px;
-  border-radius: 10px 0px 0px 10px;
-  padding-left: 45px;
+  border: "0.4px solid #ced4da";
+  padding-left: 20px;
   padding-right: 5px;
   font-size: 20px;
+  font-weight: 300;
   outline: none;
   display: inline;
 }
@@ -78,7 +82,7 @@
 /* Move the search icon inside the searchbox */
 #search-input-icon {
   position: relative;
-  z-index: 20;
+  z-index: 1;
   margin-right: -40px;
   color: gray;
 }
