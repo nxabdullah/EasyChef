@@ -8,7 +8,7 @@ source $(pwd)/venv/bin/activate
 python3 -m pip install -r backend/requirements.txt
 
 #set backend migration
-python3 easychef/manage.py migrate
+python3 backend/easychef/manage.py migrate
 
 #install frontend dependencies
 npm --prefix frontend install
