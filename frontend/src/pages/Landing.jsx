@@ -1,13 +1,10 @@
-//POPULAR RECIPE ENDPOINT
-//RECIPE CARDS DISPLAY
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Search from "../components/landing/Search.jsx";
 import "../styles/search.css";
 import RecipeCard from "../components/shared/RecipeCard.jsx";
 import { SEARCH_ENDPOINT, RECIPES_ENDPOINT } from "../config/constants";
-import { Button } from "react-bootstrap";
+import { Button } from "primereact/button";
 
 function Landing() {
   //Set states for searchQuery and filters as planned
@@ -58,7 +55,7 @@ function Landing() {
             diets: diets.join(","),
             max_cook_time: maxCookTime,
           };
-          
+
           const response = await axios.get(SEARCH_ENDPOINT, { params });
           const newRecipes = response.data.results;
           setTotal(response.data.count);
@@ -115,7 +112,7 @@ function Landing() {
 
   const handleMaxCookTimeChange = (event, newValue) => {
     if (newValue === 0) {
-      setMaxCookTime(null)
+      setMaxCookTime(null);
     } else {
       setMaxCookTime(newValue);
     }
@@ -141,7 +138,8 @@ function Landing() {
         onPageChange={handlePageChange}
       />
       <h3 className="mt-1 pt-4">
-        {searchedRecipes.length === 0 && total > 0 &&
+        {searchedRecipes.length === 0 &&
+        total > 0 &&
         diets.length === 0 &&
         cuisines.length === 0 &&
         maxCookTime === null
@@ -164,58 +162,18 @@ function Landing() {
       </div>
       {!searchQuery ? (
         <div style={{ textAlign: "center" }}>
-          {popularRecipes.length < total ? (
-            <Button
-              style={{
-                backgroundColor: "#3a9691",
-                border: "none",
-                borderRadius: "5px",
-                color: "white",
-                cursor: "pointer",
-                fontSize: "16px",
-                fontWeight: "bold",
-                padding: "10px",
-                marginTop: "20px",
-                width: "15vw",
-              }}
-              onClick={handleShowMore}
-            >
+          {popularRecipes.length < total && (
+            <Button className="mt-3" onClick={handleShowMore}>
               Show More
             </Button>
-          ) : (
-            total > 0 && (
-              <p className="mt-3" style={{ fontSize: "20px" }}>
-                No more recipes found
-              </p>
-            )
           )}
         </div>
       ) : (
         <div style={{ textAlign: "center" }}>
-          {searchedRecipes.length < total ? (
-            <Button
-              style={{
-                backgroundColor: "#3a9691",
-                border: "none",
-                borderRadius: "5px",
-                color: "white",
-                cursor: "pointer",
-                fontSize: "16px",
-                fontWeight: "bold",
-                padding: "10px",
-                marginTop: "20px",
-                width: "15vw",
-              }}
-              onClick={handleShowMore2}
-            >
+          {searchedRecipes.length < total && (
+            <Button className="mt-3" onClick={handleShowMore2}>
               Show More
             </Button>
-          ) : (
-            total > 0 && (
-              <p className="mt-3" style={{ fontSize: "20px" }}>
-                No more recipes found
-              </p>
-            )
           )}
         </div>
       )}
