@@ -102,7 +102,6 @@ function Landing() {
 
   const handleCookTimeChange = (newValue) => {
     setCookTime(newValue);
-
   };
 
   const handlePageChange = () => {
@@ -131,14 +130,7 @@ function Landing() {
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         {popularRecipes.map((recipe) => (
           <div key={recipe.id} className="col">
-            <RecipeCard
-              id={recipe.id}
-              title={recipe.name}
-              image={recipe.images[0] && recipe.images[0].image}
-              time={recipe.totalTime}
-              rating={recipe.rating}
-              numReviews={recipe.numReviews}
-            />
+            <RecipeCard recipe={recipe} />
           </div>
         ))}
         {searchedRecipes.map((recipe) => (
