@@ -143,6 +143,18 @@ a.dropdown-item:focus i {
   color: white;
 }
 
+button.dropdown-item:active,
+button.dropdown-item:focus {
+  background-color: #3a9691;
+  color: white;
+}
+
+button.dropdown-item:active i,
+button.dropdown-item:focus i {
+  background-color: #3a9691;
+  color: white;
+}
+
 .alert-secondary-c {
   background-color: #f8f9fa;
   border-color: #eef2f8;

@@ -1,14 +1,44 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/recipe-details.css";
 import DetailsLikeRate from "./DetailsLikeRate";
 import RecipeCarousel from "./RecipeCarousel";
 import AccountContext from "../../contexts/AccountContext";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
+import { Message } from "primereact/message";
 
 function DetailsHeader({ recipe }) {
   const { account, isAuth } = useContext(AccountContext);
+  const [deleted, setDeleted] = useState(false);
+  const [secondsRemaining, setSecondsRemaining] = useState(5);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (deleted) {
+      const timer = setInterval(() => {
+        setSecondsRemaining((prev) => prev - 1);
+      }, 1000);
+
+      setTimeout(() => {
+        navigate("/");
+      }, 5000);
+
+      return () => {
+        clearInterval(timer);
+      };
+    }
+  }, [deleted]);
+
   return (
     <div className="row gx-5">
+      {deleted && (
+        <Message
+          severity="warn"
+          text={`Recipe was successfully deleted. You will be redirected to the home page in ${secondsRemaining} seconds.`}
+          className="alert force-font mb-4 fw-semibold"
+          style={{ alignItems: "left", padding: "0.75rem 1rem" }}
+        />
+      )}
+
       <div className="col-lg-5">
         {recipe && (
           <RecipeCarousel
@@ -44,6 +74,14 @@ function DetailsHeader({ recipe }) {
                   Edit
                 </Link>
               </li>
+              <li>
+                <DeleteConfirmDialog
+                  recipe={recipe}
+                  onConfirm={() => {
+                    setDeleted(true);
+                  }}
+                />
+              </li>
             </ul>
           </div>
         )}
@@ -59,10 +97,6 @@ function DetailsHeader({ recipe }) {
             </button>
           </Link>
         )}
-
-        {/* <button className="btn btn-secondary btn-sm float-end me-3">
-          Duplicate
-        </button> */}
 
         <h1>{recipe && recipe.name}</h1>
 
