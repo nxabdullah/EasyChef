@@ -48,13 +48,15 @@ function DetailsHeader({ recipe }) {
           </div>
         )}
 
-        <button
-          className={`btn btn-secondary btn-sm float-end ${
-            account && account.username === recipe.creator && "me-3"
-          }`}
-        >
-          Duplicate
-        </button>
+        <Link to="create">
+          <button
+            className={`btn btn-secondary btn-sm float-end ${
+              account && account.username === recipe.creator && "me-3"
+            }`}
+          >
+            Duplicate
+          </button>
+        </Link>
 
         {/* <button className="btn btn-secondary btn-sm float-end me-3">
           Duplicate

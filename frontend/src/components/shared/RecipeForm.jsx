@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -56,34 +57,38 @@ const validationSchema = Yup.object({
     .required("At least one step is required"),
 });
 
-function RecipeForm({ isEditing = false, initialValues, recipeId }) {
+function RecipeForm({
+  isEditing = false,
+  isDuplicating = false,
+  initialValues,
+  recipeId,
+}) {
   const [recipeCuisines, setRecipeCuisines] = useState(RecipeCusines);
   const toast = useRef(null);
+  const navigate = useNavigate();
 
   const formik = useFormik({
-    initialValues: isEditing
-      ? initialValues
-      : {
-          name: "",
+    initialValues: initialValues || {
+      name: "",
+      description: "",
+      cuisines: [],
+      serving_size: null,
+      prep_time: null,
+      cook_time: null,
+      diets: [],
+      ingredients: [{ name: "", quantity: "" }],
+      steps: [
+        {
           description: "",
-          cuisines: [],
-          serving_size: null,
           prep_time: null,
           cook_time: null,
-          diets: [],
-          ingredients: [{ name: "", quantity: "" }],
-          steps: [
-            {
-              description: "",
-              prep_time: null,
-              cook_time: null,
-              images: [],
-              videos: [],
-            },
-          ],
           images: [],
           videos: [],
         },
+      ],
+      images: [],
+      videos: [],
+    },
     validationSchema,
     onSubmit: (values) => {
       // Format the data
@@ -94,6 +99,7 @@ function RecipeForm({ isEditing = false, initialValues, recipeId }) {
         ingredients: values.ingredients.filter((ingredient) => ingredient.name),
         images: values.images.map((image) => image.id),
         videos: values.videos.map((video) => video.id),
+        base_recipe: isDuplicating ? recipeId : null, // for duplicating
         // for step images and videos, we need to extract the id from the object
         steps: values.steps.map((step) => ({
           ...step,
@@ -139,12 +145,15 @@ function RecipeForm({ isEditing = false, initialValues, recipeId }) {
           },
         })
         .then((response) => {
-          toast.current.show({
-            severity: "success",
-            summary: "Success",
-            detail: "Recipe submitted successfully",
-            life: 3000,
-          });
+          // toast.current.show({
+          //   severity: "success",
+          //   summary: "Success",
+          //   detail: "Recipe created successfully",
+          //   life: 3000,
+          // });
+          // Go to that recipe
+          navigate(`/recipes/${response.data.id}`, { state: { new: true } });
+
           formik.resetForm();
           formik.setFieldValue("images", []);
         })

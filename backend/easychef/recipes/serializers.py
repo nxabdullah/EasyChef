@@ -202,6 +202,9 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     active_serving_size = serializers.SerializerMethodField(read_only=True)
 
+    base_recipe_name = serializers.SerializerMethodField(read_only=True)
+
+
     class Meta:
         model = Recipe
         # fields = '__all__'
@@ -209,7 +212,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                   'serving_size', 'active_serving_size', 'avg_rating',
                   'num_favourites', 'diets', 'cuisines', 'ingredients_list',
                   'steps', 'images', 'videos', 'base_recipe', 'creator',
-                  'ingredients']
+                  'ingredients', 'base_recipe_name']
 
     def create(self, validated_data):
         """Create a recipe"""
@@ -364,3 +367,11 @@ class RecipeSerializer(serializers.ModelSerializer):
             updated_serving_size = serving_size
             return updated_serving_size
         return obj.serving_size
+
+    def get_base_recipe_name(self, obj):
+        """
+        Returns the name of the base recipe, if it exists, otherwise null.
+        """
+        if obj.base_recipe:
+            return obj.base_recipe.name
+        return None
