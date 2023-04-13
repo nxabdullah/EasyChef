@@ -38,7 +38,24 @@ const validationSchema = Yup.object({
     .transform((value, originalValue) => (isNaN(value) ? undefined : value))
     .positive("Cook time must be a positive number")
     .required("Cook time is required"),
-  ingredients: Yup.array().required("At least one ingredient is required"),
+  ingredients: Yup.array()
+    .of(
+      Yup.object().shape({
+        name: Yup.string().test(
+          "is-not-empty",
+          "Ingredient name is required",
+          (value) => value && value.trim() !== ""
+        ),
+        quantity: Yup.number()
+          .transform((value, originalValue) =>
+            isNaN(value) ? undefined : value
+          )
+          .nullable()
+          .positive("Quantity must be a positive number")
+          .required("Quantity is required"),
+      })
+    )
+    .required("At least one ingredient is required"),
   steps: Yup.array().of(
     Yup.object().shape({
       description: Yup.string().test(
@@ -356,6 +373,9 @@ function RecipeForm({
         ingredients={formik.values.ingredients}
         handleIngredientChange={handleIngredientChange}
         addIngredient={addIngredient}
+        errors={formik.errors.ingredients}
+        touched={formik.touched.ingredients}
+        removeIngredient={removeIngredient}
       />
 
       <Row className="mt-4 mb-4">

@@ -9,6 +9,9 @@ const IngredientsList = ({
   ingredients,
   handleIngredientChange,
   addIngredient,
+  touched,
+  errors,
+  removeIngredient,
 }) => {
   const [items, setItems] = useState([]);
 
@@ -30,38 +33,54 @@ const IngredientsList = ({
       <div className="col-md-12">
         <label>Ingredients and their corresponding quantity in grams</label>
         {ingredients.map((ingredient, index) => (
-          <div key={index} className="d-flex mt-2">
-            {/* <InputText
-              className="recipe-form-input me-4"
-              placeholder="Blueberries"
-              value={ingredient.name}
-              onChange={(e) =>
-                handleIngredientChange(index, "name", e.target.value)
-              }
-            /> */}
+          <div key={index} className="row mt-2">
+            <div class="col-md-4">
+              <AutoComplete
+                className="me-4 autocomplete-custom w-100"
+                placeholder="Blueberries"
+                value={ingredient.name}
+                onChange={(e) =>
+                  handleIngredientChange(index, "name", e.target.value)
+                }
+                suggestions={items}
+                completeMethod={search}
+              />
+              {touched && errors && errors[index] ? (
+                <div className="text-danger">{errors[index].name}</div>
+              ) : null}
+            </div>
 
-            <AutoComplete
-              className="me-4 autocomplete-custom"
-              placeholder="Blueberries"
-              value={ingredient.name}
-              onChange={(e) =>
-                handleIngredientChange(index, "name", e.target.value)
-              }
-              suggestions={items}
-              completeMethod={search}
-            />
+            <div class="col-md-6">
+              <InputText
+                className="recipe-form-input"
+                placeholder="500"
+                style={{ width: "70%" }}
+                value={ingredient.quantity}
+                type="number"
+                min={1}
+                onChange={(e) =>
+                  handleIngredientChange(index, "quantity", e.target.value)
+                }
+              />
+              {touched && errors && errors[index] ? (
+                <div className="text-danger">{errors[index].quantity}</div>
+              ) : null}
+            </div>
 
-            <InputText
-              className="recipe-form-input"
-              placeholder="500"
-              style={{ width: "70%" }}
-              value={ingredient.quantity}
-              type="number"
-              min={1}
-              onChange={(e) =>
-                handleIngredientChange(index, "quantity", e.target.value)
-              }
-            />
+            <div class="col-md-2">
+              {index > 0 && (
+                <Button
+                  icon="pi pi-times"
+                  onClick={() => removeIngredient(index)}
+                  rounded
+                  text
+                  severity="secondary"
+                  className="float-end"
+                  size="small"
+                  style={{ height: "30px", width: "30px", marginTop: "4px" }}
+                />
+              )}
+            </div>
           </div>
         ))}
         <div className="">
