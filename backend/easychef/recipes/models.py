@@ -6,6 +6,9 @@ class RecipeImage(models.Model):
     image = models.ImageField(upload_to='images_recipes/')
 
 
+class RecipeVideo(models.Model):
+    video = models.FileField(upload_to='videos_recipes/')
+
 class StepImage(models.Model):
     image = models.ImageField(upload_to='images_recipe_steps/')
 
@@ -54,6 +57,8 @@ class Recipe(models.Model):
     #                           related_name='recipe', null=True)
 
     images = models.ManyToManyField(RecipeImage, related_name='recipes')
+
+    videos = models.ManyToManyField(RecipeVideo, related_name='recipes')
 
     # Relations
     diets = models.ManyToManyField(Diet)

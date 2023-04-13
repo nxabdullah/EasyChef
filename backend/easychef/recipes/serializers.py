@@ -4,7 +4,7 @@ from rest_framework import serializers
 from .models import CommentImage, CommentVideo, Recipe, RecipeImage, \
     RecipeIngredient, Step, \
     Comment, Rate, \
-    Diet, Cuisine, Ingredient, StepImage, StepVideo
+    Diet, Cuisine, Ingredient, StepImage, StepVideo, RecipeVideo
 from django.core.exceptions import ValidationError
 import mimetypes
 
@@ -36,6 +36,28 @@ class RecipeImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeImage
         fields = ['id', 'image']
+
+class RecipeVideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecipeVideo
+        fields = ['id', 'video']
+
+    def validate_video(self, value):
+        # List of allowed video content types
+        allowed_content_types = [
+            'video/mp4',
+            'video/quicktime',  # .mov
+            'video/x-msvideo',  # .avi
+            'video/x-ms-wmv',  # .wmv
+            # Add any other video content types you want to allow
+        ]
+
+        content_type, _ = mimetypes.guess_type(value.name)
+        if content_type not in allowed_content_types:
+            raise serializers.ValidationError(
+                "Invalid file type. Please upload a video file.")
+
+        return value
 
 
 class StepImageSerializer(serializers.ModelSerializer):
@@ -171,6 +193,9 @@ class RecipeSerializer(serializers.ModelSerializer):
     images = ImageIDField(queryset=RecipeImage.objects.all(), many=True,
                           required=False)
 
+    videos = VideoIDField(queryset=RecipeVideo.objects.all(), many=True,
+                          required=False)
+
     read_only_fields = ['id']
 
     creator = serializers.StringRelatedField()
@@ -183,7 +208,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'prep_time', 'cook_time',
                   'serving_size', 'active_serving_size', 'avg_rating',
                   'num_favourites', 'diets', 'cuisines', 'ingredients_list',
-                  'steps', 'images', 'base_recipe', 'creator',
+                  'steps', 'images', 'videos', 'base_recipe', 'creator',
                   'ingredients']
 
     def create(self, validated_data):
@@ -195,6 +220,8 @@ class RecipeSerializer(serializers.ModelSerializer):
         ingredients_data = validated_data.pop('ingredients', [])
         steps_data = validated_data.pop('steps', [])
         images = validated_data.pop('images', [])
+        videos = validated_data.pop('videos', [])
+
 
         # Create the Recipe object
         recipe = Recipe.objects.create(**validated_data,
@@ -234,6 +261,9 @@ class RecipeSerializer(serializers.ModelSerializer):
         # add the images
         recipe.images.add(*images)
 
+        # add the videos PLEASE DOUBLE TEST THIS
+        recipe.videos.add(*videos)
+
         return recipe
 
     def update(self, instance, validated_data):
@@ -250,6 +280,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         instance.serving_size = validated_data.get('serving_size',
                                                    instance.serving_size)
         images = validated_data.get('images', None)
+        videos = validated_data.get('videos', None)
 
         # Update many-to-many fields
         if 'diets' in validated_data:
@@ -296,6 +327,11 @@ class RecipeSerializer(serializers.ModelSerializer):
             instance.images.clear()
             if images:
                 instance.images.add(*images)
+
+        if 'videos' in validated_data:
+            instance.videos.clear()
+            if videos:
+                instance.videos.add(*videos)
 
         # Return the updated instance
         instance.save()

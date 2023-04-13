@@ -65,6 +65,50 @@ function DetailsHeader({ recipe }) {
 
         <p>{recipe && recipe.description}</p>
 
+        <div id="recipe-tags-section" className="mb-2">
+          <span
+            className="text-333"
+            style={{
+              fontWeight: "500",
+              marginRight: "4px",
+              color: "#215754",
+            }}
+          >
+            Cuisine:
+          </span>
+
+          {recipe &&
+            recipe.cuisines &&
+            recipe.cuisines.map((cuisine, index) => (
+              <span className="text-333">
+                {cuisine.name}
+                {index !== recipe.cuisines.length - 1 && ", "}
+              </span>
+            ))}
+        </div>
+
+        <div id="recipe-tags-section-2" className="mb-4">
+          <span
+            className="text-333"
+            style={{
+              fontWeight: "500",
+              marginRight: "4px",
+              color: "#215754",
+            }}
+          >
+            Diet:
+          </span>
+
+          {recipe &&
+            recipe.diets &&
+            recipe.diets.map((diet, index) => (
+              <span className="text-333">
+                {diet.name}
+                {index !== recipe.diets.length - 1 && ", "}
+              </span>
+            ))}
+        </div>
+
         <div id="recipe-time-section">
           <div className="recipe-details-icons">
             <div>
