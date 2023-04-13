@@ -262,7 +262,7 @@ recipes = [{
   "prep_time": 33,
   "cook_time": 45,
   "diets": [{"name": "Dairy-Free"}],
-  "cuisines": [{"name": "Latin American"}],
+  "cuisines": [{"name": "Latin-American"}],
   "ingredients": [
     {"name": "ground beef", "quantity": 500},
     {"name": "onion, chopped", "quantity": 1},
