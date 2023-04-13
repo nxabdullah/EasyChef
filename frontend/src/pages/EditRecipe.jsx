@@ -38,7 +38,7 @@ function EditRecipe() {
       ingredients: recipe.ingredients_list,
       steps: recipe.steps,
       images: recipe.images,
-      videos: [],
+      videos: recipe.videos,
     };
 
     return formikInitialValues;

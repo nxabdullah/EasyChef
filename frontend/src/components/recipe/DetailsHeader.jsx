@@ -10,7 +10,12 @@ function DetailsHeader({ recipe }) {
   return (
     <div className="row gx-5">
       <div className="col-lg-5">
-        {recipe && <RecipeCarousel images={recipe && recipe.images} />}
+        {recipe && (
+          <RecipeCarousel
+            images={recipe && recipe.images}
+            videos={recipe && recipe.videos}
+          />
+        )}
       </div>
 
       <div className="col-lg-6">

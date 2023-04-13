@@ -93,6 +93,7 @@ function RecipeForm({ isEditing = false, initialValues, recipeId }) {
         cuisines: values.cuisines.map((cuisine) => ({ name: cuisine })),
         ingredients: values.ingredients.filter((ingredient) => ingredient.name),
         images: values.images.map((image) => image.id),
+        videos: values.videos.map((video) => video.id),
         // for step images and videos, we need to extract the id from the object
         steps: values.steps.map((step) => ({
           ...step,
