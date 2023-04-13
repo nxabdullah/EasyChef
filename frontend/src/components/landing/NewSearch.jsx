@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import SearchContext from "../../contexts/SearchContext";
 import FilterModal from "./FilterModal";
 import CardRenderer from "./CardRenderer";
+import { SEARCH_ENDPOINT } from "../../config/constants";
 
 function NewSearch() {
   const { searchUrl, setSearchQuery } = useContext(SearchContext);
@@ -40,13 +41,14 @@ function NewSearch() {
         >
           Filter
         </button>
-        <div>DEBUG: {searchUrl}</div>
+        {/* <div>DEBUG: {searchUrl}</div> */}
         <FilterModal
           visible={modalVisible}
           onHide={() => setModalVisible(false)}
         />
       </div>
-      <CardRenderer url={searchUrl} />
+      {searchUrl !== SEARCH_ENDPOINT && <h3 className="mt-4">Results </h3>}
+      {searchUrl !== SEARCH_ENDPOINT && <CardRenderer url={searchUrl} />}
     </>
   );
 }
