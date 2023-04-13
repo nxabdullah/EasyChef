@@ -52,28 +52,41 @@ function Comments({ recipe_id }) {
     }
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (comments && comments.results.length === 0) {
+    return (
+      <CustomCard>
+        <CommentsPost
+          setComments={setComments}
+          recipe_id={recipe_id}
+          comments={comments}
+        />
+        <p className="text-center">No comments yet.</p>
+      </CustomCard>
+    );
+  }
+
   return (
     <CustomCard>
-      {loading ? (
-        <div>Loading...</div> // Replace this with your preferred loading animation
-      ) : (
-        <>
-          <CommentsPost
-            setComments={setComments}
-            recipe_id={recipe_id}
-            comments={comments}
-          />
-          <CommentsView comments={comments} setComments={setComments} />
-          {comments && comments.next && (
-            <button
-              className="btn btn-primary-c p-button d-block m-auto mb-4"
-              onClick={loadMore}
-            >
-              Load more
-            </button>
-          )}
-        </>
-      )}
+      <>
+        <CommentsPost
+          setComments={setComments}
+          recipe_id={recipe_id}
+          comments={comments}
+        />
+        <CommentsView comments={comments} setComments={setComments} />
+        {comments && comments.next && (
+          <button
+            className="btn btn-primary-c p-button d-block m-auto mb-4"
+            onClick={loadMore}
+          >
+            Load more
+          </button>
+        )}
+      </>
     </CustomCard>
   );
 }

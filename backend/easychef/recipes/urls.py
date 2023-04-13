@@ -4,7 +4,7 @@ from .views.views import RecipeRetrieveUpdateDestroyAPIView, RecipeCreateAPIView
 
 from .views.media_views import UploadCommentImageAPIView, \
     UploadCommentVideoAPIView, UploadRecipeImageAPIView,\
-    UploadStepImageAPIView, UploadStepVideoAPIView
+    UploadStepImageAPIView, UploadStepVideoAPIView, UploadRecipeVideoAPIView
 
 from .views.recipe_comment_views import RecipeCommentsListCreateAPIView, ModifyCommentAPIView
 
@@ -33,6 +33,7 @@ urlpatterns = [
 
     # Media (pre-upload)
     path('images/', UploadRecipeImageAPIView().as_view()),
+    path('videos/', UploadRecipeVideoAPIView().as_view()),
     path('steps/images/', UploadStepImageAPIView().as_view()),
     path('steps/videos/', UploadStepVideoAPIView().as_view()),
     path('comments/images/', UploadCommentImageAPIView().as_view()),

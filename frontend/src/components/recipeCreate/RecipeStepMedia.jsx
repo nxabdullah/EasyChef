@@ -47,7 +47,7 @@ function RecipeStepMedia({ images, setImages, videos, setVideos }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/recipes/comments/videos/",
+        "http://localhost:8000/api/recipes/steps/videos/",
         formData
       );
       if (response.status === 201) {

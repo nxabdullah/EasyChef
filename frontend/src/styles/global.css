@@ -285,3 +285,7 @@ div.p-avatar.p-component.p-avatar-circle.p-avatar-xl {
   font-family: "Alegreya Sans", sans-serif;
   letter-spacing: 0.15mm;
 }
+
+.p-inline-message-success {
+  font-family: "Alegreya Sans", sans-serif;
+}

@@ -1,4 +1,5 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -56,12 +57,18 @@ const validationSchema = Yup.object({
     .required("At least one step is required"),
 });
 
-function RecipeForm({ isEditing = false, initialValues }) {
+function RecipeForm({
+  isEditing = false,
+  isDuplicating = false,
+  initialValues,
+  recipeId,
+}) {
   const [recipeCuisines, setRecipeCuisines] = useState(RecipeCusines);
   const toast = useRef(null);
+  const navigate = useNavigate();
 
   const formik = useFormik({
-    initialValues: {
+    initialValues: initialValues || {
       name: "",
       description: "",
       cuisines: [],
@@ -91,7 +98,45 @@ function RecipeForm({ isEditing = false, initialValues }) {
         cuisines: values.cuisines.map((cuisine) => ({ name: cuisine })),
         ingredients: values.ingredients.filter((ingredient) => ingredient.name),
         images: values.images.map((image) => image.id),
+        videos: values.videos.map((video) => video.id),
+        base_recipe: isDuplicating ? recipeId : null, // for duplicating
+        // for step images and videos, we need to extract the id from the object
+        steps: values.steps.map((step) => ({
+          ...step,
+          images: step.images.map((image) => image.id),
+          videos: step.videos.map((video) => video.id),
+        })),
       };
+
+      if (isEditing) {
+        axios
+          .patch(
+            `http://localhost:8000/api/recipes/${recipeId}/`,
+            formattedValues,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((response) => {
+            toast.current.show({
+              severity: "success",
+              summary: "Success",
+              detail: "Recipe updated successfully",
+              life: 3000,
+            });
+          })
+          .catch((error) => {
+            toast.current.show({
+              severity: "error",
+              summary: "Error",
+              detail: error.message,
+              life: 5000,
+            });
+          });
+        return;
+      }
 
       axios
         .post("http://127.0.0.1:8000/api/recipes/", formattedValues, {
@@ -100,12 +145,15 @@ function RecipeForm({ isEditing = false, initialValues }) {
           },
         })
         .then((response) => {
-          toast.current.show({
-            severity: "success",
-            summary: "Success",
-            detail: "Recipe submitted successfully",
-            life: 3000,
-          });
+          // toast.current.show({
+          //   severity: "success",
+          //   summary: "Success",
+          //   detail: "Recipe created successfully",
+          //   life: 3000,
+          // });
+          // Go to that recipe
+          navigate(`/recipes/${response.data.id}`, { state: { new: true } });
+
           formik.resetForm();
           formik.setFieldValue("images", []);
         })

@@ -3,7 +3,7 @@ from rest_framework.generics import CreateAPIView
 from ..serializers import CommentImageSerializer, CommentVideoSerializer, \
     RecipeImageSerializer, \
     StepImageSerializer, \
-    StepVideoSerializer
+    StepVideoSerializer, RecipeVideoSerializer
 
 
 class UploadRecipeImageAPIView(CreateAPIView):
@@ -13,6 +13,14 @@ class UploadRecipeImageAPIView(CreateAPIView):
     URL: /recipes/images
     """
     serializer_class = RecipeImageSerializer
+
+class UploadRecipeVideoAPIView(CreateAPIView):
+    """
+    Create a recipe video instance
+
+    URL: /recipes/videos
+    """
+    serializer_class = RecipeVideoSerializer
 
 
 class UploadStepImageAPIView(CreateAPIView):

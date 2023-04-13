@@ -7,6 +7,7 @@ import DetailsIngredients from "./DetailsIngredients";
 import DetailsSteps from "./DetailsSteps";
 import DetailsShopping from "./DetailsShopping";
 import "../../styles/recipe-details.css";
+import { Link } from "react-router-dom";
 
 function Details({ recipe_id }) {
   const [recipe, setRecipe] = useState(null);
@@ -38,6 +39,24 @@ function Details({ recipe_id }) {
   return (
     <>
       <CustomCard bodyClass={`recipe-detail`}>
+        {recipe && recipe.base_recipe && (
+          <div
+            class="alert alert-secondary alert-secondary-c alert-dismissible fade show"
+            role="alert"
+          >
+            <strong>Note:</strong> This recipe is based on{" "}
+            <Link to={`/recipes/${recipe.base_recipe}`} class="link-secondary">
+              {recipe.base_recipe_name}
+            </Link>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+            ></button>
+          </div>
+        )}
+
         <DetailsHeader recipe={recipe} />
         <hr className="mt-4" />
         <DetailsIngredients
