@@ -242,8 +242,14 @@ class RecipeSerializer(serializers.ModelSerializer):
 
         # Create the related ingredients
         for ingredient_data in ingredients_data:
+
+            name = ingredient_data['name']
+
+            if (name):
+                name = name.lower()
+
             ingredient, _ = \
-                Ingredient.objects.get_or_create(name=ingredient_data['name'])
+                Ingredient.objects.get_or_create(name=name)
 
             RecipeIngredient.objects.create(recipe=recipe,
                                             ingredient=ingredient,
@@ -304,8 +310,15 @@ class RecipeSerializer(serializers.ModelSerializer):
             instance.ingredients.clear()
             recipe_ingredients_data = validated_data['ingredients']
             for recipe_ingredient_data in recipe_ingredients_data:
+
+                name = recipe_ingredient_data['name']
+                if (name):
+                    name = name.lower()
+
+                # recipe_ingredient_data['name']
+
                 ingredient, _ = Ingredient.objects.get_or_create(
-                    name=recipe_ingredient_data['name'])
+                    name=name)
                 RecipeIngredient.objects.create(
                     recipe=instance,
                     ingredient=ingredient,

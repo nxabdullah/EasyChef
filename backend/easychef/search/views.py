@@ -24,6 +24,7 @@ class RecipeSearchView(ListAPIView):
 
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', 'ingredients__name', 'creator__username']
+    # search_fields = ['name__icontains', 'ingredients__name__icontains', 'creator__username__icontains']
 
     def get_queryset(self):
         queryset = Recipe.objects.all()
