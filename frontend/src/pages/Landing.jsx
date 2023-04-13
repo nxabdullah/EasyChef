@@ -141,10 +141,10 @@ function Landing() {
         onPageChange={handlePageChange}
       />
       <h3 className="mt-1 pt-4">
-        {searchedRecipes.length === 0 &&
+        {searchedRecipes.length === 0 && total > 0 &&
         diets.length === 0 &&
         cuisines.length === 0 &&
-        !maxCookTime
+        maxCookTime === null
           ? "Popular on EasyChef"
           : total > 0
           ? `Search Results (${total})`
