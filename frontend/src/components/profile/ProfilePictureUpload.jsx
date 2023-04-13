@@ -25,6 +25,7 @@ function ProfilePictureUpload() {
   const { token } = useToken();
   axios.defaults.headers.common["Authorization"] = `Token ${token}`;
 
+  // user uploads file
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile); // Store the selected file in the state
@@ -52,6 +53,9 @@ function ProfilePictureUpload() {
       } catch (error) {
         console.error("Error removing profile picture:", error);
       }
+      setFile(null);
+      resetRemoveSave();
+      setShowModal(false);
     }
 
     if (save === true) {
