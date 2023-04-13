@@ -5,6 +5,13 @@ import { Image } from "primereact/image";
 import useAuthToken from "../../hooks/useAuthToken";
 import { Row, Col } from "react-bootstrap";
 
+const getImageUrl = (url) => {
+  if (url.startsWith("/")) {
+    return `http://localhost:8000${url}`;
+  }
+  return url;
+};
+
 function RecipeMedia({ images, setImages, videos, setVideos }) {
   const imageInputRef = useRef(null);
   const videoInputRef = useRef(null);
@@ -133,7 +140,7 @@ function RecipeMedia({ images, setImages, videos, setVideos }) {
                     onClick={() => handleDeleteImage(image)}
                   ></Button>
                   <Image
-                    src={image.image}
+                    src={getImageUrl(image.image)}
                     // key={index}
                     width={85}
                     height={85}
@@ -158,7 +165,8 @@ function RecipeMedia({ images, setImages, videos, setVideos }) {
                     onClick={() => handleDeleteVideo(video)}
                   ></Button>
                   <video
-                    src={video.video}
+                    //src={video.video}
+                    src={getImageUrl(video.video)}
                     // poster={`${process.env.PUBLIC_URL}/video_preview.png`}
                     width={125}
                     height={125}

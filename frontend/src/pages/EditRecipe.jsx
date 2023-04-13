@@ -6,6 +6,8 @@ import AccountContext from "../contexts/AccountContext";
 import CustomCard from "../components/shared/CustomCard";
 import RecipeForm from "../components/shared/RecipeForm";
 
+// issue: if cuisine is not from constants it ll bug out
+
 function EditRecipe() {
   const { id } = useParams();
   const { account } = useContext(AccountContext);
@@ -24,13 +26,39 @@ function EditRecipe() {
     fetchRecipe();
   }, [id]);
 
+  const buildFormikInitialValues = (recipe) => {
+    const formikInitialValues = {
+      name: recipe.name,
+      description: recipe.description,
+      cuisines: recipe.cuisines.map((cuisine) => cuisine.name),
+      serving_size: recipe.serving_size,
+      prep_time: recipe.prep_time,
+      cook_time: recipe.cook_time,
+      diets: recipe.diets.map((diet) => diet.name),
+      ingredients: recipe.ingredients_list,
+      steps: recipe.steps,
+      images: recipe.images,
+      videos: [],
+    };
+
+    return formikInitialValues;
+  };
+
   if (recipe && recipe.creator !== account.username) {
     return <div>You are not the creator of this recipe!</div>;
   }
 
+  if (!recipe) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <CustomCard title="Edit Recipe">
-      <RecipeForm isEditing={true} recipe={recipe} />
+      <RecipeForm
+        isEditing={true}
+        initialValues={recipe && buildFormikInitialValues(recipe)}
+        recipeId={id}
+      />
     </CustomCard>
   );
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { InputTextarea } from "primereact/inputtextarea";
 import { InputText } from "primereact/inputtext";
 import { Col, Row } from "react-bootstrap";
@@ -9,9 +9,20 @@ import { Button } from "primereact/button";
 // plan is that images and videos will be passed as a list of
 // integers, which are the IDs of the images and videos
 // from the media component
+const getImageUrl = (url) => {
+  if (url.startsWith("/")) {
+    return `http://localhost:8000${url}`;
+  }
+  return url;
+};
+
+// issue 1: video is not in formik state
+// second issue was stuff not showing but its resolved now
+// but check for video
+
 function RecipeStep({ step, handleStepChange, index }) {
-  const [images, setImages] = useState([]); // [{id: 1, url: "http://localhost:8000/media/recipes/1/1.jpg"}, ...]
-  const [videos, setVideos] = useState([]);
+  const [images, setImages] = useState(step.images); // [{id: 1, url: "http://localhost:8000/media/recipes/1/1.jpg"}, ...]
+  const [videos, setVideos] = useState(step.videos);
 
   const handleDeleteImage = (image) => {
     console.log("Delete image with id: " + image.id);
@@ -23,6 +34,16 @@ function RecipeStep({ step, handleStepChange, index }) {
   const handleDeleteVideo = (video) => {
     setVideos(videos.filter((v) => v.id !== video.id));
   };
+
+  // whenever images or videos change,
+  // update the main form using handleStepChange
+  useEffect(() => {
+    handleStepChange("images", images);
+  }, [images]);
+
+  useEffect(() => {
+    handleStepChange("videos", videos);
+  }, [videos]);
 
   return (
     <>
@@ -87,7 +108,8 @@ function RecipeStep({ step, handleStepChange, index }) {
                     type="button"
                   ></Button>
                   <Image
-                    src={image.image}
+                    // src={image.image}
+                    src={getImageUrl(image.image)}
                     // key={index}
                     width={85}
                     height={85}
@@ -113,7 +135,8 @@ function RecipeStep({ step, handleStepChange, index }) {
                     type="button"
                   ></Button>
                   <video
-                    src={video.video}
+                    // src={video.video}
+                    src={getImageUrl(video.video)}
                     // poster={`${process.env.PUBLIC_URL}/video_preview.png`}
                     width={125}
                     height={125}

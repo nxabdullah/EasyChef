@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MultiSelect } from "primereact/multiselect";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
@@ -19,6 +19,27 @@ const CustomMultiSelect = ({
   const [newItemDialog, setNewItemDialog] = useState(false);
   const [newItem, setNewItem] = useState("");
   const [showAddError, setShowAddError] = useState(false);
+  const [renderKey, setRenderKey] = useState(0); // hacky solution to re-render multi-select
+  // console.log(value);
+  console.log("localOptions: " + JSON.stringify(localOptions));
+  console.log("value: " + JSON.stringify(value));
+
+  useEffect(() => {
+    const newOptions = value.filter((option) => !localOptions.includes(option));
+
+    setLocalOptions((prevOptions) => {
+      // Filter out the options that are already in prevOptions
+      const uniqueNewOptions = newOptions.filter(
+        (option) => !prevOptions.some((prevOption) => prevOption === option)
+      );
+
+      // Return the new array with unique options
+      return [...prevOptions, ...uniqueNewOptions];
+    });
+
+    // can i force the multiselect to update?
+    setRenderKey((prevKey) => prevKey + 1);
+  }, [value]);
 
   const showNewItemDialog = () => {
     setNewItemDialog(true);
@@ -57,6 +78,7 @@ const CustomMultiSelect = ({
     <>
       <label htmlFor={fieldName} className="form-label"></label>
       <MultiSelect
+        key={renderKey}
         id={fieldName}
         options={localOptions}
         display="chip"

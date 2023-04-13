@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -56,32 +56,34 @@ const validationSchema = Yup.object({
     .required("At least one step is required"),
 });
 
-function RecipeForm({ isEditing = false, initialValues }) {
+function RecipeForm({ isEditing = false, initialValues, recipeId }) {
   const [recipeCuisines, setRecipeCuisines] = useState(RecipeCusines);
   const toast = useRef(null);
 
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      description: "",
-      cuisines: [],
-      serving_size: null,
-      prep_time: null,
-      cook_time: null,
-      diets: [],
-      ingredients: [{ name: "", quantity: "" }],
-      steps: [
-        {
+    initialValues: isEditing
+      ? initialValues
+      : {
+          name: "",
           description: "",
+          cuisines: [],
+          serving_size: null,
           prep_time: null,
           cook_time: null,
+          diets: [],
+          ingredients: [{ name: "", quantity: "" }],
+          steps: [
+            {
+              description: "",
+              prep_time: null,
+              cook_time: null,
+              images: [],
+              videos: [],
+            },
+          ],
           images: [],
           videos: [],
         },
-      ],
-      images: [],
-      videos: [],
-    },
     validationSchema,
     onSubmit: (values) => {
       // Format the data
@@ -91,7 +93,43 @@ function RecipeForm({ isEditing = false, initialValues }) {
         cuisines: values.cuisines.map((cuisine) => ({ name: cuisine })),
         ingredients: values.ingredients.filter((ingredient) => ingredient.name),
         images: values.images.map((image) => image.id),
+        // for step images and videos, we need to extract the id from the object
+        steps: values.steps.map((step) => ({
+          ...step,
+          images: step.images.map((image) => image.id),
+          videos: step.videos.map((video) => video.id),
+        })),
       };
+
+      if (isEditing) {
+        axios
+          .patch(
+            `http://localhost:8000/api/recipes/${recipeId}/`,
+            formattedValues,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((response) => {
+            toast.current.show({
+              severity: "success",
+              summary: "Success",
+              detail: "Recipe updated successfully",
+              life: 3000,
+            });
+          })
+          .catch((error) => {
+            toast.current.show({
+              severity: "error",
+              summary: "Error",
+              detail: error.message,
+              life: 5000,
+            });
+          });
+        return;
+      }
 
       axios
         .post("http://127.0.0.1:8000/api/recipes/", formattedValues, {
