@@ -56,6 +56,8 @@ const IngredientsList = ({
               placeholder="500"
               style={{ width: "70%" }}
               value={ingredient.quantity}
+              type="number"
+              min={1}
               onChange={(e) =>
                 handleIngredientChange(index, "quantity", e.target.value)
               }

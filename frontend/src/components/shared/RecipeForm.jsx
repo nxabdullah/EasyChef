@@ -39,22 +39,23 @@ const validationSchema = Yup.object({
     .positive("Cook time must be a positive number")
     .required("Cook time is required"),
   ingredients: Yup.array().required("At least one ingredient is required"),
-  steps: Yup.array()
-    .of(
-      Yup.object().shape({
-        description: Yup.string().test(
-          "is-not-empty",
-          "Step description is required",
-          (value) => value && value.trim() !== ""
-        ),
-        prep_time: Yup.number().nullable(),
-        cook_time: Yup.number().nullable(),
-        images: Yup.array(),
-        videos: Yup.array(),
-      })
-    )
-    .min(1, "At least one step is required")
-    .required("At least one step is required"),
+  steps: Yup.array().of(
+    Yup.object().shape({
+      description: Yup.string().test(
+        "is-not-empty",
+        "Step description is required",
+        (value) => value && value.trim() !== ""
+      ),
+      prep_time: Yup.number()
+        .nullable()
+        .positive("Prep time must be a positive number"),
+      cook_time: Yup.number()
+        .nullable()
+        .positive("Cook time must be a positive number"),
+      images: Yup.array(),
+      videos: Yup.array(),
+    })
+  ),
 });
 
 function RecipeForm({
@@ -212,6 +213,18 @@ function RecipeForm({
     ]);
   };
 
+  const removeStep = (index) => {
+    const updatedSteps = formik.values.steps.filter((_, i) => i !== index);
+    formik.setFieldValue("steps", updatedSteps);
+  };
+
+  const removeIngredient = (index) => {
+    const updatedIngredients = formik.values.ingredients.filter(
+      (_, i) => i !== index
+    );
+    formik.setFieldValue("ingredients", updatedIngredients);
+  };
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Toast ref={toast} />
@@ -351,15 +364,37 @@ function RecipeForm({
         </label>
         {formik.values.steps.map((step, index) => (
           <>
-            <label className="mb-3 mt-3">Step {index + 1}</label>
-            <RecipeStep
-              key={index}
-              step={step}
-              handleStepChange={(fieldName, value) =>
-                handleStepChange(index, fieldName, value)
-              }
-              index={index}
-            />
+            <div className="row mb-2">
+              <div className="col-md-12">
+                <label className="mb-3 mt-3">Step {index + 1}</label>
+                {index > 0 && (
+                  <Button
+                    icon="pi pi-times"
+                    onClick={() => removeStep(index)}
+                    rounded
+                    text
+                    severity="secondary"
+                    className="float-end"
+                    size="small"
+                    style={{ height: "30px", width: "30px", marginTop: "8px" }}
+                  />
+                )}
+              </div>
+            </div>
+
+            <div className="row">
+              <RecipeStep
+                key={index}
+                step={step}
+                handleStepChange={(fieldName, value) =>
+                  handleStepChange(index, fieldName, value)
+                }
+                index={index}
+                touched={formik.touched.steps}
+                errors={formik.errors.steps}
+                removeStep={removeStep}
+              />
+            </div>
           </>
         ))}
         <div className="col-lg-3 col-md-4 col-sm-7">
@@ -374,16 +409,6 @@ function RecipeForm({
             Click to add more steps
           </Button>
         </div>
-        {/* {formik.touched.steps && formik.errors.steps ? (
-          <div className="text-danger">{formik.errors.steps}</div>
-        ) : null} */}
-        {formik.touched.steps && formik.errors.steps ? (
-          <div className="text-danger">
-            {typeof formik.errors.steps === "string"
-              ? formik.errors.steps
-              : "Step 1 is required."}
-          </div>
-        ) : null}
       </Row>
 
       <Row>
