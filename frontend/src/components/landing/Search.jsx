@@ -90,7 +90,7 @@ function Search({
     { value: "Mediterranean", label: "Mediterranean" },
     { value: "Italian", label: "Italian" },
     { value: "American", label: "American" },
-    { value: "Latin-American", label: "Latin-American" },
+    { value: "Latin American", label: "Latin American" },
     { value: "South Asian", label: "South Asian" },
     { value: "Eastern European", label: "Eastern European" },
     { value: "Oceanic", label: "Oceanic" },
@@ -176,7 +176,7 @@ function Search({
           zIndex: "0",
         }}
       >
-        <BiSearchAlt style={{ fontSize: "24px" }} />
+        <BiSearchAlt class="iconfd" />
       </Button>
       <InputText
         id="search-bar"
@@ -203,7 +203,7 @@ function Search({
         }}
         onClick={openModal}
       >
-        <TbAdjustmentsHorizontal style={{ fontSize: "24px" }} />
+        <TbAdjustmentsHorizontal class="iconfd" />
       </Button>
     </InputGroup>
   </Form>
