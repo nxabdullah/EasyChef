@@ -314,3 +314,11 @@ div.p-avatar.p-component.p-avatar-circle.p-avatar-xl {
   color: white;
   font-weight: 500;
 }
+
+.p-autocomplete-input-token input {
+  border: none !important;
+}
+
+.p-autocomplete-multiple-container {
+  width: 100%;
+}

@@ -16,13 +16,14 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import EditProfile from "./pages/EditProfile";
 import Recipe from "./pages/Recipe";
-import Search from "./components/landing/Search";
+// import Search from "./components/landing/Search";
 import CreateRecipe from "./pages/CreateRecipe";
 import Shopping from "./pages/Shopping";
 import MyRecipes from "./pages/MyRecipes";
 import EditRecipe from "./pages/EditRecipe";
 // import this as DupRecipe
 import DupRecipe from "./pages/DuplicateRecipe";
+import Search from "./pages/Search";
 
 function App() {
   const { accountLoading } = useContext(AccountContext);
@@ -48,13 +49,14 @@ function App() {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/profile" element={<EditProfile />} />
-          <Route partial path="/search" element={<Search />} />
+          {/* <Route partial path="/search" element={<Search />} /> */}
           <Route exact path="/recipes/create" element={<CreateRecipe />} />
           <Route exact path="/shopping" element={<Shopping />} />
           <Route exact path="/account/recipes" element={<MyRecipes />} />
           <Route exact path="/recipes/:id" element={<Recipe />} />
           <Route exact path="/recipes/:id/edit" element={<EditRecipe />} />
           <Route exact path="/recipes/:id/create" element={<DupRecipe />} />
+          <Route exact path="/search" element={<Search />} />
         </Routes>
       </div>
     </Router>
