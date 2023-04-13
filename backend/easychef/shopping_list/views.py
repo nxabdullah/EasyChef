@@ -15,6 +15,7 @@ from recipes.models import Recipe
 
 def build_shopping_list(shoppingItems):
     shopping_list = []
+    sorted_shopping_list = []
 
     for item in shoppingItems:
         ingredients = item.recipe.get_ingredients_list()
@@ -22,6 +23,8 @@ def build_shopping_list(shoppingItems):
         new_serving = item.serving_size
 
         ratio = new_serving / original_serving
+
+        sorted_shopping_list = []
 
         for ingredient in ingredients:
 
@@ -102,9 +105,13 @@ class ShoppingListAPIView(ListAPIView):
     url: /shopping_list/recipes
     """
     permission_classes = [permissions.IsAuthenticated]
+    # must belong to user
     queryset = ShoppingItem.objects.all()
     serializer_class = ShoppingItemSerializer
     pagination_class = ShoppingListPagination
+
+    def get_queryset(self):
+        return ShoppingItem.objects.filter(user=self.request.user)
 
     def put(self, request):
         data = request.data
