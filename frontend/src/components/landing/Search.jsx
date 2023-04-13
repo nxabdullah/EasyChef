@@ -90,7 +90,7 @@ function Search({
     { value: "Mediterranean", label: "Mediterranean" },
     { value: "Italian", label: "Italian" },
     { value: "American", label: "American" },
-    { value: "Latin-American", label: "Latin-American" },
+    { value: "Latin American", label: "Latin American" },
     { value: "South Asian", label: "South Asian" },
     { value: "Eastern European", label: "Eastern European" },
     { value: "Oceanic", label: "Oceanic" },
