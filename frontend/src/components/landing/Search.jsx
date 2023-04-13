@@ -1,5 +1,5 @@
 // SELECTED FILTERS: ALMOST DONE GOTTA ADD BUTTON
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import "../../styles/search.css";
 import Select from "react-select";
@@ -7,19 +7,18 @@ import Modal from "react-modal";
 import { GiAvocado, GiKnifeFork } from "react-icons/gi";
 import { TbClockRecord, TbAdjustmentsHorizontal } from "react-icons/tb";
 import { BiSearchAlt } from "react-icons/bi"
-import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
+import Slider from "@mui/material/Slider";
 import { InputText } from "primereact/inputtext";
 
 function Search({
   searchQuery,
   cuisines,
   diets,
-  cookTime,
+  maxCookTime,
   onSearchChange,
   onCuisinesChange,
   onDietsChange,
-  onCookTimeChange,
+  onMaxCookTimeChange,
   onSearchSubmit,
   onPageChange,
 }) {
@@ -141,97 +140,12 @@ function Search({
             {filteredCuisines.join(", ")}
           </span>
         )}
-        {(filteredCookTimes.length > 0 && filteredCookTimes[0] !== 0) ||
-          (filteredCookTimes[1] !== 121 && (
-            <span className="selection">
+         {maxCookTime > 0 && (
+        <span className="selection">
               <TbClockRecord style={{ marginRight: "5px" }} />
-              {`${filteredCookTimes[0]} - ${filteredCookTimes[1]} mins`}
+              {`${filteredCookTimes} mins`}
             </span>
-          ))}
-      </Container>
-    );
-  };
-
-  const CookTimeSlider = () => {
-    const [range, setRange] = useState(cookTime);
-
-    const handleRangeChange = (values) => {
-      if (values[0] > values[1]) {
-        setRange([range[0], values[0]]);
-      } else if (values[1] < values[0]) {
-        setRange([values[1], range[1]]);
-      } else {
-        setRange(values);
-      }
-      onCookTimeChange(values);
-    };
-
-    const railStyle = {
-      backgroundColor: "#ccc",
-      height: "8px",
-      borderRadius: "2px",
-    };
-    const trackStyle = {
-      backgroundColor: "#3a9691",
-      height: "8px",
-      borderRadius: "2px",
-    };
-    const handleStyle = {
-      borderColor: "#3a9691",
-      height: "20px",
-      width: "20px",
-      marginLeft: "-8px",
-      marginTop: "-8px",
-      backgroundColor: "white",
-    };
-    const activeHandleStyle = {
-      borderColor: "#3a9691",
-      height: "20px",
-      width: "20px",
-      marginLeft: "-8px",
-      marginTop: "-8px",
-      backgroundColor: "#3a9691",
-    };
-
-    
-    return (
-      <Container>
-        <Slider
-          range
-          value={range}
-          onChange={handleRangeChange}
-          min={0}
-          max={121}
-          step={5}
-          dotStyle={{ height: 10, width: 10, alignContent: "center" }}
-          railStyle={railStyle}
-          trackStyle={[trackStyle]}
-          handleStyle={[handleStyle, handleStyle]}
-          activeHandleStyle={[activeHandleStyle, activeHandleStyle]}
-          marks={{
-            0: "0 mins",
-            30: "30 mins",
-            60: "1 hr",
-            90: "1 hr 30 mins",
-            121: "2 hrs+",
-          }}
-          style={{
-            width: "45vw",
-            marginLeft: "1vw",
-            height: "3vw",
-          }}
-        />
-        <Container>
-          Min Cook Time: {range[0] !== null ? range[0] + " mins" : 0}
-        </Container>
-        <Container>
-          Max Cook Time:{" "}
-          {range[1] !== null
-            ? range[1] >= 121
-              ? "120+ mins"
-              : range[1] + " mins"
-            : 240}
-        </Container>
+         )}
       </Container>
     );
   };
@@ -267,7 +181,7 @@ function Search({
       <InputText
         id="search-bar"
         name="q"
-        placeholder="Search 100+ recipes"
+        placeholder="Search recipes"
         value={searchQuery}
         onChange={onSearchChange}
         className="form-control cornerless flex-grow-1 mb-4 font-alv"
@@ -294,7 +208,7 @@ function Search({
     </InputGroup>
   </Form>
 
-          <Container>{selected(diets, cuisines, cookTime)}</Container>
+          <Container>{selected(diets, cuisines, maxCookTime)}</Container>
         </Container>
         <Container class="search-filters">
           <Modal
@@ -384,7 +298,38 @@ function Search({
                   Cook Time{" "}
                   <TbClockRecord style={{ height: "25px" }}></TbClockRecord>
                 </h2>
-                <CookTimeSlider></CookTimeSlider>
+                <div style={{ width: "80%", margin: "auto" }}>
+                  <Slider
+                    onChange={onMaxCookTimeChange}
+                    value={maxCookTime}
+                    step={5}
+                    min={0}
+                    max={120}
+                    marks={[    
+                      { value: 0, label: 'Reset' },    
+                      { value: 30, label: '30 min' },    
+                      { value: 60, label: '1 hr' },    
+                      { value: 90, label: '1 hr 30 min' },    
+                      { value: 120, label: '2 hrs' },  ]}
+                    valueLabelDisplay="auto"
+                    sx={{
+                      color: "#3a9691",
+                      '& .MuiSlider-rail': {
+                        backgroundColor: "#ccc",
+                        height: "8px",
+                        borderRadius: "2px",
+                      },
+                      '& .MuiSlider-track': {
+                        backgroundColor: "#3a9691",
+                        height: "8px",
+                        borderRadius: "2px",
+                      },
+                      '& .MuiSlider-thumb': {
+                        border: "2px solid #3a9691",
+                      },
+                    }}
+                  />
+                </div>
               </Col>
             </Row>
             <Container style={{ textAlign: "center" }}>
