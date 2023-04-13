@@ -22,8 +22,13 @@ function Login() {
   const navigate = useNavigate();
 
   const handleSubmit = async (values, { setSubmitting }) => {
+    const updatedValues = {
+      ...values,
+      username: values.username.toLowerCase(),
+    };
+
     try {
-      const response = await axios.post(LOGIN_ENDPOINT, values);
+      const response = await axios.post(LOGIN_ENDPOINT, updatedValues);
       login(response.data.token);
       navigate("/"); // Redirect to the desired page after successful login
     } catch (error) {
