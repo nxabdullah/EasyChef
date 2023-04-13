@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
+import AccountContext from "../../contexts/AccountContext";
 import axios from "axios";
 import CustomCard from "../shared/CustomCard";
 import { ACCOUNT_ENDPOINT } from "../../config/constants";
@@ -6,7 +7,8 @@ import useToken from "../../hooks/useToken";
 import ProfilePictureUpload from "./ProfilePictureUpload";
 
 // takes account state
-function ProfileDetailsCard({ account, setAccount }) {
+function ProfileDetailsCard() {
+  const { account, setAccount } = useContext(AccountContext);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [errors, setErrors] = useState({});

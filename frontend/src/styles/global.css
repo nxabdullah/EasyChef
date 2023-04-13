@@ -238,3 +238,39 @@ div.p-avatar.p-component.p-avatar-circle.p-avatar-xl {
 .font-alv {
   font-family: "Alegreya Sans", sans-serif;
 }
+
+.shopping-list-skeleton {
+  list-style: none;
+}
+
+.shopping-list-skeleton li {
+  margin-bottom: 10px;
+}
+
+.p-button span {
+  font-weight: 400;
+}
+
+.shopping-list-load-more span {
+  /* color: #333; */
+  font-family: "Alegreya Sans", sans-serif;
+  letter-spacing: 0.5px;
+  font-size: 14.5px;
+}
+
+.shopping-list-load-more {
+  /* padding-left: 7px; */
+  height: 30px;
+  margin-left: 5px;
+}
+
+.shopping-items-load-more {
+  padding-left: 7px;
+  margin-left: 5px;
+  height: 30px;
+}
+
+.shopping-items-load-more span {
+  padding-right: 2px;
+  padding-top: 2px;
+}

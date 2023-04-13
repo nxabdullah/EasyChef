@@ -37,7 +37,7 @@ function DetailsShopping({ servingSize, recipeId }) {
       severity: "success",
       summary: "Success",
       detail: "Your shopping list was updated!",
-      life: 5000,
+      life: 2000,
     });
   };
 
@@ -98,13 +98,17 @@ function DetailsShopping({ servingSize, recipeId }) {
         <label className="form-label">Enter Serving Size</label> <br />
         <InputNumber
           value={selectedServingSize}
-          onValueChange={(e) => {
+          // onValueChange={(e) => {
+          //   setSelectedServingSize(e.value);
+          // }}
+          onChange={(e) => {
+            setUpdated(true);
             setSelectedServingSize(e.value);
           }}
-          onChange={() => setUpdated(true)}
           min={1}
           placeholder={servingSize}
           showButtons
+          //onClick={() => setUpdated(true)}
         />
         <div className="mt-4">
           <button
@@ -112,7 +116,11 @@ function DetailsShopping({ servingSize, recipeId }) {
             id="shop-ingredients"
             rounded
             onClick={handleButtonClick}
-            disabled={loading || !updated}
+            disabled={
+              loading ||
+              (!updated && inShoppingList) ||
+              selectedServingSize === null
+            }
           >
             {inShoppingList ? "Update Shopping List" : "Add To Shopping List"}
           </button>

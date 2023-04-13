@@ -3,19 +3,13 @@ from rest_framework import serializers
 from .models import ShoppingItem
 from recipes.models import Recipe
 from rest_framework.reverse import reverse
+from recipes.serializers import RecipeSerializer
 
+# class RecipeSerializer(serializers.ModelSerializer):
 
-class RecipeSerializer(serializers.ModelSerializer):
-    url = serializers.SerializerMethodField(read_only=True)
-
-    class Meta:
-        model = Recipe
-        fields = ('id', 'name', 'url')
-
-    def get_url(self, obj):
-        request = self.context.get('request')
-        if request:
-            return request.build_absolute_uri(reverse('recipes:view-edit-delete-recipe', args=[obj.pk]))
+#     class Meta:
+#         model = Recipe
+#         fields = ('id', 'name', 'images')
 
 
 class ShoppingItemSerializer(serializers.ModelSerializer):
@@ -31,9 +25,10 @@ class ShoppingItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShoppingItem
-        fields = ['recipe_id', 'recipe', 'serving_size']
+        fields = ['id','recipe_id', 'recipe', 'serving_size']
 
 
 class ShoppingIngredientsSerializer(serializers.Serializer):
+    # id = serializers.IntegerField()
     name = serializers.CharField()
     quantity = serializers.FloatField()

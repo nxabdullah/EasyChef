@@ -150,16 +150,6 @@
   text-align: center;
 }
 
-/* Card responsiveness */
-.card h2 {
-  color: #3a9691;
-  font-size: 1.5rem;
-}
-
-.card {
-  min-height: 460px;
-}
-
 .clicky,
 .clicky:hover {
   text-decoration: none;
