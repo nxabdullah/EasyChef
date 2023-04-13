@@ -4,81 +4,111 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Search from "../components/landing/Search.jsx";
+import "../styles/search.css";
 import RecipeCard from "../components/shared/RecipeCard.jsx";
-import { SEARCH_ENDPOINT } from "../config/constants";
+import { SEARCH_ENDPOINT, RECIPES_ENDPOINT } from "../config/constants";
+import { Button } from "react-bootstrap";
 
 function Landing() {
   //Set states for searchQuery and filters as planned
   const [popularRecipes, setPopularRecipes] = useState([]);
+  const [searchedRecipes, setSearchedRecipes] = useState([])
   const [searchQuery, setSearchQuery] = useState("");
   const [cuisines, setCuisines] = useState([]);
   const [diets, setDiets] = useState([]);
   const [cookTime, setCookTime] = useState([0, 121]); // default min and max cook times
-  const [page, setPage] = useState(1);
+  const [searchedPage, setSearchedPage] = useState(1)
+  const [popularPage, setPopularPage] = useState(1)
+  const [total, setTotal] = useState(0)
+  const [searched, setSearched] = useState(false)
 
-  // //useEffect hook for popular recipes (no params)
-  // useEffect(() => {
-  //   const fetchPopularRecipes = async () => {
-  //     try {
-  //       const response = await axios.get(SEARCH_ENDPOINT, { page });
-  //       setPopularRecipes(response.data.results);
-  //     } catch (error) {
-  //       console.error("Error fetching popular recipes:", error);
-  //     }
-  //   };
-
-  //   fetchPopularRecipes();
-  // }, [page]);
-
-  //useEffect hook for queried recipes (uses same hook function: setPopularRecipes)
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const params = {
-          //params available
-          page: page,
-          search: searchQuery,
-          cuisines: cuisines.join(","),
-          diets: diets.join(","),
-          min_cook_time: cookTime[0],
-          max_cook_time: cookTime[1],
-        };
-
-        const response = await axios.get(SEARCH_ENDPOINT, { params }); //endpoint plus params
-
-        const newRecipes = response.data.results;
-        if (page === 1) {
-          setPopularRecipes(newRecipes); //produce results (PAGINATION YET TO BE ADDRESSED)
-        } else {
-          // Otherwise, concatenate the new recipes with the previous ones
-          setPopularRecipes((prevRecipes) => [...prevRecipes, ...newRecipes]);
+        setTotal(0);
+        
+        if (searchQuery.length === 0 && cuisines.length ===0 && diets.length ===0) {
+          setSearchedRecipes([])
+          const response = await axios.get(`${RECIPES_ENDPOINT}popular/`, { params: { page: popularPage } });
+          const newRecipes = response.data.results;
+          setTotal(response.data.count);  
+          if (popularPage === 1) {
+            setPopularRecipes(newRecipes);
+          } else {
+            setPopularRecipes((prevRecipes) => [...prevRecipes, ...newRecipes]);
+          }
+        } else if (searchQuery.length !== 0 || cuisines.length!==0 || diets.length !==0) {
+          setPopularRecipes([]); // Clear popular recipes array 
+          const params = {
+            page: searchedPage,
+            search: searchQuery,
+            cuisines: cuisines.join(","),
+            diets: diets.join(","),
+            min_cook_time: cookTime[0],
+            max_cook_time: cookTime[1],
+          };
+          
+          const response = await axios.get(SEARCH_ENDPOINT, { params });
+          const newRecipes = response.data.results;
+          setTotal(response.data.count);
+          if (searchedPage === 1) {
+            setSearchedRecipes(newRecipes);
+          } else {
+            setSearchedRecipes((prevRecipes) => [...prevRecipes, ...newRecipes]);
+          }
         }
       } catch (error) {
         console.error("Error fetching recipes:", error);
       }
     };
-
     fetchRecipes();
-  }, [searchQuery, cuisines, diets, cookTime, page]); //dependency array for the hook (when any of these change, the hook runs again)
-
+    setSearched(false)
+  }, [popularPage, searchedPage, searched, cuisines, diets, cookTime]); 
+  
+  
   //event handlers to update respective state variables upon user itneraction
   const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
+    setSearchQuery(event.target.value)
   };
 
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    setSearched(true)
+    setSearchedPage(1)
+    setPopularPage(1) 
+  }
+
   const handleShowMore = () => {
-    setPage((prevPage) => prevPage + 1);
+    if (popularRecipes.length < total) {
+      setPopularPage(prevPage => prevPage + 1);
+    }
   };
+  
+  const handleShowMore2 = () => {
+    if (searchedRecipes.length < total) {
+      setSearchedPage(prevPage => prevPage + 1);
+    }
+  };
+
+  //ADD FOR POPULAR PAGE TOO?
   const handleCuisinesChange = (selectedOptions) => {
+    setSearchedRecipes([])
     setCuisines(selectedOptions.map((option) => option.value));
   };
   const handleDietsChange = (selectedOptions) => {
+    setSearchedRecipes([])
     setDiets(selectedOptions.map((option) => option.value));
   };
 
   const handleCookTimeChange = (newValue) => {
     setCookTime(newValue);
   };
+
+  const handlePageChange = () => {
+    setSearchedPage(1)
+    setPopularPage(1)
+  }
+ 
   return (
     <div>
       <Search
@@ -90,9 +120,12 @@ function Landing() {
         onCuisinesChange={handleCuisinesChange}
         onDietsChange={handleDietsChange}
         onCookTimeChange={handleCookTimeChange}
+        onSearchSubmit = {handleSearchSubmit}
+        onPageChange = {handlePageChange}
       />
-      <h3 className="mt-4 pt-4">
-        {searchQuery ? "Search Results" : "Popular on Easychef"}
+      <h3 className="mt-1 pt-4">
+      {(searchedRecipes.length === 0 && diets.length === 0 && cuisines.length===0) ? "Popular on EasyChef" : (total > 0 ? `Search Results (${total})` : "No recipes found")}
+
       </h3>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         {popularRecipes.map((recipe) => (
@@ -100,10 +133,69 @@ function Landing() {
             <RecipeCard recipe={recipe} />
           </div>
         ))}
-        {popularRecipes.length >= 0 && (
-          <button onClick={handleShowMore}>Show More</button>
-        )}
-      </div>
+        {searchedRecipes.map((recipe) => (
+          <div key={recipe.id} className="col">
+            <RecipeCard
+              id={recipe.id}
+              title={recipe.name}
+              image={recipe.images[0] && recipe.images[0].image}
+              time={recipe.totalTime}
+              rating={recipe.rating}
+              numReviews={recipe.numReviews}
+            />
+          </div>
+        ))}
+        </div>
+        {!searchQuery ? (
+  <div style={{textAlign: "center"}}>
+    {popularRecipes.length < total ? (
+      <Button
+        style={{
+          backgroundColor: "#3a9691",
+          border: "none",
+          borderRadius: "5px",
+          color: "white",
+          cursor: "pointer",
+          fontSize: "16px",
+          fontWeight: "bold",
+          padding: "10px",
+          marginTop: "20px",
+          width: "15vw",
+        }}
+        onClick={handleShowMore}
+      >
+        Show More
+      </Button>
+    ) : (
+      total > 0 && <p className="mt-3" style={{fontSize: "20px"}}>No more recipes found</p>
+    )}
+  </div>
+) : (
+  <div style={{textAlign: "center"}}>
+    {searchedRecipes.length < total ? (
+      <Button
+        style={{
+          backgroundColor: "#3a9691",
+          border: "none",
+          borderRadius: "5px",
+          color: "white",
+          cursor: "pointer",
+          fontSize: "16px",
+          fontWeight: "bold",
+          padding: "10px",
+          marginTop: "20px",
+          width: "15vw",
+        }}
+        onClick={handleShowMore2}
+      >
+        Show More
+      </Button>
+    ) : (
+      total > 0 && <p className="mt-3" style={{fontSize: "20px"}}>No more recipes found</p>
+    )}
+  </div>
+)}
+
     </div>
   );
 }
