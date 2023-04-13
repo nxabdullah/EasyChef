@@ -29,12 +29,22 @@ function Register() {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorFieldValues, setErrorFieldValues] = useState({});
 
-  const handleSubmit = async (values, { setSubmitting, setFieldError }) => {
+  const handleSubmit = async (
+    values,
+    { setSubmitting, setFieldError, resetForm }
+  ) => {
+    const updatedValues = {
+      ...values,
+      username: values.username.toLowerCase(),
+      email: values.email.toLowerCase(),
+    };
+
     try {
-      await axios.post(REGISTER_ENDPOINT, values);
+      await axios.post(REGISTER_ENDPOINT, updatedValues);
       setSuccessMessage("Registration successful! You can now log in.");
       setErrors({});
       setErrorFieldValues({});
+      resetForm();
     } catch (error) {
       setSubmitting(false);
       if (error.response && error.response.status === 400) {

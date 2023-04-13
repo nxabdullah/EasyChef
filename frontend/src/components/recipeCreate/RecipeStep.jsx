@@ -20,7 +20,14 @@ const getImageUrl = (url) => {
 // second issue was stuff not showing but its resolved now
 // but check for video
 
-function RecipeStep({ step, handleStepChange, index }) {
+function RecipeStep({
+  step,
+  handleStepChange,
+  index,
+  touched,
+  errors,
+  removeStep,
+}) {
   const [images, setImages] = useState(step.images); // [{id: 1, url: "http://localhost:8000/media/recipes/1/1.jpg"}, ...]
   const [videos, setVideos] = useState(step.videos);
 
@@ -57,6 +64,9 @@ function RecipeStep({ step, handleStepChange, index }) {
           value={step.description}
           onChange={(e) => handleStepChange("description", e.target.value)}
         />
+        {touched && errors && errors[index] ? (
+          <div className="text-danger">{errors[index].description}</div>
+        ) : null}
       </Col>
 
       <Row className="mt-2">
@@ -66,8 +76,12 @@ function RecipeStep({ step, handleStepChange, index }) {
             placeholder="20"
             className="recipe-form-input"
             value={step.prep_time}
+            type="number"
             onChange={(e) => handleStepChange("prep_time", e.target.value)}
           />{" "}
+          {touched && errors && errors[index] ? (
+            <div className="text-danger">{errors[index].prep_time}</div>
+          ) : null}
         </Col>
 
         <Col md={4}>
@@ -77,7 +91,11 @@ function RecipeStep({ step, handleStepChange, index }) {
             className="recipe-form-input"
             value={step.cook_time}
             onChange={(e) => handleStepChange("cook_time", e.target.value)}
+            type="number"
           />{" "}
+          {touched && errors && errors[index] ? (
+            <div className="text-danger">{errors[index].cook_time}</div>
+          ) : null}
         </Col>
 
         <Col md={4}>

@@ -21,8 +21,8 @@ const CustomMultiSelect = ({
   const [showAddError, setShowAddError] = useState(false);
   const [renderKey, setRenderKey] = useState(0); // hacky solution to re-render multi-select
   // console.log(value);
-  console.log("localOptions: " + JSON.stringify(localOptions));
-  console.log("value: " + JSON.stringify(value));
+  // console.log("localOptions: " + JSON.stringify(localOptions));
+  // console.log("value: " + JSON.stringify(value));
 
   useEffect(() => {
     const newOptions = value.filter((option) => !localOptions.includes(option));
@@ -50,12 +50,18 @@ const CustomMultiSelect = ({
   };
 
   const handleNewItemChange = (e) => {
-    setNewItem(e.target.value);
+    let new_item = e.target.value;
+    // if (new_item) {
+    //   new_item = new_item.toLowerCase();
+    // }
+    setNewItem(new_item);
   };
 
   const addNewItem = () => {
     // if item is in localOptions, don't add it
-    if (localOptions.find((item) => item === newItem)) {
+    if (
+      localOptions.find((item) => item.toLowerCase() === newItem.toLowerCase())
+    ) {
       setShowAddError(true);
       return;
     }
