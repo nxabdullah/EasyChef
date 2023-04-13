@@ -289,3 +289,16 @@ div.p-avatar.p-component.p-avatar-circle.p-avatar-xl {
 .p-inline-message-success {
   font-family: "Alegreya Sans", sans-serif;
 }
+
+.nav-link.active,
+.active-custom {
+  color: #2f7b77 !important;
+  font-weight: 500;
+}
+
+#create-button-new {
+  padding: 5px;
+  /* margin-top: 2px; */
+  color: white;
+  font-weight: 500;
+}

@@ -1,46 +1,52 @@
 import { useContext } from "react";
 import AccountContext from "../../contexts/AccountContext";
 
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import { Avatar } from "primereact/avatar";
+import { Button } from "primereact/button";
 
 function NavLinksAuth() {
   const { getInitials, account, logout } = useContext(AccountContext);
+  const location = useLocation();
+
+  const isDropdownActive = location.pathname.startsWith("/profile");
 
   return (
     <>
-      <ul class="navbar-nav ms-auto">
+      <ul className="navbar-nav ms-auto">
         <li className="nav-item nav-primary">
           <NavLink to={"/"} className="nav-link">
             Home
           </NavLink>
         </li>
-        <li class="nav-item nav-primary">
+        <li className="nav-item nav-primary">
           <NavLink to={"/account/recipes"} className="nav-link">
             My Recipes
           </NavLink>
         </li>
 
-        <li class="nav-item nav-primary">
+        <li className="nav-item nav-primary">
           <NavLink to={"/shopping"} className="nav-link">
             Shopping List
           </NavLink>
         </li>
 
-        <li class="nav-item dropdown">
+        <li className={`nav-item dropdown`}>
           <div
-            class="nav-link dropdown-toggle"
+            className={`nav-link dropdown-toggle`}
             href="#"
             id="navbarDropdown"
             role="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            My Profile
+            <span className={`${isDropdownActive && "active-custom"}`}>
+              My Profile
+            </span>
           </div>
-          <ul class="dropdown-menu custom" aria-labelledby="navbarDropdown">
+          <ul className="dropdown-menu custom" aria-labelledby="navbarDropdown">
             <li>
-              <Link to="/profile" class="text-decoration-none">
+              <Link to="/profile" className="text-decoration-none">
                 <div id="nav-user-section">
                   <Avatar
                     label={account && getInitials()}
@@ -55,29 +61,35 @@ function NavLinksAuth() {
               </Link>
             </li>
             <li>
-              <hr class="dropdown-divider" />
+              <hr className="dropdown-divider" />
             </li>
             <li>
-              <Link to="/profile" class="dropdown-item">
-                <i class="fa-regular fa-user inline-icon"></i>
+              <Link to="/profile" className="dropdown-item">
+                <i className="fa-regular fa-user inline-icon"></i>
                 Edit Profile
               </Link>
             </li>
             <li>
-              <Link to="/login" class="dropdown-item" onClick={logout}>
-                <i class="fa-solid fa-power-off inline-icon"></i>
+              <Link to="/login" className="dropdown-item" onClick={logout}>
+                <i className="fa-solid fa-power-off inline-icon"></i>
                 Log out
               </Link>
             </li>
           </ul>
         </li>
 
-        <li class="nav-item nav-primary">
-          <Link to="/recipes/create" class="nav-link p-0">
-            <button id="create-button">
-              <span class="fa-solid fa-plus"></span>
+        <li className="nav-item nav-primary">
+          <Link to="/recipes/create" className="nav-link p-0">
+            {/* <button id="create-button">
+              <span className="fa-solid fa-plus"></span>
               <span>Add Recipe</span>
-            </button>
+            </button> */}
+            <Button
+              raised
+              icon="pi pi-plus"
+              id="create-button-new"
+              // className="btn-primary-c"
+            />
           </Link>
         </li>
       </ul>
