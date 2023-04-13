@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views.views import RecipeRetrieveUpdateDestroyAPIView, RecipeCreateAPIView, FavouriteRecipeAPIView, IngredientsAPIView, PopularRecipesAPIView, RatingsAPIView
+from .views.views import RecipeRetrieveUpdateDestroyAPIView, RecipeCreateAPIView, FavouriteRecipeAPIView, IngredientsAPIView, PopularRecipesAPIView, RatingsAPIView, AvgRatingsAPIView
 
 from .views.media_views import UploadCommentImageAPIView, \
     UploadCommentVideoAPIView, UploadRecipeImageAPIView,\
@@ -21,6 +21,7 @@ urlpatterns = [
     # social media
     path('<int:pk>/favourite/', FavouriteRecipeAPIView.as_view(), name = 'favourite-recipes'),
     path('<int:pk>/ratings/', RatingsAPIView.as_view(), name="ratings"),
+    path('<int:pk>/ratings/average/', AvgRatingsAPIView.as_view(), name="ratings"),
     path('popular/', PopularRecipesAPIView().as_view()),
 
     # ingredients (autofill)

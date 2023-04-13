@@ -296,3 +296,18 @@ class RatingsAPIView(CreateAPIView, UpdateAPIView, DestroyAPIView, RetrieveAPIVi
 
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class AvgRatingsAPIView(ListAPIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        try:
+            recipe_id = self.kwargs['pk']
+            recipe = Recipe.objects.get(pk=recipe_id)
+        except Recipe.DoesNotExist:
+            return Response({"detail": "Recipe not found with the given pk."},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        average_rating = recipe.get_average_rating()
+        return Response({"avg_rating": average_rating})

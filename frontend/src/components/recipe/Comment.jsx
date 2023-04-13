@@ -84,8 +84,6 @@ function Comment({ comment }) {
           </div>
         </div>
       </div>
-
-      <hr className="mb-4 pb-4" />
     </>
   );
 }

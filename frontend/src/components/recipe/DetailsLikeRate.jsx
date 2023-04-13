@@ -1,21 +1,40 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import useAuthToken from "../../hooks/useAuthToken";
+import AccountContext from "../../contexts/AccountContext";
+import { ConfirmDialog } from "primereact/confirmdialog";
+import NoAuthDialog from "./NoAuthDialog";
 
 function DetailsLikeRate({ numFavs, recipeId }) {
   const [isFavorited, setIsFavorited] = useState(false);
   const [favoritesCount, setFavoritesCount] = useState(numFavs);
   const [ratingData, setRatingData] = useState(null);
-
+  const { isAuth } = useContext(AccountContext);
+  const [showDialog, setShowDialog] = useState(false);
   useAuthToken();
 
   useEffect(() => {
-    fetchRatingData();
+    if (isAuth) {
+      fetchRatingData();
+    } else {
+      fetchRatingData2();
+    }
   }, []);
 
   useEffect(() => {
     fetchFavouriteData();
   }, []);
+
+  async function fetchRatingData2() {
+    const url = `http://localhost:8000/api/recipes/${recipeId}/ratings/average/`;
+
+    try {
+      const response = await axios.get(url);
+      setRatingData(response.data);
+    } catch (error) {
+      console.error("Error fetching rating data:", error);
+    }
+  }
 
   async function fetchRatingData() {
     const url = `http://localhost:8000/api/recipes/${recipeId}/ratings/`;
@@ -69,6 +88,11 @@ function DetailsLikeRate({ numFavs, recipeId }) {
   }
 
   async function handleRating(rating) {
+    if (!isAuth) {
+      setShowDialog(true);
+      return;
+    }
+
     const url = `http://localhost:8000/api/recipes/${recipeId}/ratings/`;
 
     try {
@@ -80,6 +104,11 @@ function DetailsLikeRate({ numFavs, recipeId }) {
   }
 
   async function handleFavourite() {
+    if (!isAuth) {
+      setShowDialog(true);
+      return;
+    }
+
     const url = `http://localhost:8000/api/recipes/${recipeId}/favourite/`;
 
     try {
@@ -123,6 +152,12 @@ function DetailsLikeRate({ numFavs, recipeId }) {
           <span>({favoritesCount})</span>
         </span>
       </div>
+
+      <NoAuthDialog
+        showDialog={showDialog}
+        setShowDialog={setShowDialog}
+        action="rate and favourite recipes"
+      />
     </>
   );
 }

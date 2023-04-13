@@ -4,6 +4,7 @@ import { RECIPE_COMMENTS_ENDPOINT } from "../../config/constants";
 import CustomCard from "../shared/CustomCard";
 import CommentsPost from "./CommentsPost";
 import CommentsView from "./CommentsView";
+import { Button } from "primereact/button";
 
 // note created_after means created_before, but im too lazy to change it
 function Comments({ recipe_id }) {
@@ -79,12 +80,9 @@ function Comments({ recipe_id }) {
         />
         <CommentsView comments={comments} setComments={setComments} />
         {comments && comments.next && (
-          <button
-            className="btn btn-primary-c p-button d-block m-auto mb-4"
-            onClick={loadMore}
-          >
+          <Button className="d-block m-auto mb-4 force-font" onClick={loadMore}>
             Load more
-          </button>
+          </Button>
         )}
       </>
     </CustomCard>

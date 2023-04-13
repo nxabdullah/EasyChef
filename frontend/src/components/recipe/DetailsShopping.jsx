@@ -1,24 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import { InputNumber } from "primereact/inputnumber";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
-
-// TODO: the button can be much smoother
-// and we can add some animation
-// placeholder should be grayer
-
-/*
-            {loading
-              ? "Processing..."
-              : inShoppingList
-              ? "Update Shopping List"
-              : "Add To Shopping List"}
-*/
-
-/*
-serving size of 0 to remove? or button?
-*/
+import NoAuthDialog from "./NoAuthDialog";
+import AccountContext from "../../contexts/AccountContext";
 
 function DetailsShopping({ servingSize, recipeId }) {
   const [selectedServingSize, setSelectedServingSize] = useState(null);
@@ -26,7 +12,9 @@ function DetailsShopping({ servingSize, recipeId }) {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [updated, setUpdated] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
   const toast = useRef(null);
+  const { isAuth } = useContext(AccountContext);
 
   useEffect(() => {
     fetchServingSize();
@@ -59,6 +47,11 @@ function DetailsShopping({ servingSize, recipeId }) {
   };
 
   const handleButtonClick = async () => {
+    if (!isAuth) {
+      setShowDialog(true);
+      return;
+    }
+
     setLoading(true);
     try {
       await axios.put("http://localhost:8000/api/shopping_list/recipes/", {
@@ -66,11 +59,6 @@ function DetailsShopping({ servingSize, recipeId }) {
         serving_size: selectedServingSize,
       });
 
-      // setSuccessMessage(
-      //   inShoppingList
-      //     ? "Serving size updated."
-      //     : "Recipe added to shopping list."
-      // );
       setInShoppingList(true);
       setUpdated(false);
       showSuccess();
@@ -126,6 +114,11 @@ function DetailsShopping({ servingSize, recipeId }) {
           </button>
         </div>
       </div>
+      <NoAuthDialog
+        showDialog={showDialog}
+        setShowDialog={setShowDialog}
+        action="add recipes to your shopping list"
+      />
     </div>
   );
 }

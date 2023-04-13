@@ -6,7 +6,7 @@ import RecipeCarousel from "./RecipeCarousel";
 import AccountContext from "../../contexts/AccountContext";
 
 function DetailsHeader({ recipe }) {
-  const { account } = useContext(AccountContext);
+  const { account, isAuth } = useContext(AccountContext);
   return (
     <div className="row gx-5">
       <div className="col-lg-5">
@@ -48,15 +48,17 @@ function DetailsHeader({ recipe }) {
           </div>
         )}
 
-        <Link to="create">
-          <button
-            className={`btn btn-secondary btn-sm float-end ${
-              account && account.username === recipe.creator && "me-3"
-            }`}
-          >
-            Duplicate
-          </button>
-        </Link>
+        {isAuth && (
+          <Link to="create">
+            <button
+              className={`btn btn-secondary btn-sm float-end ${
+                account && account.username === recipe.creator && "me-3"
+              }`}
+            >
+              Duplicate
+            </button>
+          </Link>
+        )}
 
         {/* <button className="btn btn-secondary btn-sm float-end me-3">
           Duplicate

@@ -1,10 +1,11 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import axios from "axios";
-import { FileUpload } from "primereact/fileupload";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { Image } from "primereact/image";
+import NoAuthDialog from "./NoAuthDialog";
+import AccountContext from "../../contexts/AccountContext";
 
 // POST http://localhost:8000/api/recipes/<recipe_id>/comments/
 /*
@@ -23,6 +24,8 @@ function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
   const imageInputRef = useRef(null);
   const videoInputRef = useRef(null);
   const toast = useRef(null);
+  const [showDialog, setShowDialog] = useState(false);
+  const { isAuth } = useContext(AccountContext);
 
   const showError = () => {
     toast.current.show({
@@ -43,6 +46,11 @@ function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
   };
 
   const handleSubmit = async () => {
+    if (!isAuth) {
+      setShowDialog(true);
+      return;
+    }
+
     if (!description) {
       showError();
       return;
@@ -277,6 +285,11 @@ function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
           )}
         </div>
       </div>
+      <NoAuthDialog
+        showDialog={showDialog}
+        setShowDialog={setShowDialog}
+        action="comment"
+      />
     </>
   );
 }
