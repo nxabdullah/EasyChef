@@ -23,7 +23,7 @@ import MyRecipes from "./pages/MyRecipes";
 import EditRecipe from "./pages/EditRecipe";
 // import this as DupRecipe
 import DupRecipe from "./pages/DuplicateRecipe";
-import Search from "./pages/Search";
+// import Search from "./pages/Search";
 
 function App() {
   const { accountLoading } = useContext(AccountContext);
@@ -56,7 +56,7 @@ function App() {
           <Route exact path="/recipes/:id" element={<Recipe />} />
           <Route exact path="/recipes/:id/edit" element={<EditRecipe />} />
           <Route exact path="/recipes/:id/create" element={<DupRecipe />} />
-          <Route exact path="/search" element={<Search />} />
+          {/* <Route exact path="/search" element={<Search />} /> */}
         </Routes>
       </div>
     </Router>
