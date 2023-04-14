@@ -5,20 +5,23 @@ import "../../styles/search.css";
 import Select from "react-select";
 import Modal from "react-modal";
 import { GiAvocado, GiKnifeFork } from "react-icons/gi";
-import { TbClockRecord, TbAdjustmentsHorizontal } from "react-icons/tb";
+import { TbClockRecord, TbClockStop, TbAdjustmentsHorizontal } from "react-icons/tb";
 import { BiSearchAlt } from "react-icons/bi"
 import Slider from "@mui/material/Slider";
 import { InputText } from "primereact/inputtext";
+import CreatableSelect from 'react-select/creatable';
 
 function Search({
   searchQuery,
   cuisines,
   diets,
   maxCookTime,
+  minCookTime,
   onSearchChange,
   onCuisinesChange,
   onDietsChange,
   onMaxCookTimeChange,
+  onMinCookTimeChange,
   onSearchSubmit,
   onPageChange,
 }) {
@@ -44,10 +47,10 @@ function Search({
     }),
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isSelected ? "#3a9691" : "transparent",
+      backgroundColor: state.isSelected ? "#056560" : "transparent",
       color: state.isSelected ? "white" : "#333",
       "&:hover": {
-        backgroundColor: "#3a9691",
+        backgroundColor: "#056560",
         color: "white",
       },
     }),
@@ -58,7 +61,7 @@ function Search({
     multiValue: (provided) => ({
       ...provided,
       borderRadius: "20px",
-      backgroundColor: "#3a9691",
+      backgroundColor: "#056560",
       color: "white",
     }),
     multiValueLabel: (provided) => ({
@@ -108,7 +111,7 @@ function Search({
   }, [cuisines]);
 
   
-  const selected = (filteredDiets, filteredCuisines, filteredCookTimes) => { 
+  const selected = (filteredDiets, filteredCuisines, filteredMaxCookTime, filteredMinCookTime) => { 
     // const dietsSelected = filteredDiets.map((diet, index) => (
     //   <span className="selection mb-3" key={index}>
     //     <GiAvocado style={{ marginRight: "5px" }} />
@@ -140,10 +143,17 @@ function Search({
             {filteredCuisines.join(", ")}
           </span>
         )}
-         {maxCookTime > 0 && (
+
+         {minCookTime > 0 && (
         <span className="selection">
               <TbClockRecord style={{ marginRight: "5px" }} />
-              {`${filteredCookTimes} mins`}
+              {`Min Cooking Time: ${filteredMinCookTime} mins`}
+            </span>
+         )}
+         {maxCookTime > 0 && (
+        <span className="selection">
+              <TbClockStop style={{ marginRight: "5px" }} />
+              {`Max Cooking Time: ${filteredMaxCookTime} mins`}
             </span>
          )}
       </Container>
@@ -167,7 +177,7 @@ function Search({
           color: "white",
           borderRadius: "5px 0px 0px 5px",
           border: "none",
-          backgroundColor: "#3a9691",
+          backgroundColor: "#056560",
           cursor: "pointer",
           fontSize: "16px",
           fontWeight: "bold",
@@ -193,7 +203,7 @@ function Search({
           color: "white",
           borderRadius: "0px 5px 5px 0px",
           border: "none",
-          backgroundColor: "#3a9691",
+          backgroundColor: "#056560",
           cursor: "pointer",
           fontSize: "16px",
           fontWeight: "bold",
@@ -208,7 +218,7 @@ function Search({
     </InputGroup>
   </Form>
 
-          <Container>{selected(diets, cuisines, maxCookTime)}</Container>
+          <Container>{selected(diets, cuisines, maxCookTime, minCookTime)}</Container>
         </Container>
         <Container class="search-filters">
           <Modal
@@ -238,7 +248,7 @@ function Search({
                 <h2
                   style={{
                     textAlign: "center",
-                    backgroundColor: "#3a9691",
+                    backgroundColor: "#056560",
                     color: "white",
                     padding: "10px",
                     borderRadius: "10px 10px 0 0",
@@ -246,7 +256,7 @@ function Search({
                 >
                   Diet <GiAvocado style={{ height: "25px" }}></GiAvocado>
                 </h2>
-                <Select
+                <CreatableSelect
                   options={filteredDiets}
                   value={diets.map((diet) => ({ value: diet, label: diet }))}
                   onChange={onDietsChange}
@@ -261,7 +271,7 @@ function Search({
                 <h2
                   style={{
                     textAlign: "center",
-                    backgroundColor: "#3a9691",
+                    backgroundColor: "#056560",
                     color: "white",
                     padding: "10px",
                     borderRadius: "10px 10px 0 0",
@@ -269,7 +279,7 @@ function Search({
                 >
                   Cuisine <GiKnifeFork style={{ height: "25px" }}></GiKnifeFork>
                 </h2>
-                <Select
+                <CreatableSelect
                   options={filteredCuisines}
                   value={cuisines.map((cuisine) => ({
                     value: cuisine,
@@ -285,18 +295,64 @@ function Search({
               </Col>
             </Row>
             <Row>
-              <Col>
+            <Col>
                 <h2
                   style={{
                     textAlign: "center",
-                    backgroundColor: "#3a9691",
+                    backgroundColor: "#056560",
                     color: "white",
                     padding: "10px",
                     borderRadius: "10px 10px 0 0",
                   }}
                 >
-                  Cook Time{" "}
+                  Min Cooking Time{" "}
                   <TbClockRecord style={{ height: "25px" }}></TbClockRecord>
+                </h2>
+                <div style={{ width: "80%", margin: "auto" }}>
+                  <Slider
+                    onChange={onMinCookTimeChange}
+                    value={minCookTime}
+                    step={5}
+                    min={0}
+                    max={120}
+                    marks={[    
+                      { value: 0, label: 'Reset' },    
+                      { value: 30, label: '30 min' },    
+                      { value: 60, label: '1 hr' },    
+                      { value: 90, label: '1 hr 30 min' },    
+                      { value: 120, label: '2 hrs' },  ]}
+                    valueLabelDisplay="auto"
+                    sx={{
+                      color: "#056560",
+                      '& .MuiSlider-rail': {
+                        backgroundColor: "#ccc",
+                        height: "8px",
+                        borderRadius: "2px",
+                      },
+                      '& .MuiSlider-track': {
+                        backgroundColor: "#056560",
+                        height: "8px",
+                        borderRadius: "2px",
+                      },
+                      '& .MuiSlider-thumb': {
+                        border: "2px solid #056560",
+                      },
+                    }}
+                  />
+                </div>
+              </Col>
+              <Col>
+                <h2
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#056560",
+                    color: "white",
+                    padding: "10px",
+                    borderRadius: "10px 10px 0 0",
+                  }}
+                >
+                  Max Cooking Time{" "}
+                  <TbClockStop style={{ height: "25px" }}></TbClockStop>
                 </h2>
                 <div style={{ width: "80%", margin: "auto" }}>
                   <Slider
@@ -313,19 +369,19 @@ function Search({
                       { value: 120, label: '2 hrs' },  ]}
                     valueLabelDisplay="auto"
                     sx={{
-                      color: "#3a9691",
+                      color: "#056560",
                       '& .MuiSlider-rail': {
                         backgroundColor: "#ccc",
                         height: "8px",
                         borderRadius: "2px",
                       },
                       '& .MuiSlider-track': {
-                        backgroundColor: "#3a9691",
+                        backgroundColor: "#056560",
                         height: "8px",
                         borderRadius: "2px",
                       },
                       '& .MuiSlider-thumb': {
-                        border: "2px solid #3a9691",
+                        border: "2px solid #056560",
                       },
                     }}
                   />
@@ -339,7 +395,7 @@ function Search({
                   closeModal();
                 }}
                 style={{
-                  backgroundColor: "#3a9691",
+                  backgroundColor: "#056560",
                   color: "white",
                   border: "none",
                   borderRadius: "10px",
