@@ -143,12 +143,17 @@ function FilterModal({ visible, onHide }) {
                     id="maxCookTime"
                     min={0}
                     max={180}
-                    step={10}
+                    step={2}
                     onChange={(e) => setFieldValue("maxCookTime", e.value)}
                     value={values.maxCookTime}
                   />
                 )}
               </Field>
+              {values.maxCookTime > 0 && (
+                <div className="mt-2 small">
+                  {`Selected: ${values.maxCookTime} Minutes`}
+                </div>
+              )}
             </div>
 
             <Button type="submit" className="float-end mt-4" label="Apply" />
