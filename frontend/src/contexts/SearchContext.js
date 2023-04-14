@@ -30,10 +30,14 @@ export const SearchProvider = ({ children }) => {
       queryParams.push(`max_cooktime=${maxCookTime}`);
     }
 
+    if (minCookTime) {
+      queryParams.push(`min_cooktime=${minCookTime}`);
+    }
+
     const newUrl =
       queryParams.length > 0 ? `${baseUrl}?${queryParams.join("&")}` : baseUrl;
     setSearchUrl(newUrl);
-  }, [searchQuery, cuisines, diets, maxCookTime]);
+  }, [searchQuery, cuisines, diets, maxCookTime, minCookTime]);
 
   return (
     <SearchContext.Provider

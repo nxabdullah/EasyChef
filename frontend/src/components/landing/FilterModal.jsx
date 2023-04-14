@@ -18,6 +18,8 @@ function FilterModal({ visible, onHide }) {
     cuisines,
     diets,
     maxCookTime,
+    minCookTime,
+    setMinCookTime,
   } = useContext(SearchContext);
 
   const handleKeyDown = (e) => {
@@ -53,19 +55,9 @@ function FilterModal({ visible, onHide }) {
     setCuisines(values.cuisines);
     setDiets(values.diets);
     setMaxCookTime(values.maxCookTime);
+    setMinCookTime(values.minCookTime);
     onHide();
   };
-
-  const dialogFooter = (
-    <div>
-      <Button
-        label="Cancel"
-        icon="pi pi-times"
-        onClick={onHide}
-        className="p-button-text"
-      />
-    </div>
-  );
 
   return (
     <Dialog
@@ -79,6 +71,7 @@ function FilterModal({ visible, onHide }) {
           cuisines: cuisines || [],
           diets: diets || [],
           maxCookTime: maxCookTime || 0,
+          minCookTime: minCookTime || 0,
         }}
         onSubmit={handleApply}
       >
@@ -133,6 +126,30 @@ function FilterModal({ visible, onHide }) {
             </div>
 
             <div className="p-field mt-4">
+              <label htmlFor="minCookTime" className="mb-4">
+                Minimum Cooking Time
+              </label>
+              <Field name="minCookTime">
+                {({ field }) => (
+                  <Slider
+                    {...field}
+                    id="minCookTime"
+                    min={0}
+                    max={180}
+                    step={1}
+                    onChange={(e) => setFieldValue("minCookTime", e.value)}
+                    value={values.minCookTime}
+                  />
+                )}
+              </Field>
+              {values.minCookTime > 0 && (
+                <div className="mt-2 small">
+                  {`Selected: ${values.minCookTime} Minutes`}
+                </div>
+              )}
+            </div>
+
+            <div className="p-field mt-4">
               <label htmlFor="maxCookTime" className="mb-4">
                 Maximum Cooking Time
               </label>
@@ -143,7 +160,7 @@ function FilterModal({ visible, onHide }) {
                     id="maxCookTime"
                     min={0}
                     max={180}
-                    step={2}
+                    step={1}
                     onChange={(e) => setFieldValue("maxCookTime", e.value)}
                     value={values.maxCookTime}
                   />
