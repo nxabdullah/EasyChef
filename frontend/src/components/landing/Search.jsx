@@ -79,6 +79,12 @@ function Search({
     { value: "Vegetarian", label: "Vegetarian" },
     { value: "Vegan", label: "Vegan" },
     { value: "Dairy-Free", label: "Dairy-Free" },
+    { value: "Halal", label: "Halal" },
+    { value: "Keto", label: "Keto" },
+    { value: "Paleo", label: "Paleo" },
+    { value: "Pescatarian", label: "Pescatarian" },
+    { value: "DASH", label: "DASH" },
+    
   ]);
   const [filteredDiets, setFilteredDiets] = useState(allDiets);
 
@@ -112,22 +118,6 @@ function Search({
 
   
   const selected = (filteredDiets, filteredCuisines, filteredMaxCookTime, filteredMinCookTime) => { 
-    // const dietsSelected = filteredDiets.map((diet, index) => (
-    //   <span className="selection mb-3" key={index}>
-    //     <GiAvocado style={{ marginRight: "5px" }} />
-    //     {diet} 
-    //     <button
-    //       className="filter-x"
-    //       onClick={() => {
-    //         onDietsChange(filteredDiets.filter((i) => i.label !== diet.label));
-    //       }}
-    //     >
-    //       x
-    //     </button>
-    //   </span>
-    // ));
-    // // console.log(filteredDiets)
-  
     return (
       <Container style={{ textAlign: "center" }}>
         {/* {dietsSelected} */}
