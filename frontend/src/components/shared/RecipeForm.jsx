@@ -65,11 +65,11 @@ const validationSchema = Yup.object({
       ),
       prep_time: Yup.number()
         .nullable()
-        .required("Prep time is required")
+        // .required("Prep time is required")
         .positive("Prep time must be a positive number"),
       cook_time: Yup.number()
         .nullable()
-        .required("Cook time is required")
+        // .required("Cook time is required")
         .positive("Cook time must be a positive number"),
       images: Yup.array(),
       videos: Yup.array(),
@@ -125,6 +125,8 @@ function RecipeForm({
           ...step,
           images: step.images.map((image) => image.id),
           videos: step.videos.map((video) => video.id),
+          cook_time: step.cook_time || null,
+          prep_time: step.prep_time || null,
         })),
       };
 
