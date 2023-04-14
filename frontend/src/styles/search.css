@@ -204,7 +204,7 @@ used for search page
 .selection {
   display: inline-flex;
   align-items: center;
-  background-color: #3a9691;
+  background-color: #056560;
   color: white;
   padding: 5px 10px;
   border-radius: 20px;
@@ -229,11 +229,11 @@ used for search page
 }
 
 #clear-results-link {
-  color: #3a9691;
+  color:#056560;
 }
 
 #clear-results-link:hover {
-  color: #215754;
+  color: #3a9691;
   text-decoration: underline;
   cursor: pointer;
 }

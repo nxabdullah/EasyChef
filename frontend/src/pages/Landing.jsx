@@ -13,6 +13,7 @@ function Landing() {
   const [searchQuery, setSearchQuery] = useState("");
   const [cuisines, setCuisines] = useState([]);
   const [diets, setDiets] = useState([]);
+  const [minCookTime, setMinCookTime] = useState(null); // default min and max cook times
   const [maxCookTime, setMaxCookTime] = useState(null); // default min and max cook times
   const [searchedPage, setSearchedPage] = useState(1);
   const [popularPage, setPopularPage] = useState(1);
@@ -28,7 +29,7 @@ function Landing() {
           searchQuery.length === 0 &&
           cuisines.length === 0 &&
           diets.length === 0 &&
-          !maxCookTime
+          !maxCookTime && !minCookTime
         ) {
           setSearchedRecipes([]);
           const response = await axios.get(`${RECIPES_ENDPOINT}popular/`, {
@@ -45,7 +46,7 @@ function Landing() {
           searchQuery.length !== 0 ||
           cuisines.length !== 0 ||
           diets.length !== 0 ||
-          maxCookTime
+          maxCookTime || minCookTime
         ) {
           setPopularRecipes([]); // Clear popular recipes array
           const params = {
@@ -54,6 +55,7 @@ function Landing() {
             cuisines: cuisines.join(","),
             diets: diets.join(","),
             max_cook_time: maxCookTime,
+            min_cook_time: minCookTime,
           };
 
           const response = await axios.get(SEARCH_ENDPOINT, { params });
@@ -74,7 +76,7 @@ function Landing() {
     };
     fetchRecipes();
     setSearched(false);
-  }, [popularPage, searchedPage, searched, cuisines, diets, maxCookTime]);
+  }, [popularPage, searchedPage, searched, cuisines, diets, maxCookTime, minCookTime]);
 
   //event handlers to update respective state variables upon user itneraction
   const handleSearchChange = (event) => {
@@ -119,6 +121,15 @@ function Landing() {
     }
   };
 
+  const handleMinCookTimeChange = (event, newValue) => {
+    if (newValue === 0) {
+      setMinCookTime(null);
+    } else {
+      setMinCookTime(newValue);
+    }
+  };
+
+
   const handlePageChange = () => {
     setSearchedPage(1);
     setPopularPage(1);
@@ -129,6 +140,7 @@ function Landing() {
     setCuisines([]);
     setDiets([]);
     setMaxCookTime(null);
+    setMinCookTime(null)
     setSearchedPage(1);
     setPopularPage(1);
     setSearched(false);
@@ -141,10 +153,12 @@ function Landing() {
         cuisines={cuisines}
         diets={diets}
         maxCookTime={maxCookTime}
+        minCookTime={minCookTime}
         onSearchChange={handleSearchChange}
         onCuisinesChange={handleCuisinesChange}
         onDietsChange={handleDietsChange}
         onMaxCookTimeChange={handleMaxCookTimeChange}
+        onMinCookTimeChange = {handleMinCookTimeChange}
         onSearchSubmit={handleSearchSubmit}
         onPageChange={handlePageChange}
       />
@@ -154,7 +168,7 @@ function Landing() {
         total > 0 &&
         diets.length === 0 &&
         cuisines.length === 0 &&
-        maxCookTime === null
+        maxCookTime === null && minCookTime === null
           ? "Popular on EasyChef"
           : total > 0
           ? `Search Results (${total})`
