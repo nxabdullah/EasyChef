@@ -41,11 +41,17 @@ export const PAGE_SIZE = 10;
 
 // Constants for recipe form
 export const RecipeCusines = [
-  "Chinese",
   "Italian",
-  "Mexican",
-  "Japanese",
-  "Indian",
+  "Mediterranean",
+  "American",
+  "Latin American",
+  "South Asian",
+  "Eastern European",
+  "Oceanic",
+  "South-East Asian",
+  "Central African",
+  "Caribbean"
+
 ];
 
 export const RecipeDiets = [
@@ -54,9 +60,9 @@ export const RecipeDiets = [
   "Halal",
   "Keto",
   "Paleo",
-  "Gluten-free",
-  "Low-carb",
+  "Gluten-Free",
+  "Dairy-Free",
+  "Low Carb",
   "Pescatarian",
-  "Mediterranean",
   "DASH",
 ];
