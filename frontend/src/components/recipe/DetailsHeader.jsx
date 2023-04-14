@@ -40,6 +40,16 @@ function DetailsHeader({ recipe }) {
       )}
 
       <div className="col-lg-5">
+        {recipe && recipe.images.length === 0 && recipe.videos.length === 0 && (
+          <div className="recipe-details-image">
+            <img
+              src="https://placehold.co/600x400?text=No+Photo"
+              alt="recipe-placeholder"
+              className="rounded recipe-detail-image"
+            />
+          </div>
+        )}
+
         {recipe && (
           <RecipeCarousel
             images={recipe && recipe.images}

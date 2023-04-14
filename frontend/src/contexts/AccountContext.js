@@ -59,7 +59,7 @@ export const AccountProvider = ({ children }) => {
           account.last_name[0].toUpperCase()
         );
       } else {
-        return account.username[0];
+        return account.username[0].toUpperCase();
       }
     }
     return "KA";
