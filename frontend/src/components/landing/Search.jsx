@@ -221,7 +221,7 @@ function Search({
                 right: "auto",
                 bottom: "auto",
                 transform: "translate(-50%, -50%)",
-                width: "50vw",
+                width: "57vw",
                 height: "auto",
                 border: "none",
                 borderRadius: "10px",
