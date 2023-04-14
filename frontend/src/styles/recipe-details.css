@@ -110,6 +110,7 @@ hr {
   text-align: center;
   border-radius: 3px;
   max-height: 220px;
+  min-height: 220px;
   width: auto;
   max-width: 80vw;
 }
