@@ -82,6 +82,7 @@ function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
 
         setDescription(""); // Clear the description field
         setImages([]); // Clear the images
+        setVideos([]); // Clear the videos
         showSuccess();
       } else {
         // handle unexpected status codes
@@ -234,7 +235,7 @@ function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
           <br />
           {images.length > 0 && (
             <div className="images-bar mb-4">
-              <p>Attached Photos</p>
+              <p className="mb-2">Attached Photos</p>
               {images.map((image, index) => (
                 <div key={index} className="media-delete-overlay">
                   <Button
@@ -248,9 +249,10 @@ function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
                   <Image
                     src={image.image}
                     // key={index}
-                    width={85}
-                    height={85}
+                    width={150}
+                    height={150}
                     className="me-2 custom-avatar"
+                    style={{ borderRadius: "5px" }}
                   />
                 </div>
               ))}
@@ -259,9 +261,12 @@ function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
 
           {videos.length > 0 && (
             <div className="images-bar">
-              <p className="mb-0">Attached Videos</p>
+              <p className="mb-2">Attached Videos</p>
               {videos.map((video, index) => (
-                <div key={index} className="video-delete-overlay">
+                <div
+                  key={index}
+                  className="video-delete-overlay-comment-preview"
+                >
                   <Button
                     rounded
                     raised
@@ -272,12 +277,10 @@ function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
                   ></Button>
                   <video
                     src={video.video}
-                    // poster={`${process.env.PUBLIC_URL}/video_preview.png`}
-                    width={125}
-                    height={125}
+                    height={150}
                     className="me-2"
                     controls
-                    style={{ marginTop: "0px" }}
+                    style={{ borderRadius: "5px" }}
                   />
                 </div>
               ))}

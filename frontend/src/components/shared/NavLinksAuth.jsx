@@ -56,7 +56,9 @@ function NavLinksAuth() {
                     image={account && account.profile_picture}
                   />
 
-                  <span className="mt-1">{account && account.username}</span>
+                  <span className="mt-2 text-capitalize">
+                    {account && account.username}
+                  </span>
                 </div>
               </Link>
             </li>

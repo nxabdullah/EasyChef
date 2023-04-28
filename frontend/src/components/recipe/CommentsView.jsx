@@ -6,12 +6,11 @@ import { Divider } from "primereact/divider";
 function CommentsView({ comments }) {
   return (
     <>
-      <h3 className="mb-4 pb-2">Recent Comments</h3>
+      <h3 className="mb-1 pb-2">Recent Comments</h3>
       {comments &&
         comments.results.map((comment, i) => (
           <div key={comment.id}>
             <Comment key={comment.id} comment={comment} />
-            <hr className="mb-4 pb-4" />
           </div>
         ))}
     </>

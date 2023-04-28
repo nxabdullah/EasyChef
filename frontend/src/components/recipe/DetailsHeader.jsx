@@ -163,7 +163,7 @@ function DetailsHeader({ recipe }) {
         </div>
 
         <div id="recipe-time-section">
-          <div className="recipe-details-icons">
+          <div className="recipe-details-icons mt-4">
             <div>
               <i className="fas fa-clock"></i>
               <h5>prep time</h5>

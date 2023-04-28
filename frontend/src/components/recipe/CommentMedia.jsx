@@ -40,17 +40,6 @@ function CommentMedia({ images = [], videos = [] }) {
             openVideoModal(BASE_URL + video.video);
           }}
         >
-          {/* <Image
-            key={`vid-${index}`}
-            src={`${process.env.PUBLIC_URL}/video_preview.png`} // assuming `thumbnail` field exists in video object
-            alt={`comment-vid-${index}`}
-            zoomSrc={null}
-            width="100"
-            height="100"
-            className="me-2"
-            style={{ cursor: "pointer", width: "100%" }}
-          />
-          <div className="overlay"></div> */}
           <video
             key={`vid-${index}`}
             src={BASE_URL + video.video}

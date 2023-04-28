@@ -6,12 +6,11 @@ function Navbar() {
     <nav className="navbar navbar-expand-lg navbar-light" id="login-nav">
       <div className="container">
         <Link to="/" className="navbar-brand" id="logo-nav">
-          {/* <img
+          <img
             src={process.env.PUBLIC_URL + "/chef_v3.png"}
             alt="logo"
             height="43"
-          /> */}
-          Easy Chef
+          />
         </Link>
         <button
           className="navbar-toggler"
