@@ -247,7 +247,7 @@ function RecipeForm({
   };
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={formik.handleSubmit} id="create-recipe-form">
       <Toast ref={toast} />
       <Row>
         <div className="col-md-12 mt-4">
@@ -383,14 +383,21 @@ function RecipeForm({
       />
 
       <Row className="mt-4 mb-4">
-        <label className="mb-2">
+        <label style={{ fontWeight: 500 }}>
           Please enter all of the steps for this recipe
         </label>
         {formik.values.steps.map((step, index) => (
           <>
             <div className="row mb-2">
               <div className="col-md-12">
-                <label className="mb-3 mt-3">Step {index + 1}</label>
+                <label
+                  className="mt-2"
+                  style={{
+                    fontWeight: 500,
+                  }}
+                >
+                  Step {index + 1}
+                </label>
                 {index > 0 && (
                   <Button
                     icon="pi pi-times"
@@ -427,7 +434,7 @@ function RecipeForm({
             onClick={addStep}
             severity="secondary"
             text
-            style={{ fontSize: "13px", height: "35px" }}
+            style={{ fontSize: "13px", height: "35px", paddingLeft: "1px" }}
             type="button"
           >
             Click to add more steps

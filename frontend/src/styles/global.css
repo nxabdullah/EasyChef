@@ -322,3 +322,7 @@ div.p-avatar.p-component.p-avatar-circle.p-avatar-xl {
 .p-autocomplete-multiple-container {
   width: 100%;
 }
+
+#create-recipe-form .form-label {
+  font-weight: 500;
+}

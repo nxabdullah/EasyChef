@@ -31,7 +31,9 @@ const IngredientsList = ({
   return (
     <Row className="mt-4">
       <div className="col-md-12">
-        <label>Ingredients and their corresponding quantity in grams</label>
+        <label style={{ fontWeight: 500 }}>
+          Ingredients and their corresponding quantity in grams
+        </label>
         {ingredients.map((ingredient, index) => (
           <div key={index} className="row mt-2">
             <div class="col-md-4">
@@ -89,7 +91,7 @@ const IngredientsList = ({
             onClick={addIngredient}
             severity="secondary"
             text
-            style={{ fontSize: "13px", height: "35px" }}
+            style={{ fontSize: "13px", height: "35px", paddingLeft: 0 }}
             type="button"
           >
             Click to add more Ingredients

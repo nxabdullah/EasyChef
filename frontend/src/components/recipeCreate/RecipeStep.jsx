@@ -113,7 +113,7 @@ function RecipeStep({
           {/* Render the previews of the images and videos */}
           {images.length > 0 && (
             <div className="images-bar mb-4">
-              <p>Attached Photos</p>
+              <p className="mb-1 mt-4">Attached Photos</p>
               {images.map((image, index) => (
                 <div key={index} className="media-delete-overlay">
                   <Button
@@ -129,8 +129,8 @@ function RecipeStep({
                     // src={image.image}
                     src={getImageUrl(image.image)}
                     // key={index}
-                    width={85}
-                    height={85}
+                    width={150}
+                    height={150}
                     className="me-2 custom-avatar"
                   />
                 </div>
@@ -140,7 +140,7 @@ function RecipeStep({
 
           {videos.length > 0 && (
             <div className="images-bar">
-              <p className="mb-0">Attached Videos</p>
+              <p className="mb-1">Attached Videos</p>
               {videos.map((video, index) => (
                 <div key={index} className="video-delete-overlay">
                   <Button
@@ -156,11 +156,10 @@ function RecipeStep({
                     // src={video.video}
                     src={getImageUrl(video.video)}
                     // poster={`${process.env.PUBLIC_URL}/video_preview.png`}
-                    width={125}
-                    height={125}
+                    height="150px"
                     className="me-2"
                     controls
-                    style={{ marginTop: "0px" }}
+                    style={{ marginTop: "0px", borderRadius: "5px" }}
                   />
                 </div>
               ))}

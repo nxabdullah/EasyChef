@@ -128,7 +128,7 @@ function RecipeMedia({ images, setImages, videos, setVideos }) {
           {/* Render the previews of the images and videos */}
           {images.length > 0 && (
             <div className="images-bar mb-4">
-              <p>Attached Photos</p>
+              <p className="mb-1">Attached Photos</p>
               {images.map((image, index) => (
                 <div key={index} className="media-delete-overlay">
                   <Button
@@ -142,8 +142,8 @@ function RecipeMedia({ images, setImages, videos, setVideos }) {
                   <Image
                     src={getImageUrl(image.image)}
                     // key={index}
-                    width={85}
-                    height={85}
+                    width={150}
+                    height={150}
                     className="me-2 custom-avatar"
                   />
                 </div>
@@ -153,7 +153,7 @@ function RecipeMedia({ images, setImages, videos, setVideos }) {
 
           {videos.length > 0 && (
             <div className="images-bar">
-              <p className="mb-0">Attached Videos</p>
+              <p className="mb-1">Attached Videos</p>
               {videos.map((video, index) => (
                 <div key={index} className="video-delete-overlay">
                   <Button
@@ -165,14 +165,11 @@ function RecipeMedia({ images, setImages, videos, setVideos }) {
                     onClick={() => handleDeleteVideo(video)}
                   ></Button>
                   <video
-                    //src={video.video}
                     src={getImageUrl(video.video)}
-                    // poster={`${process.env.PUBLIC_URL}/video_preview.png`}
-                    width={125}
-                    height={125}
+                    height="150px"
                     className="me-2"
                     controls
-                    style={{ marginTop: "0px" }}
+                    style={{ marginTop: "0px", borderRadius: "5px" }}
                   />
                 </div>
               ))}
