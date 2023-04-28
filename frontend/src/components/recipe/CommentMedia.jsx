@@ -25,29 +25,37 @@ function CommentMedia({ images = [], videos = [] }) {
           src={BASE_URL + img.image}
           alt={`comment-img-${index}`}
           preview
-          width="75"
-          height="75"
+          width="100px"
+          height="100px"
           template={`View`}
           className="me-2"
+          style={{ cursor: "pointer" }}
         />
       ))}
       {videos.map((video, index) => (
         <div
-          className="video-thumbnail"
+          className="video-thumbnail me-2"
           onClick={(e) => {
             e.preventDefault();
             openVideoModal(BASE_URL + video.video);
           }}
         >
-          <Image
+          {/* <Image
             key={`vid-${index}`}
             src={`${process.env.PUBLIC_URL}/video_preview.png`} // assuming `thumbnail` field exists in video object
             alt={`comment-vid-${index}`}
             zoomSrc={null}
             width="100"
-            height="75"
+            height="100"
             className="me-2"
             style={{ cursor: "pointer", width: "100%" }}
+          />
+          <div className="overlay"></div> */}
+          <video
+            key={`vid-${index}`}
+            src={BASE_URL + video.video}
+            muted
+            style={{ cursor: "pointer", height: "100px", borderRadius: "5px" }}
           />
           <div className="overlay"></div>
         </div>

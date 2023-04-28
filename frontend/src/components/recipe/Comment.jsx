@@ -50,8 +50,8 @@ function Comment({ comment }) {
             size="xlarge"
             label={
               comment.user.first_name
-                ? comment.user.first_name[0]
-                : comment.user.username[0]
+                ? comment.user.first_name[0].toUpperCase()
+                : comment.user.username[0].toUpperCase()
             }
             image={
               comment.user.profile_picture &&
@@ -63,22 +63,16 @@ function Comment({ comment }) {
         </div>
         <div className="p-1">
           {comment.user.first_name && comment.user.last_name ? (
-            <h4 className="mb-0">{`${comment.user.first_name} ${comment.user.last_name}`}</h4>
+            <h5 className="mb-0">{`${comment.user.first_name} ${comment.user.last_name}`}</h5>
           ) : (
-            <h4 className="mb-0">{`${comment.user.username}`}</h4>
+            <h5 className="mb-0 text-capitalize mt-1">{`${comment.user.username}`}</h5>
           )}
           <span className="date mt-0 small">
             {comment && timeAgo(comment.date_created)}
           </span>
-          <p className="mt-1 text-black">{comment.description}</p>
-          <div className="p-2 col-lg-5">
-            {/* <RecipeCarousel
-            images={comment.images}
-            videos={comment.videos}
-            autoPlay={false}
-            showThumbs={false}
-          /> */}
-            <div className="d-flex flex-row mb-4">
+          <p className="text-black mb-2">{comment.description}</p>
+          <div className="col-lg-5">
+            <div className="d-flex flex-row">
               <CommentMedia images={comment.images} videos={comment.videos} />
             </div>
           </div>

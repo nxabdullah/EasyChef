@@ -59,12 +59,12 @@ function Details({ recipe_id }) {
 
         <DetailsHeader recipe={recipe} />
         <hr className="mt-4" />
-        <DetailsIngredients
+        {/* <DetailsIngredients
           ingredients={recipe && recipe.ingredients_list}
           servingSize={servingSize}
           setServingSize={setServingSize}
-        />
-        <hr className="mt-4" />
+        /> */}
+        {/* <hr className="mt-4" /> */}
         <DetailsSteps steps={recipe && recipe.steps} />
         <hr className="mt-4" />
         <DetailsShopping servingSize={servingSize} recipeId={recipe_id} />
