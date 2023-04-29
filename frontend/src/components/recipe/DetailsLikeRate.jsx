@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import useAuthToken from "../../hooks/useAuthToken";
 import AccountContext from "../../contexts/AccountContext";
-import { ConfirmDialog } from "primereact/confirmdialog";
 import NoAuthDialog from "./NoAuthDialog";
 
 function DetailsLikeRate({ numFavs, recipeId }) {
@@ -36,12 +35,14 @@ function DetailsLikeRate({ numFavs, recipeId }) {
     }
   }
 
+  // gets users rating for recipe + the average
   async function fetchRatingData() {
     const url = `http://localhost:8000/api/recipes/${recipeId}/ratings/`;
 
     try {
       const response = await axios.get(url);
-      setRatingData(response.data);
+      if (response.data.serving_size !== null) setRatingData(response.data);
+      fetchRatingData2();
     } catch (error) {
       console.error("Error fetching rating data:", error);
     }
