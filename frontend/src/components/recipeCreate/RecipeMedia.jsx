@@ -4,10 +4,11 @@ import { Button } from "primereact/button";
 import { Image } from "primereact/image";
 import useAuthToken from "../../hooks/useAuthToken";
 import { Row, Col } from "react-bootstrap";
+import { API_BASE_URL, BASE_URL } from "../../config/constants";
 
 const getImageUrl = (url) => {
   if (url.startsWith("/")) {
-    return `http://localhost:8000${url}`;
+    return `${BASE_URL}${url}`;
   }
   return url;
 };
@@ -29,7 +30,7 @@ function RecipeMedia({ images, setImages, videos, setVideos }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/recipes/images/",
+        `${API_BASE_URL}recipes/images/`,
         formData
       );
       if (response.status === 201) {
@@ -55,7 +56,7 @@ function RecipeMedia({ images, setImages, videos, setVideos }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/recipes/videos/",
+        `${API_BASE_URL}recipes/videos/`,
         formData
       );
       if (response.status === 201) {

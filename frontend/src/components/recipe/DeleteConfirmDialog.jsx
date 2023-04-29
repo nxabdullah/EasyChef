@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import axios from "axios";
+import { API_BASE_URL } from "../../config/constants";
 
 function DeleteConfirmDialog({ recipe, onConfirm }) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -11,7 +12,7 @@ function DeleteConfirmDialog({ recipe, onConfirm }) {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8000/api/recipes/${recipe.id}/`);
+      await axios.delete(`${API_BASE_URL}recipes/${recipe.id}/`);
       onConfirm();
     } catch (error) {
       console.error("Error while deleting the recipe:", error);

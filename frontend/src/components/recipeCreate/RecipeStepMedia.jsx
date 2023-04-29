@@ -3,6 +3,7 @@ import axios from "axios";
 import { Button } from "primereact/button";
 import { Image } from "primereact/image";
 import useAuthToken from "../../hooks/useAuthToken";
+import { API_BASE_URL, BASE_URL } from "../../config/constants";
 
 function RecipeStepMedia({ images, setImages, videos, setVideos }) {
   const imageInputRef = useRef(null);
@@ -21,7 +22,7 @@ function RecipeStepMedia({ images, setImages, videos, setVideos }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/recipes/steps/images/",
+        `${API_BASE_URL}recipes/steps/images/`,
         formData
       );
       if (response.status === 201) {
@@ -47,7 +48,7 @@ function RecipeStepMedia({ images, setImages, videos, setVideos }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/recipes/steps/videos/",
+        `${API_BASE_URL}recipes/steps/videos/`,
         formData
       );
       if (response.status === 201) {

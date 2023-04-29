@@ -4,6 +4,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { AutoComplete } from "primereact/autocomplete";
 import axios from "axios";
+import { API_BASE_URL } from "../../config/constants";
 
 const IngredientsList = ({
   ingredients,
@@ -17,7 +18,7 @@ const IngredientsList = ({
 
   const search = (event) => {
     axios
-      .get(`http://localhost:8000/api/recipes/ingredients/?name=${event.query}`)
+      .get(`${API_BASE_URL}recipes/ingredients/?name=${event.query}`)
       .then((response) => {
         //setItems(response.data.results);
         const suggestions = response.data.results.map((item) => item.name);

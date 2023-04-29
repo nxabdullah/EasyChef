@@ -3,6 +3,7 @@ import axios from "axios";
 import useAuthToken from "../../hooks/useAuthToken";
 import AccountContext from "../../contexts/AccountContext";
 import NoAuthDialog from "./NoAuthDialog";
+import { API_BASE_URL } from "../../config/constants";
 
 function DetailsLikeRate({ numFavs, recipeId }) {
   const [isFavorited, setIsFavorited] = useState(false);
@@ -25,7 +26,7 @@ function DetailsLikeRate({ numFavs, recipeId }) {
   }, []);
 
   async function fetchRatingData2() {
-    const url = `http://localhost:8000/api/recipes/${recipeId}/ratings/average/`;
+    const url = `${API_BASE_URL}recipes/${recipeId}/ratings/average/`;
 
     try {
       const response = await axios.get(url);
@@ -37,7 +38,7 @@ function DetailsLikeRate({ numFavs, recipeId }) {
 
   // gets users rating for recipe + the average
   async function fetchRatingData() {
-    const url = `http://localhost:8000/api/recipes/${recipeId}/ratings/`;
+    const url = `${API_BASE_URL}recipes/${recipeId}/ratings/`;
 
     try {
       const response = await axios.get(url);
@@ -49,7 +50,7 @@ function DetailsLikeRate({ numFavs, recipeId }) {
   }
 
   async function fetchFavouriteData() {
-    const url = `http://localhost:8000/api/recipes/${recipeId}/favourite/`;
+    const url = `${API_BASE_URL}recipes/${recipeId}/favourite/`;
 
     try {
       const response = await axios.get(url);
@@ -60,7 +61,7 @@ function DetailsLikeRate({ numFavs, recipeId }) {
   }
 
   async function handleRemoveRating() {
-    const url = `http://localhost:8000/api/recipes/${recipeId}/ratings/`;
+    const url = `${API_BASE_URL}recipes/${recipeId}/ratings/`;
 
     try {
       await axios.delete(url);
@@ -94,7 +95,7 @@ function DetailsLikeRate({ numFavs, recipeId }) {
       return;
     }
 
-    const url = `http://localhost:8000/api/recipes/${recipeId}/ratings/`;
+    const url = `${API_BASE_URL}recipes/${recipeId}/ratings/`;
 
     try {
       const response = await axios.put(url, { rating });
@@ -110,7 +111,7 @@ function DetailsLikeRate({ numFavs, recipeId }) {
       return;
     }
 
-    const url = `http://localhost:8000/api/recipes/${recipeId}/favourite/`;
+    const url = `${API_BASE_URL}recipes/${recipeId}/favourite/`;
 
     try {
       if (!isFavorited) {

@@ -6,16 +6,7 @@ import { Button } from "primereact/button";
 import { Image } from "primereact/image";
 import NoAuthDialog from "./NoAuthDialog";
 import AccountContext from "../../contexts/AccountContext";
-
-// POST http://localhost:8000/api/recipes/<recipe_id>/comments/
-/*
-  Request body
-  {
-    "description": "Comment with photo and video",
-    "images": [1,2],
-    "videos": [1]
-}
-*/
+import { API_BASE_URL } from "../../config/constants";
 
 function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
   const [description, setDescription] = useState("");
@@ -58,7 +49,7 @@ function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/recipes/${recipe_id}/comments/`,
+        `${API_BASE_URL}recipes/${recipe_id}/comments/`,
         {
           description,
           // need to send the image IDs
@@ -102,7 +93,7 @@ function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/recipes/comments/images/",
+        `${API_BASE_URL}recipes/comments/images/`,
         formData
       );
       if (response.status === 201) {
@@ -118,7 +109,7 @@ function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
   };
 
   const handleVideoUpload = async (event) => {
-    // send the image to the API http://localhost:8000/api/recipes/comments/videos/
+    // send the image to the API ${API_BASE_URL}recipes/comments/videos/
     // API returns an id for the video
     // add the id to the videos state
     console.log("Handle video upload");
@@ -128,7 +119,7 @@ function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/recipes/comments/videos/",
+        `${API_BASE_URL}recipes/comments/videos/`,
         formData
       );
       if (response.status === 201) {

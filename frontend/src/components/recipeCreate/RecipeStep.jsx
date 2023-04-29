@@ -5,13 +5,14 @@ import { Col, Row } from "react-bootstrap";
 import RecipeStepMedia from "./RecipeStepMedia";
 import { Image } from "primereact/image";
 import { Button } from "primereact/button";
+import { API_BASE_URL, BASE_URL } from "../../config/constants";
 
 // plan is that images and videos will be passed as a list of
 // integers, which are the IDs of the images and videos
 // from the media component
 const getImageUrl = (url) => {
   if (url.startsWith("/")) {
-    return `http://localhost:8000${url}`;
+    return `${BASE_URL}${url}`;
   }
   return url;
 };

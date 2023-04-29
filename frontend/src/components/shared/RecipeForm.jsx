@@ -17,7 +17,11 @@ import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 
 // constants
-import { RecipeCusines, RecipeDiets } from "../../config/constants";
+import {
+  RecipeCusines,
+  RecipeDiets,
+  API_BASE_URL,
+} from "../../config/constants";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Name is required"),
@@ -132,15 +136,11 @@ function RecipeForm({
 
       if (isEditing) {
         axios
-          .patch(
-            `http://localhost:8000/api/recipes/${recipeId}/`,
-            formattedValues,
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
+          .patch(`${API_BASE_URL}recipes/${recipeId}/`, formattedValues, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
           .then((response) => {
             toast.current.show({
               severity: "success",

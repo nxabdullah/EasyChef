@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import { InputNumber } from "primereact/inputnumber";
-import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import NoAuthDialog from "./NoAuthDialog";
 import AccountContext from "../../contexts/AccountContext";
+import { API_BASE_URL } from "../../config/constants";
 
 function DetailsShopping({ servingSize, recipeId }) {
   const [selectedServingSize, setSelectedServingSize] = useState(null);
@@ -31,7 +31,7 @@ function DetailsShopping({ servingSize, recipeId }) {
   const fetchServingSize = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/shopping_list/recipes/${recipeId}/`
+        `${API_BASE_URL}shopping_list/recipes/${recipeId}/`
       );
       if (response.data.serving_size) {
         setSelectedServingSize(response.data.serving_size);
@@ -53,7 +53,7 @@ function DetailsShopping({ servingSize, recipeId }) {
 
     setLoading(true);
     try {
-      await axios.put("http://localhost:8000/api/shopping_list/recipes/", {
+      await axios.put(`${API_BASE_URL}shopping_list/recipes/`, {
         recipe_id: recipeId,
         serving_size: selectedServingSize,
       });
