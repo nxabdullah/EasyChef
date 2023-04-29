@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-odp8^!v$=ffam+etf0!iw1pb$i#1+d)wm52%0ns@31tj9%(^w&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'account.CustomUser'
 
