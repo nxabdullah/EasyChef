@@ -29,6 +29,7 @@ function RecipeStepMedia({ images, setImages, videos, setVideos }) {
         setImages([...images, response.data]);
       } else {
         console.log(response);
+        alert("Sorry. Please only upload images less than 1MB in file size.");
       }
     } catch (error) {
       console.log(error);
@@ -58,6 +59,7 @@ function RecipeStepMedia({ images, setImages, videos, setVideos }) {
       }
     } catch (error) {
       console.log(error);
+      alert("Sorry. Please only upload videos less than 5MB in file size.");
     }
 
     event.target.value = "";

@@ -103,6 +103,7 @@ function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
       }
     } catch (error) {
       console.log(error);
+      alert("Sorry. Please only upload images less than 1MB in file size.");
     }
 
     event.target.value = "";
@@ -129,6 +130,7 @@ function CommentsPost({ comments, recipe_id, triggerRefresh, setComments }) {
       }
     } catch (error) {
       console.log(error);
+      alert("Sorry. Please only upload videos less than 5MB in file size.");
     }
 
     event.target.value = "";

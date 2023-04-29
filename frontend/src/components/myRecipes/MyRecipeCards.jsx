@@ -7,7 +7,6 @@ import { Button } from "primereact/button";
 
 function MyRecipeCards({ mode = "recipes" }) {
   const [recipes, setRecipes] = useState([]);
-  // const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
     next: null,
     currPage: 1,

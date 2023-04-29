@@ -280,7 +280,6 @@ class RatingsAPIView(CreateAPIView, UpdateAPIView, DestroyAPIView, RetrieveAPIVi
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
     def delete(self, request, *args, **kwargs):
         try:
             recipe_id = self.kwargs['pk']

@@ -7,6 +7,7 @@ from .models import CommentImage, CommentVideo, Recipe, RecipeImage, \
     Diet, Cuisine, Ingredient, StepImage, StepVideo, RecipeVideo
 from django.core.exceptions import ValidationError
 import mimetypes
+from django.core import validators
 
 
 # takes in primary key for writes, but returns url for read
@@ -37,6 +38,14 @@ class RecipeImageSerializer(serializers.ModelSerializer):
         model = RecipeImage
         fields = ['id', 'image']
 
+    def validate_image(self, value):
+        max_size = 1 * 1024 * 1024  # 1 MB
+        if value.size > max_size:
+            raise serializers.ValidationError(
+                "The image size must not exceed 1 MB.")
+        return value
+
+
 class RecipeVideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeVideo
@@ -57,6 +66,11 @@ class RecipeVideoSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Invalid file type. Please upload a video file.")
 
+        max_size = 5 * 1024 * 1024  # 5 MB
+        if value.size > max_size:
+            raise serializers.ValidationError(
+                "The video size must not exceed 5 MB.")
+
         return value
 
 
@@ -64,6 +78,13 @@ class StepImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = StepImage
         fields = ['id', 'image']
+
+    def validate_image(self, value):
+        max_size = 1 * 1024 * 1024  # 1 MB
+        if value.size > max_size:
+            raise serializers.ValidationError(
+                "The image size must not exceed 1 MB.")
+        return value
 
 
 class StepVideoSerializer(serializers.ModelSerializer):
@@ -86,6 +107,11 @@ class StepVideoSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Invalid file type. Please upload a video file.")
 
+        max_size = 5 * 1024 * 1024  # 5 MB
+        if value.size > max_size:
+            raise serializers.ValidationError(
+                "The video size must not exceed 5 MB.")
+
         return value
 
 
@@ -93,6 +119,35 @@ class CommentImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentImage
         fields = ['id', 'image']
+
+    def validate_image(self, value):
+        max_size = 1 * 1024 * 1024  # 1 MB
+        if value.size > max_size:
+            raise serializers.ValidationError(
+                "The image size must not exceed 2 MB.")
+        return value
+
+    def validate_video(self, value):
+        # List of allowed video content types
+        allowed_content_types = [
+            'video/mp4',
+            'video/quicktime',  # .mov
+            'video/x-msvideo',  # .avi
+            'video/x-ms-wmv',  # .wmv
+            # Add any other video content types you want to allow
+        ]
+
+        content_type, _ = mimetypes.guess_type(value.name)
+        if content_type not in allowed_content_types:
+            raise serializers.ValidationError(
+                "Invalid file type. Please upload a video file.")
+
+        max_size = 5 * 1024 * 1024  # 5 MB
+        if value.size > max_size:
+            raise serializers.ValidationError(
+                "The video size must not exceed 5 MB.")
+
+        return value
 
 
 class CommentVideoSerializer(StepVideoSerializer):
@@ -145,7 +200,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id','description', 'user', 'images', 'videos', 'date_created']
+        fields = ['id', 'description', 'user',
+                  'images', 'videos', 'date_created']
 
     def get_user(self, obj):
         user = obj.user
@@ -174,6 +230,7 @@ class RateSerializer(serializers.ModelSerializer):
 
     def get_avg_rating(self, obj):
         return obj.recipe.get_average_rating()
+
 
 class RecipeSerializer(serializers.ModelSerializer):
     diets = DietSerializer(many=True)
@@ -204,7 +261,6 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     base_recipe_name = serializers.SerializerMethodField(read_only=True)
 
-
     class Meta:
         model = Recipe
         # fields = '__all__'
@@ -224,7 +280,6 @@ class RecipeSerializer(serializers.ModelSerializer):
         steps_data = validated_data.pop('steps', [])
         images = validated_data.pop('images', [])
         videos = validated_data.pop('videos', [])
-
 
         # Create the Recipe object
         recipe = Recipe.objects.create(**validated_data,
@@ -284,8 +339,10 @@ class RecipeSerializer(serializers.ModelSerializer):
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description',
                                                   instance.description)
-        instance.prep_time = validated_data.get('prep_time', instance.prep_time)
-        instance.cook_time = validated_data.get('cook_time', instance.cook_time)
+        instance.prep_time = validated_data.get(
+            'prep_time', instance.prep_time)
+        instance.cook_time = validated_data.get(
+            'cook_time', instance.cook_time)
         instance.serving_size = validated_data.get('serving_size',
                                                    instance.serving_size)
         images = validated_data.get('images', None)
@@ -336,7 +393,6 @@ class RecipeSerializer(serializers.ModelSerializer):
                                         recipe=instance)
                 s.images.add(*step_images)
                 s.videos.add(*step_videos)
-
 
         # add the images
         if 'images' in validated_data:
