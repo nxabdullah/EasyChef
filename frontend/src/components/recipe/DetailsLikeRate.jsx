@@ -30,7 +30,12 @@ function DetailsLikeRate({ numFavs, recipeId }) {
 
     try {
       const response = await axios.get(url);
-      setRatingData(response.data);
+      //setRatingData(response.data);
+      // only update the average rating
+      setRatingData((prev) => ({
+        ...prev,
+        avg_rating: response.data.avg_rating,
+      }));
     } catch (error) {
       console.error("Error fetching rating data:", error);
     }
