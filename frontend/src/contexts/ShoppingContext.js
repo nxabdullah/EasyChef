@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useRef } from "react";
 import axios from "axios";
 import useAuthToken from "../hooks/useAuthToken";
+import { API_BASE_URL, BASE_URL } from "../config/constants";
 
 const ShoppingContext = createContext();
 
@@ -23,7 +24,7 @@ export const ShoppingProvider = ({ children }) => {
   const fetchIngredients = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/shopping_list/?limit=${ingredientsPagination.limit}`
+        `${API_BASE_URL}shopping_list/?limit=${ingredientsPagination.limit}`
       );
 
       // we update the ingredients
@@ -56,8 +57,8 @@ export const ShoppingProvider = ({ children }) => {
       setLoading(true);
       const response = await axios.get(
         cursor
-          ? `http://localhost:8000/api/shopping_list/recipes/?cursor=${cursor}`
-          : "http://localhost:8000/api/shopping_list/recipes/"
+          ? `${API_BASE_URL}shopping_list/recipes/?cursor=${cursor}`
+          : `${API_BASE_URL}shopping_list/recipes/`
       );
 
       if (response.data.next) {
@@ -111,7 +112,7 @@ export const ShoppingProvider = ({ children }) => {
   const updateServingSize = async (recipeId, servingSize) => {
     setIngredientsLoading(true);
     try {
-      await axios.put("http://localhost:8000/api/shopping_list/recipes/", {
+      await axios.put(`${API_BASE_URL}shopping_list/recipes/`, {
         recipe_id: recipeId,
         serving_size: servingSize,
       });
@@ -149,7 +150,7 @@ export const ShoppingProvider = ({ children }) => {
   const deleteRecipeFromBackend = async (recipeId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8000/api/shopping_list/recipes/${recipeId}/`
+        `${API_BASE_URL}shopping_list/recipes/${recipeId}/`
       );
 
       console.log("Shopping item successfully deleted");
