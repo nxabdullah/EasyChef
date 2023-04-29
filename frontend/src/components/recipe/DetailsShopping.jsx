@@ -10,7 +10,6 @@ function DetailsShopping({ servingSize, recipeId }) {
   const [selectedServingSize, setSelectedServingSize] = useState(null);
   const [inShoppingList, setInShoppingList] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
   const [updated, setUpdated] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const toast = useRef(null);
@@ -80,7 +79,6 @@ function DetailsShopping({ servingSize, recipeId }) {
       {inShoppingList && (
         <p className="text-secondary">You can update the serving size below</p>
       )}
-      {/* {successMessage && <p className="text-success">{successMessage}</p>} */}
 
       <div className="col-8">
         <label className="form-label">Enter Serving Size</label> <br />

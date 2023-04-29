@@ -109,6 +109,7 @@ export const ShoppingProvider = ({ children }) => {
   };
 
   const updateServingSize = async (recipeId, servingSize) => {
+    setIngredientsLoading(true);
     try {
       await axios.put("http://localhost:8000/api/shopping_list/recipes/", {
         recipe_id: recipeId,
