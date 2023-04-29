@@ -30,7 +30,7 @@ function ShoppingList() {
         {ingredients.map((ingredient) => (
           <li className="list-group-item pt-3">
             <span className="text-333 text-capitalize">{ingredient.name}</span>{" "}
-            <span className="quantity">{ingredient.quantity} g</span>
+            <span className="quantity">{ingredient.quantity.toFixed(2)} g</span>
           </li>
         ))}
       </ul>
