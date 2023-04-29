@@ -1,8 +1,10 @@
 // constants.js
 
 // API endpoints
-export const API_BASE_URL = "http://localhost:8000/api/";
-export const BASE_URL = "http://localhost:8000"; // fix later
+//export const API_BASE_URL = "http://localhost:8000/api/";
+export const API_BASE_URL = "https://easychef-production.up.railway.app/api/";
+//export const BASE_URL = "http://localhost:8000"; // fix later
+export const BASE_URL = "https://easychef-production.up.railway.app";
 
 // Authentication endpoints
 export const LOGIN_ENDPOINT = `${API_BASE_URL}account/login/`;
@@ -50,8 +52,7 @@ export const RecipeCusines = [
   "Oceanic",
   "South-East Asian",
   "Central African",
-  "Caribbean"
-
+  "Caribbean",
 ];
 
 export const RecipeDiets = [
