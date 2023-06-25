@@ -8,7 +8,7 @@ import { BASE_URL } from "../../config/constants";
 function RecipeCard({ recipe }) {
   return (
     <Link className="clicky" to={`/recipes/${recipe.id && recipe.id}`}>
-      <Card className="recipe shadow-sm">
+      <Card className="recipe rounded-3 shadow-sm">
         <Card.Img
           variant="top"
           src={

@@ -58,9 +58,10 @@ function CardRenderer({ url }) {
       </p>
     );
 
+  // i dont think the row-cols-lg-3 does anything.
   return (
     <div className="my-recipes-cards">
-      <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
+      <div class="row">
         {recipes.map((recipe, idx) => (
           <div className="col" key={idx}>
             <RecipeCard recipe={recipe} />

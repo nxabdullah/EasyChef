@@ -23,6 +23,7 @@ import MyRecipes from "./pages/MyRecipes";
 import EditRecipe from "./pages/EditRecipe";
 // import this as DupRecipe
 import DupRecipe from "./pages/DuplicateRecipe";
+import MainLanding from "./pages/MainLanding";
 // import Search from "./pages/Search";
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
       <div className="container mb-4 mt-4">
         <Routes>
           <Route exact path="/" element={<Landing />} />
+          <Route exact path="/test" element={<MainLanding />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/profile" element={<EditProfile />} />
